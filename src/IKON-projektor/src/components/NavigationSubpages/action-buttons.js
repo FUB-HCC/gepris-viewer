@@ -74,18 +74,6 @@ class ActionButtons extends Component {
             this.props.onShowUncertainty(false);
             break;
           }
-          case 3: {
-            this.props.legendHovered("ktas");
-            break;
-          }
-          case 4: {
-            this.props.legendHovered("collections");
-            break;
-          }
-          case 5: {
-            this.props.legendHovered("infrastructures");
-            break;
-          }
           default: {
             break;
           }
@@ -114,58 +102,38 @@ class ActionButtons extends Component {
       steps: [
         {
           intro:
-            "<h2>Willkommen im MfN.projektor</h2>In dieser Visualisierungs-Software werden Drittmittelprojekte, Infrastrukturen und Wissenstransferaktivitäten am Museum für Naturkunde in Verbindung gesetzt. Entdecken Sie strategische Möglichkeiten für Austausch und Transfer!",
+            "<h2>Willkommen im Gepris-Viewer</h2>In dieser Visualisierungs-Software werden im Gepris Datensatz gesammelte vom DFG geförderte Projekte und deren Forschungsbereiche in Verbindung gesetzt.",
           element: "step0"
         },
 
         {
           intro:
-            "Diese Version des MfN.projektor ist komplett per Touch-Interaktionen bedienbar. Einzelne Elemente können per <b>einmaligem Antippen</b> angewählt werden, wodurch Kurzinformationen wie Titel, Anzahl oder bestehende Verbindungen zu anderen Elementen angezeigt werden. Per <b>zweimaliges schnell aufeinanderfolgendes Antippen</b> werden Elemente ausgewählt, und im Detail in der Seitenleiste links angezeigt.",
+            "Diese Version des Gepris-Viewer ist komplett per Touch-Interaktionen bedienbar. Einzelne Elemente können per <b>einmaligem Antippen</b> angewählt werden, wodurch Kurzinformationen wie Titel, Anzahl oder bestehende Verbindungen zu anderen Elementen angezeigt werden. Per <b>zweimaliges schnell aufeinanderfolgendes Antippen</b> werden Elemente ausgewählt, und im Detail in der Seitenleiste links angezeigt.",
           element: "interaktionIntro"
-        },
-        {
-          intro:
-            "Ein besonderes Feature des MfN.projektor ist das Teilen von Ansichten: Wenn durch Filtern oder Auswahl von Elementen in der <b>Browser-Version</b> besonders erkenntnisreiche Ansichten erstellt wurden, können diese über den <b>Teilen</b>-Button an diesen Bildschirm geschickt werden! Alle auf diese Art geteilten Ansichten werden in dem <b>Geteilte Ansichten</b> Fenster angezeigt.",
-          element: "#geteilteAnsichten"
         },
         {
           element: "#detailsPanelID",
           intro:
-            "Die Ansicht kann mithilfe der <b>Filter</b>  angepasst werden. Über den <b>Zeitraum</b>-Slider kann der gesamte Betrachtungszeitraum eingeschränkt werden. Die <b>Forschungsgebiet</b>-Auswahl ermöglicht eine Unterteilung der dargestellten Drittmittelprojekte nach thematischen Kriterien. Über die <b>Wissenstransfer</b>- und <b>Infrastruktur</b>-Auswahl können die jeweiligen Verbindungen ein-, aus- oder oder umgeschaltet werdem."
+            "Die Ansicht kann mithilfe der <b>Filter</b>  angepasst werden. Über den <b>Zeitraum</b>-Slider kann der gesamte Betrachtungszeitraum eingeschränkt werden. Die <b>Forschungsgebiet</b>-Auswahl ermöglicht eine Unterteilung der dargestellten Projekte nach thematischen Kriterien."
         },
         {
           element: "#clusterViewIntro",
           intro:
-            "Das Herzstück der Ansicht ist die Cluster-Darstellung von Drittmittelprojekten auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Projekte sind nach ihren jeweiligen <b>Forschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung am Haus zu unterstützen. Hierdurch können Drittmittelprojekte basierend auf thematischen Gemeinsamkeiten interaktiv exploriert werden."
+            "Das Herzstück der Ansicht ist die Cluster-Darstellung von Forschungsthemen auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Themen sind nach ihren jeweiligen <b>Forschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung zu unterstützen. Hierdurch können Forschungsthemen basierend auf Gemeinsamkeiten interaktiv exploriert werden."
         },
         {
           intro:
-            "Als weiteres Element dieser Ansicht kann die <b>Unsicherheits-Landschaft</b> aktiviert werden. Da die Anordnung auf algorithmischen Schätzungen von inhaltlichen Ähnlichkeiten basiert, unterstützt dieses Element die Interpretation der Anordnung. Je heller die Färbung der Landschaft, desto sicherer ist sich der Algorithmus über die Position des jeweiligen Forschungsprojektes, und umgekehrt.",
+            "Als weiteres Element dieser Ansicht kann die <b>Unsicherheits-Landschaft</b> aktiviert werden. Da die Anordnung auf algorithmischen Schätzungen von inhaltlichen Ähnlichkeiten basiert, unterstützt dieses Element die Interpretation der Anordnung. Je heller die Färbung der Landschaft, desto sicherer ist sich der Algorithmus über die Position des jeweiligen Forschungsthemas, und umgekehrt.",
           element: "#uncertaintyLandscape"
         },
         {
           intro:
-            "Die interdisziplinäre Perspektive auf Drittmittelforschung wird durch den äußeren Ring bedeutsam erweitert. Projekte werden hier, basierend auf Informationen aus dem <b>VIA-Wiki</b>, mit <b>Wissenstransferaktivitäten</b> und <b>Infrastrukturen</b> wie Sammlungen und Laborgeräten verknüpft. Hierdurch können einerseits Projekte weitergehend nach Gemeinsamkeiten eingeordnet werden, andererseits Potenziale für Wissenstransfer basierend auf Gemeinsamkeiten entdeckt werden.",
-          element: "#iconExplanation"
+            "Die interdisziplinäre Perspektive auf Drittmittelforschung wird durch den äußeren Ring bedeutsam erweitert. Projekte werden hier, basierend auf Informationen aus dem <b>GEPRIS-Datensatz</b>, mit <b>XYZ</b> verknüpft. Hierdurch können einerseits Projekte weitergehend nach Gemeinsamkeiten eingeordnet werden, andererseits Potenziale basierend auf Gemeinsamkeiten entdeckt werden.",
+          element: "#labelsIntro"
         },
         {
           intro:
-            "Die Größe der Kreise und die Zahl neben den unterschiedlichen <b>Zielgruppen oder Formaten</b> vermittelt die Anzahl der Wissenstransferaktivitäten, die diese Kategorie haben.",
-          element: "#ktasExplanation"
-        },
-        {
-          intro:
-            "Alle Verknüpfungen, die dieses Icon tragen, sind <b>Sammlungen</b> am Museum für Naturkunde, zu denen Forschungsprojekten einen Bezug haben.",
-          element: "#collectionExplanation"
-        },
-        {
-          intro:
-            "Alle Verknüpfungen, die dieses Icon tragen, sind <b>Laborgeräte oder weitere Infrastrukturen</b> am Museum, die in Forschungsprojekten eingesetzt werden können.",
-          element: "#infraExplanation"
-        },
-        {
-          intro:
-            "Im oberen Teil werden die Anzahl und Laufzeiten von <b>Drittmittelprojekten</b> basierend auf aktuellen Informationen aus dem <b style='color: #afca0b;' >VIA-Wiki</b> und gruppiert nach <b>Forschungsgebieten</b> angezeigt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich am MfN laufenden Projekte in dem VIA Wiki Datensatz vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete.",
+            "Im oberen Teil werden die Anzahl und Laufzeiten von <b>Forschungsprojekten</b> gruppiert nach <b>Forschungsgebieten</b> angezeigt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich geförderten Projekte vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete.",
           element: "#timelineView"
         },
         {
@@ -199,21 +167,10 @@ class ActionButtons extends Component {
             this.props.onHighlightUncertainty(true);
             break;
           }
-          case "iconExplanation": {
+          case "labelsIntro": {
             this.props.onHighlightUncertainty(false);
             this.props.onShowUncertainty(false);
-            break;
-          }
-          case "ktasExplanation": {
-            this.props.legendHovered("ktas");
-            break;
-          }
-          case "collectionExplanation": {
-            this.props.legendHovered("collections");
-            break;
-          }
-          case "infraExplanation": {
-            this.props.legendHovered("infrastructures");
+            this.props.legendHovered("labels");
             break;
           }
           default: {

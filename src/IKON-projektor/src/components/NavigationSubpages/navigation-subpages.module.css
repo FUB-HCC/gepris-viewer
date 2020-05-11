@@ -168,10 +168,10 @@ h3 {
   border-radius: 0;
 }
 
-.mfnLogoTouch {
+.IKONlogoTouch {
   padding: 10px;
 }
-.mfnLogoNoTouch {
+.IKONlogoNoTouch {
   flex-grow: 1;
   background: #1c1d1f;
   padding: 0px;

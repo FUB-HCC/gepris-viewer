@@ -30,7 +30,7 @@ const computeClusters = (clusterData, projects, labels) => {
       }))
   }));
 };
-/* helper functions to determine whcih elements in the visualization should b highlighted in the MfN green */
+/* helper functions to determine whcih elements in the visualization should b highlighted in the IKON green */
 const extractHighlightedFromState = state => {
   let highlighted = {
     projects: [],

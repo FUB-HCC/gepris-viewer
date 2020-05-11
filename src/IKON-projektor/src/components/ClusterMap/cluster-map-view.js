@@ -167,7 +167,7 @@ export default class ClusterMapView extends React.Component {
               uncertaintyHighlighted={uncertaintyHighlighted}
             />
           )}
-          <g>
+          <g id="labelsIntro">
             {labels.map((label, i) => {
               /* computing the position of the label + icon + count */
               const startAngle = each * i;
@@ -353,7 +353,7 @@ export default class ClusterMapView extends React.Component {
             <g
               data-step="1"
               id="clusterViewIntro"
-              data-intro="Das Herzstück der <b>WISSEN</b> Ansicht ist die Cluster-Darstellung von Drittmittelprojekten auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Projekte sind nach ihren jeweiligen <b>Forschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung am Haus zu unterstützen. Hierdurch können Drittmittelprojekte basierend auf thematischen Gemeinsamkeiten interaktiv exploriert werden."
+              data-intro="Das Herzstück der <b>WISSEN</b> Ansicht ist die Cluster-Darstellung von Forschungsthemen auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Themen sind nach ihren jeweiligen <b>Hauptforschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung zu unterstützen. Hierdurch können Themen basierend auf Gemeinsamkeiten interaktiv exploriert werden."
             >
               {clusterData.map(cluster => {
                 return (

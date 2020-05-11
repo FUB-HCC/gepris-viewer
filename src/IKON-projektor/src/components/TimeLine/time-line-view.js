@@ -192,17 +192,12 @@ export default class TimeLineView extends Component {
 
     return (
       <div
-        data-intro="In der Ansicht <b>ZEIT</b> wird eine weitere integrative Perspektive auf die Verläufe von Wissenstransferaktivitäten und Drittmittelprojekten über die Jahre dargestellt. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung von Wissentransfer berücksichtigt werden könnten."
+        data-intro="In der Ansicht <b>ZEIT</b> wird eine weitere integrative Perspektive auf die Verläufe geförderter Projekte basierend auf aktuellen Informationen aus dem <b style='color: #afca0b;'>GEPRIS-Datensatz</b> und gruppiert nach <b>Forschungsgebieten</b> über die Jahre dargestellt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich laufenden Projekte in dem GEPRIS Datensatz vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung berücksichtigt werden könnten."
         data-step="1"
         style={{ height: "auto", marginLeft: this.state.margin * 0.8 }}
       >
-        <div
-          data-intro="Durch diese Ansicht auf <b>Wissenstransferaktivitäten</b> und <b>Drittmittelprojekte</b> wird ermöglicht, beide Elemente des Museums für Naturkunde integrativ und längerfristig zu betrachten."
-          data-step="4"
-        >
+        <div>
           <SVGWithMargin
-            data-intro="Im unteren Teil werden die Anzahl und Laufzeiten von <b>Drittmittelprojekten</b> basierend auf aktuellen Informationen aus dem <b style='color: #afca0b;'>VIA-Wiki</b> und gruppiert nach <b>Forschungsgebieten</b> angezeigt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich am MfN laufenden Projekte in dem VIA Wiki Datensatz vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete."
-            data-step="3"
             className={styles.timelineContainer}
             contentContainerBackgroundRectClassName={
               styles.timelineContentContainerBackgroundRect
@@ -268,6 +263,7 @@ export default class TimeLineView extends Component {
                 />
               </pattern>
               <InteractionHandler
+                isInTouchMode={isTouchMode}
                 onMouseOver={event => this.handlePatternMouseEnter(event)}
                 onMouseLeave={() => this.handleMouseLeave()}
                 onClick={event => this.handlePatternMouseEnter(event)}

@@ -102,7 +102,7 @@ export const showUncertainty = data => {
   };
 };
 
-/* draws a MfN-green circle around the uncertainty landscape to highlight it, when data=true */
+/* draws a IKON-green circle around the uncertainty landscape to highlight it, when data=true */
 export const highlightUncertainty = data => {
   return {
     type: actionTypes.HIGHLIGHT_UNCERTAINTY,
@@ -147,7 +147,7 @@ export const processDataIfReady = () => {
   };
 };
 
-/* is triggered when the introduction intro.js tour is started (by clicking the MfN-Logo)*/
+/* is triggered when the introduction intro.js tour is started (by clicking the ikon-logo)*/
 export const tourStarted = () => {
   return {
     type: actionTypes.TOUR_STARTED

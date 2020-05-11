@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classes from "./navigation-subpages.module.css";
-import logo from "../../assets/mfn_logo.svg";
+import logo from "../../assets/IKON-Logo.svg";
 import introJs from "intro.js";
 import { changeGraph, tourStarted } from "../../store/actions/actions";
 import { isTouchMode } from "../../util/utility";
 
-class MFNLogo extends Component {
+class IKONlogo extends Component {
   constructor() {
     super();
     this.startTour = this.startTour.bind(this);
@@ -16,14 +16,14 @@ class MFNLogo extends Component {
     return (
       <div
         className={
-          this.props.isTouch ? classes.mfnLogoTouch : classes.mfnLogoNoTouch
+          this.props.isTouch ? classes.IKONlogoTouch : classes.IKONlogoNoTouch
         }
         style={{ backgroundColor: "#1c1d1f", textAlign: "center" }}
         onClick={this.props.isTouch ? null : this.startTour}
       >
         <img
           src={logo}
-          alt={"Museum für Naturkunde Berlin"}
+          alt={"GEPRIS-VIEWER IKON"}
           height={this.props.isTouch ? 80 : 65}
         />
       </div>
@@ -36,7 +36,7 @@ class MFNLogo extends Component {
       activePopover: -1
     });
   }
-  /* intro.js tour that is started when the mfn-logo is clicked in browser mode. Gives an introduction to all pages, the sidepanel and navbar. */
+  /* intro.js tour that is started when the ikon-logo is clicked in browser mode. Gives an introduction to all pages, the sidepanel and navbar. */
   startTour() {
     this.props.tourStarted();
     var tour = introJs();
@@ -54,23 +54,23 @@ class MFNLogo extends Component {
       steps: [
         {
           intro:
-            "<h2>Willkommen im MfN.projektor</h2>In dieser Visualisierungs-Software werden Drittmittelprojekte, Infrastrukturen und Wissenstransferaktivitäten am Museum für Naturkunde in Verbindung gesetzt. Entdecken Sie strategische Möglichkeiten für Austausch und Transfer!",
+            "<h2>Willkommen im Gepris-Viewer</h2>In dieser Visualisierungs-Software werden im Gepris Datensatz gesammelte vom DFG geförderte Projekte und deren Forschungsbereiche in Verbindung gesetzt.",
           element: "step1"
         },
         {
           element: "#step1",
           intro:
-            "Diese Software bietet drei Ansichten auf Forschung und Wissenstransfer am Museum für Naturkunde. Der Datensatz für die Visualisierungen stammt aus dem <a style='color: #afca0b;' href='https://via.museumfuernaturkunde.berlin/wiki/'   target='_blank' rel='noopener noreferrer'>VIA-Wiki</a>. In <b>WISSEN</b> werden die existierende Verbindungen zwischen Drittmittelprojekten, Infrastrukturen und Wissenstransferaktivitäten dargestellt. Hierdurch können zum Beispiel Inspirationen für Wissenstransfer oder Wissensaustausch zielstrebig gefunden werden."
+            "Diese Software bietet drei Ansichten auf Forschung in Deutschland. Der Datensatz für die Visualisierungen stammt aus der <a style='color: #afca0b;' href='https://gepris.dfg.de/gepris/OCTOPUS'   target='_blank' rel='noopener noreferrer'>GEPRIS-Datenbank</a>. In <b>WISSEN</b> werden die existierende Verbindungen zwischen Forschungsprojekten und deren Forschungsbereichen dargestellt. Hierdurch können zum Beispiel Inspirationen für Wissenstransfer oder Wissensaustausch zielstrebig gefunden werden."
         },
         {
           element: "#step2",
           intro:
-            "In der Ansicht <b>ZEIT</b> werden die Verläufe von Wissenstransferaktivitäten und Drittmittelprojekten über die Jahre dargestellt. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung von Wissentransfer berücksichtigt werden könnten."
+            "In der Ansicht <b>ZEIT</b> wird die Anzahl der geförderten Projekte über die Jahre dargestellt. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung berücksichtigt werden könnten."
         },
         {
           element: "#step3",
           intro:
-            "In der Ansicht <b>RAUM</b> rückt die internationale Seite der Forschung am MfN in den Vordergrund. Die Bögen zwischen Kontinenten drücken die durch Projekte verbundenen Partnerinstitutionen aus. In den Karten ist angedeutet, wie sich diese geographisch verteilen. In der untersten Zeile werden die Forschungsprojekte nach Forschungsregionen aufgeteilt."
+            "In der Ansicht <b>RAUM</b> rückt die internationale Seite der Forschung in Deutschland in den Vordergrund. Die Bögen zwischen Kontinenten drücken die durch Projekte verbundenen Partnerinstitutionen aus. In den Karten ist angedeutet, wie sich diese geographisch verteilen. In der untersten Zeile werden die Forschungsprojekte nach Forschungsregionen aufgeteilt."
         },
         {
           element: "#step4",
@@ -80,12 +80,12 @@ class MFNLogo extends Component {
         {
           element: "#detailsPanelID",
           intro:
-            "Jede Ansicht kann mithilfe der <b>Filter</b>  angepasst werden — und jeder resultierende Zustand wird auch bei einem Wechsel der Ansicht beibehalten. Über den <b>Zeitraum</b>-Slider kann der gesamte Betrachtungszeitraum eingeschränkt werden. Die <b>Forschungsgebiet</b>-Auswahl ermöglicht eine Unterteilung der dargestellten Drittmittelprojekte nach thematischen Kriterien. Über die <b>Wissenstransfer</b>- und <b>Infrastruktur</b>-Auswahl kann die Ansicht weiter verfeinert werden."
+            "Jede Ansicht kann mithilfe der <b>Filter</b>  angepasst werden — und jeder resultierende Zustand wird auch bei einem Wechsel der Ansicht beibehalten. Über den <b>Zeitraum</b>-Slider kann der gesamte Betrachtungszeitraum eingeschränkt werden. Die <b>Forschungsgebiet</b>-Auswahl ermöglicht eine Unterteilung der dargestellten Projekte nach thematischen Kriterien."
         },
         {
           element: "#step6",
           intro:
-            "<h3>Hiermit ist diese Einführung beendet!</h3> Für eine Wiederholung entweder <b>Zurück</b> wählen oder das <b>Musem für Naturkunde Logo</b> klicken. Nicht vergessen: Für jede einzelne Ansicht ist eine gesonderte Einführung über den <b>Tutorial</b>-Button verfügbar."
+            "<h3>Hiermit ist diese Einführung beendet!</h3> Für eine Wiederholung entweder <b>Zurück</b> wählen oder das <b>IKON Logo</b> klicken. Nicht vergessen: Für jede einzelne Ansicht ist eine gesonderte Einführung über den <b>Tutorial</b>-Button verfügbar."
         }
       ]
     });
@@ -122,4 +122,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(MFNLogo);
+)(IKONlogo);

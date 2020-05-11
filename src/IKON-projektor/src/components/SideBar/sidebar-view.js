@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./sidebar.module.css";
 import { appMargin, menuBarHeight, sideBarWidth } from "../../App";
-import MFNLogo from "../NavigationSubpages/mfn-logo";
+import IKONlogo from "../NavigationSubpages/ikon-logo";
 import ActionButtons from "../NavigationSubpages/action-buttons";
 
 class SideBarView extends React.Component {
@@ -40,7 +40,7 @@ class SideBarView extends React.Component {
       >
         {this.props.isTouch && (
           <>
-            <MFNLogo />
+            <IKONlogo />
             <ActionButtons />
           </>
         )}

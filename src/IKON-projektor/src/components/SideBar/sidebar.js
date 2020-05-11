@@ -10,7 +10,7 @@ const mapStateToProps = state => {
   };
 };
 
-/* The sidebar contains different components depending on the state of isClicked and isTouchMode. In browser mode it holds either the FilterPanel or a DetailsPanel of one element. In touch mode it additionally includes the mfn-logo and the ActionButtons.
+/* The sidebar contains different components depending on the state of isClicked and isTouchMode. In browser mode it holds either the FilterPanel or a DetailsPanel of one element. In touch mode it additionally includes the ikon-logo and the ActionButtons.
 
 Each kind of panel is its own component in a separate file. In a future version this could become more compact.
 

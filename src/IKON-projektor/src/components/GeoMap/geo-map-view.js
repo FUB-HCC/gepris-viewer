@@ -108,7 +108,7 @@ export default class GeoMapView extends React.Component {
       <div
         className={style.geoMapWrapper}
         style={{ width: width, height: height }}
-        data-intro="In der Ansicht <b>RAUM</b> wird eine weitere internationale Perspektive auf Drittmittelprojekte ermöglicht. So können neue Potentiale aufgedeckt werden."
+        data-intro="In der Ansicht <b>RAUM</b> wird eine weitere internationale Perspektive auf Forschung in Deutschland ermöglicht. So können neue Potentiale aufgedeckt werden."
         data-step="1"
       >
         <span className={style.plotTitle}>
