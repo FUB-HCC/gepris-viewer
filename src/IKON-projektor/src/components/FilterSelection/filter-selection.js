@@ -111,7 +111,6 @@ const FilterSelection = props => (
 const mapDispatchToProps = dispatch => {
   return {
     filterChangeHandler: (filterId, value, form) => {
-      console.log(filterId + " " + value + " " + form);
       dispatch(checkboxFilterChange(filterId, value, form));
     }
   };

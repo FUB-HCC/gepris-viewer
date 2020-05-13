@@ -42,7 +42,7 @@ const ProjectDetailsPanel = props => {
         <span className={style.infoItemTitle}>
           Hauptthema: <br />
         </span>
-        {props.projectData.reviewBoard}
+        {props.projectData.hauptthema}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>

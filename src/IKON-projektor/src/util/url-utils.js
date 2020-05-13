@@ -22,7 +22,7 @@ const getIsClickedFromTuple = tuple => {
   const [key, value] = tuple;
   if (key === 1) {
     return {
-      project: value,
+      project: topicIntToString(value),
       label: null,
       year: null,
       inst: null
