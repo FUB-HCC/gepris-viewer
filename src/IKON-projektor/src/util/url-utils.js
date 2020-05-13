@@ -6,20 +6,14 @@ import FilterPanel from "../components/FilterPanel/filter-panel";
 import { history } from "../index";
 import { initialState } from "../store/reducer/reducer";
 import React from "react";
-import { topicIntToString, topicStringToInt } from "./utility";
+import { topicStringToInt, topicIntToString } from "./utility";
 
 const getTupleFromIsClicked = isClicked => {
   if (isClicked.project) {
-    return [1, isClicked.project];
-  }
-  if (isClicked.label) {
-    return [2, isClicked.label];
+    return [1, topicStringToInt(isClicked.project)];
   }
   if (isClicked.year) {
     return [5, isClicked.year];
-  }
-  if (isClicked.inst) {
-    return [6, isClicked.inst];
   }
   return [0, null];
 };
@@ -93,7 +87,6 @@ export const pushStateToUrl = newState => {
     f: newState.filters.forschungsgebiet.value,
     t: newState.filters.hauptthema.value,
     ti: newState.filters.time.value,
-    la: newState.filters.labels.value,
     cl: getTupleFromIsClicked(newState.isClicked),
     un: newState.uncertaintyOn ? 1 : 0
   };
@@ -103,6 +96,7 @@ export const pushStateToUrl = newState => {
     t: newUrlData.t.map(f => topicStringToInt(f)),
     f: newUrlData.f
   };
+
   var newQueryString = "?";
   if (newState.user) {
     newQueryString = newQueryString.concat("uid=" + newState.user + "&");
@@ -152,10 +146,6 @@ export const parseStateFromUrl = urlParams => {
         time: {
           ...initialState.filters.time,
           value: deminifiedUrlState.ti
-        },
-        labels: {
-          ...initialState.filters.labels,
-          value: deminifiedUrlState.la
         }
       },
       uncertaintyOn: deminifiedUrlState.un === 1 ? true : false,

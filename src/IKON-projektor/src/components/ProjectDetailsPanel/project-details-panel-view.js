@@ -4,17 +4,6 @@ import { ReactComponent as Exit } from "../../assets/Exit.svg";
 import { ReactComponent as Icon } from "../../assets/Selected-Project.svg";
 import { getFieldColor } from "../../util/utility";
 
-const parseDescription = string => {
-  /* the text in via has a few (redundant?) formatting symbols and links to images etc.
-  splitting on those that mark headings ("====", "'''") */
-  string = string.replace(/ *„\[[^)]*\]“ */g, "");
-  string = string.replace(/ *\[\[[^)]*\]\] */g, "");
-  string = string.replace(/ *\[[^)]*\] */g, "");
-  string = string.replace(/====/g, "'''");
-  let result = string.split("'''");
-  return result;
-};
-
 const ProjectDetailsPanel = props => {
   if (props.projectData == null) {
     return (
@@ -26,9 +15,6 @@ const ProjectDetailsPanel = props => {
     );
   }
   let color = getFieldColor(props.projectData.forschungsbereich);
-  let description = props.projectData["Redaktionelle Beschreibung"]
-    ? parseDescription(props.projectData["Redaktionelle Beschreibung"][0])
-    : ["Keine Beschreibung vorhanden"];
 
   return (
     <div className={style.DetailsWrapper}>
@@ -49,36 +35,26 @@ const ProjectDetailsPanel = props => {
           fill={color}
           stroke={color}
         />
-        <span className={style.titleTopic}>Forschungsprojekt</span> <br />
-        <span className={style.titleText}>
-          {props.projectData.displaytitle}
-        </span>
+        <span className={style.titleTopic}>Forschungsthema</span> <br />
+        <span className={style.titleText}>{props.projectData.title}</span>
       </div>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          Organisationseinheit: <br />
+          Hauptthema: <br />
         </span>
-        {props.projectData.Organisationseinheit}
+        {props.projectData.reviewBoard}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
           Forschungsgebiet: <br />
         </span>
-        {props.projectData.forschungsbereich +
-          ", " +
-          props.projectData.hauptthema}
+        {props.projectData.forschungsbereichStr}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          Kooperierende Institutionen: <br />
+          Anzahl der Forschungsprojekte in diesem Themenfeld: <br />
         </span>
-        {props.projectData.Kooperationspartner.map(k => k.name).join(", ")}
-      </p>
-      <p className={style.infoItems}>
-        <span className={style.infoItemTitle}>
-          Antragsteller: <br />
-        </span>
-        {props.projectData["Antragstellende Person"]}
+        {props.projectData.doc_count}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
@@ -87,21 +63,6 @@ const ProjectDetailsPanel = props => {
         {props.projectData.timeframe[0] +
           " bis " +
           props.projectData.timeframe[1]}
-      </p>
-      <span className={style.infoItemTitle}>
-        Beschreibung:
-        <br />
-      </span>
-      <div className={style.abstractText}>
-        {description.map((part, i) => (
-          <p key={i}>{part}</p>
-        ))}
-      </div>
-      <p className={style.infoItems}>
-        <span className={style.infoItemTitle}>
-          Projektleiter: <br />
-        </span>
-        {props.projectData.Projektleitung}
       </p>
     </div>
   );

@@ -1,75 +1,10 @@
 /* all kinds of helper functions and fixed data arrays (e.g. for ordering or colouring elements) */
-
+import { forschungsthemen } from "../assets/forschungsthemen";
 const fieldsMapping = [
   { name: "Naturwissenschaften", field: 1, color: "#ad494a" },
   { name: "Lebenswissenschaften", field: 2, color: "#e69e57" },
   { name: "Geistes- und Sozialwissenschaften", field: 3, color: "#14a5b5" },
-  { name: "Ingenieurwissenschaften", field: 4, color: "#9467bd" },
-  { name: "Sonstige", field: 5, color: "#989aa1" }
-];
-
-const topicMapping = [
-  {
-    name: "Agrar-, Forstwissenschaften und Tiermedizin",
-    num: 19,
-    field: 2,
-    color: "#989aa1"
-  },
-  { name: "Geologie und Paläontologie", num: 22, field: 1, color: "#989aa1" },
-  {
-    name: "Geochemie, Mineralogie und Kristallographie",
-    num: 23,
-    field: 1,
-    color: "#7d913c"
-  },
-  { name: "Geophysik und Geodäsie", num: 24, field: 1, color: "#989aa1" },
-  {
-    name: "Atmosphären-, Meeres- und Klimaforschung",
-    num: 25,
-    field: 1,
-    color: "#989aa1"
-  },
-  {
-    name: "Kunst-, Musik-, Theater- und Medienwissenschaften",
-    num: 26,
-    field: 3,
-    color: "#989aa1"
-  },
-  {
-    name: "Sozialwissenschaften",
-    num: 1,
-    field: 3,
-    color: "#989aa1"
-  },
-  {
-    name: "Informatik",
-    num: 2,
-    field: 4,
-    color: "#989aa1"
-  },
-  {
-    name: "Erziehungswissenschaft und Bildungsforschung",
-    num: 3,
-    field: 3,
-    color: "#989aa1"
-  },
-  {
-    name: "Mathematik",
-    num: 4,
-    field: 1,
-    color: "#989aa1"
-  },
-  { name: "Geschichtswissenschaften", num: 27, field: 3, color: "#989aa1" },
-  { name: "Zoologie", num: 28, field: 2, color: "#989aa1" },
-  { name: "Pflanzenwissenschaften", num: 29, field: 2, color: "#989aa1" },
-  { name: "Sonstige", num: 30, field: 5, color: "#989aa1" },
-  { name: "Astrophysik und Astronomie", num: 31, field: 1, color: "#7d913c" },
-  {
-    name: "Grundlagen der Biologie und Medizin",
-    num: 32,
-    field: 2,
-    color: "#989aa1"
-  }
+  { name: "Ingenieurwissenschaften", field: 4, color: "#9467bd" }
 ];
 
 export const continents = [
@@ -175,24 +110,48 @@ export const fieldsIntToString = number => {
 export const fieldsStringToInt = str => {
   return fieldsMapping.find(e => e.name === str)
     ? fieldsMapping.find(e => e.name === str).field
+    : 99;
+};
+
+export const hauptthemaIntToString = number => {
+  return forschungsthemen.map(e => e.review_board)[number]
+    ? forschungsthemen[number]
+    : number;
+};
+
+export const hauptthemaStringToInt = str => {
+  return forschungsthemen.find(e => e.review_board === str)
+    ? forschungsthemen.map(e => e.review_board).indexOf(str)
+    : str;
+};
+
+export const topicStringToInt = str => {
+  return forschungsthemen.find(e => e.name === str)
+    ? forschungsthemen.map(e => e.name).indexOf(str)
     : str;
 };
 
 export const topicIntToString = number => {
-  return topicMapping.find(e => e.num === number)
-    ? topicMapping.find(e => e.num === number).name
-    : "Sonstige";
-};
-
-export const topicStringToInt = str => {
-  return topicMapping.find(e => e.name === str)
-    ? topicMapping.find(e => e.name === str).num
-    : str;
+  return forschungsthemen.map(e => e.name)[number]
+    ? forschungsthemen.map(e => e.name)[number]
+    : number;
 };
 
 export const topicToField = topic => {
-  return topicMapping.concat(fieldsMapping).find(e => e.name === topic)
-    ? topicMapping.concat(fieldsMapping).find(e => e.name === topic).field
+  return forschungsthemen.find(e => e.name === topic)
+    ? forschungsthemen.find(e => e.name === topic).field
+    : 99;
+};
+
+export const hauptthemaToField = hauptthema => {
+  return forschungsthemen.find(e => e.review_board === hauptthema)
+    ? forschungsthemen.find(e => e.review_board === hauptthema).field
+    : 99;
+};
+
+export const topicTohauptthema = topic => {
+  return forschungsthemen.find(e => e.name === topic)
+    ? forschungsthemen.find(e => e.name === topic).review_board
     : 99;
 };
 
@@ -225,8 +184,7 @@ export const applyFilters = (data, filter) => {
     filteredData = Object.keys(filteredData).forEach(d => {
       if (
         f.type === "string" &&
-        typeof filteredData[d][f.filterKey] !== "undefined" &&
-        filteredData[d][f.filterKey] !== "Unveröffentlicht"
+        typeof filteredData[d][f.filterKey] !== "undefined"
       ) {
         if (f.value.some(value => value === filteredData[d][f.filterKey]))
           newFilteredData[d] = filteredData[d];

@@ -79,7 +79,7 @@ class ActionButtons extends Component {
           }
         }
       })
-      .onexit(() => this.props.legendHovered(null))
+      .onexit(() => this.props.onHighlightUncertainty(false))
       .start();
   }
 

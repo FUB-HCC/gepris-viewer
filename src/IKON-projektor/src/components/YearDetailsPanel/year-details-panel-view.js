@@ -1,11 +1,7 @@
 import React from "react";
 import style from "../SideBar/details-panel.module.css";
 import { ReactComponent as Exit } from "../../assets/Exit.svg";
-import {
-  getFieldColor,
-  shortenString,
-  fieldsIntToString
-} from "../../util/utility";
+import { getFieldColor, fieldsIntToString } from "../../util/utility";
 
 const YearDetailsPanel = props => {
   if (!props.title) {
@@ -37,7 +33,7 @@ const YearDetailsPanel = props => {
       </div>
 
       <span className={style.infoItemTitle}>
-        {"Forschungsprojekte in diesem Forschungsbereich im Jahr "}
+        {"Forschungsthemen in diesem Forschungsbereich im Jahr "}
         {props.year}:
         <br />
       </span>
@@ -46,14 +42,14 @@ const YearDetailsPanel = props => {
           {props.projects.map((project, i) => (
             <span
               href="#"
-              onClick={() => props.showProjectDetails(project.id)}
-              key={i + " " + project.id}
+              onClick={() => props.showProjectDetails(project.title)}
+              key={i + " " + project.title}
               className={style.DetailsLink}
               style={{
                 color: color
               }}
             >
-              {shortenString(project.displaytitle, 58)}
+              {project.title}
               <br />
             </span>
           ))}

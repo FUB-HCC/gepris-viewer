@@ -1,7 +1,13 @@
-const themen = [
+export const forschungsthemen = [
   {
     name: "Ur- und Frühgeschichte (weltweit)",
     review_board: "Alte Kulturen",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Geistes- und Sozialwissenschaften",
+    review_board: "Geistes- und Sozialwissenschaften",
     field: 3,
     color: "#14a5b5"
   },
@@ -320,6 +326,12 @@ const themen = [
     review_board: "Rechtswissenschaften",
     field: 3,
     color: "#14a5b5"
+  },
+  {
+    name: "Lebenswissenschaften",
+    review_board: "Lebenswissenschaften",
+    field: 2,
+    color: "#e69e57"
   },
   {
     name: "Biochemie",
@@ -814,6 +826,12 @@ const themen = [
     color: "#e69e57"
   },
   {
+    name: "Naturwissenschaften",
+    review_board: "Naturwissenschaften",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
     name:
       "Anorganische Molekülchemie - Synthese, Charakterisierung, Theorie und Modellierung",
     review_board: "Molekülchemie",
@@ -997,6 +1015,12 @@ const themen = [
     review_board: "Wasserforschung",
     field: 1,
     color: "#ad494a"
+  },
+  {
+    name: "Ingenieurwissenschaften",
+    review_board: "Ingenieurwissenschaften",
+    field: 4,
+    color: "#9467bd"
   },
   {
     name: "Spanende Fertigungstechnik",
@@ -1313,6 +1337,286 @@ const themen = [
   },
   {
     name: "Geotechnik, Wasserbau",
+    review_board: "Bauwesen und Architektur",
+    field: 4,
+    color: "#9467bd"
+  },
+
+  {
+    name: "Alte Kulturen",
+    review_board: "Alte Kulturen",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Geschichtswissenschaften",
+    review_board: "Geschichtswissenschaften",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Kunst-, Musik-, Theater- und Medienwissenschaften",
+    review_board: "Kunst-, Musik-, Theater- und Medienwissenschaften",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Sprachwissenschaften",
+    review_board: "Sprachwissenschaften",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Literaturwissenschaft",
+    review_board: "Literaturwissenschaft",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name:
+      "Sozial- und Kulturanthropologie, Außereuropäische Kulturen, Judaistik und Religionswissenschaft",
+    review_board:
+      "Sozial- und Kulturanthropologie, Außereuropäische Kulturen, Judaistik und Religionswissenschaft",
+    field: 3,
+    color: "#14a5b5"
+  },
+  { name: "Theologie", review_board: "Theologie", field: 3, color: "#14a5b5" },
+  {
+    name: "Philosophie",
+    review_board: "Philosophie",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Erziehungswissenschaft und Bildungsforschung",
+    review_board: "Erziehungswissenschaft und Bildungsforschung",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Psychologie",
+    review_board: "Psychologie",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Sozialwissenschaften",
+    review_board: "Sozialwissenschaften",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Wirtschaftswissenschaften",
+    review_board: "Wirtschaftswissenschaften",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Rechtswissenschaften",
+    review_board: "Rechtswissenschaften",
+    field: 3,
+    color: "#14a5b5"
+  },
+  {
+    name: "Grundlagen der Biologie und Medizin",
+    review_board: "Grundlagen der Biologie und Medizin",
+    field: 2,
+    color: "#e69e57"
+  },
+  {
+    name: "Pflanzenwissenschaften",
+    review_board: "Pflanzenwissenschaften",
+    field: 2,
+    color: "#e69e57"
+  },
+  { name: "Zoologie", review_board: "Zoologie", field: 2, color: "#e69e57" },
+  {
+    name: "Mikrobiologie, Virologie und Immunologie",
+    review_board: "Mikrobiologie, Virologie und Immunologie",
+    field: 2,
+    color: "#e69e57"
+  },
+  { name: "Medizin", review_board: "Medizin", field: 2, color: "#e69e57" },
+  {
+    name: "Neurowissenschaft",
+    review_board: "Neurowissenschaft",
+    field: 2,
+    color: "#e69e57"
+  },
+  {
+    name: "Agrar-, Forstwissenschaften und Tiermedizin",
+    review_board: "Agrar-, Forstwissenschaften und Tiermedizin",
+    field: 2,
+    color: "#e69e57"
+  },
+  {
+    name: "Molekülchemie",
+    review_board: "Molekülchemie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Chemische Festkörper- und Oberflächenforschung",
+    review_board: "Chemische Festkörper- und Oberflächenforschung",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Physikalische und Theoretische Chemie",
+    review_board: "Physikalische und Theoretische Chemie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Analytik, Methodenentwicklung (Chemie)",
+    review_board: "Analytik, Methodenentwicklung (Chemie)",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Biologische Chemie und Lebensmittelchemie",
+    review_board: "Biologische Chemie und Lebensmittelchemie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Polymerforschung",
+    review_board: "Polymerforschung",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Physik der kondensierten Materie",
+    review_board: "Physik der kondensierten Materie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Optik, Quantenoptik und Physik der Atome, Moleküle und Plasmen",
+    review_board:
+      "Optik, Quantenoptik und Physik der Atome, Moleküle und Plasmen",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Teilchen, Kerne und Felder",
+    review_board: "Teilchen, Kerne und Felder",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name:
+      "Statistische Physik, Weiche Materie, Biologische Physik, Nichtlineare Dynamik",
+    review_board:
+      "Statistische Physik, Weiche Materie, Biologische Physik, Nichtlineare Dynamik",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Astrophysik und Astronomie",
+    review_board: "Astrophysik und Astronomie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Mathematik",
+    review_board: "Mathematik",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Atmosphären-, Meeres- und Klimaforschung",
+    review_board: "Atmosphären-, Meeres- und Klimaforschung",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Geologie und Paläontologie",
+    review_board: "Geologie und Paläontologie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Geophysik und Geodäsie",
+    review_board: "Geophysik und Geodäsie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Geochemie, Mineralogie und Kristallographie",
+    review_board: "Geochemie, Mineralogie und Kristallographie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Geographie",
+    review_board: "Geographie",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Wasserforschung",
+    review_board: "Wasserforschung",
+    field: 1,
+    color: "#ad494a"
+  },
+  {
+    name: "Produktionstechnik",
+    review_board: "Produktionstechnik",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Mechanik und Konstruktiver Maschinenbau",
+    review_board: "Mechanik und Konstruktiver Maschinenbau",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Verfahrenstechnik, Technische Chemie",
+    review_board: "Verfahrenstechnik, Technische Chemie",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Wärmeenergietechnik, Thermische Maschinen, Strömungsmechanik",
+    review_board:
+      "Wärmeenergietechnik, Thermische Maschinen, Strömungsmechanik",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Werkstofftechnik",
+    review_board: "Werkstofftechnik",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Materialwissenschaft",
+    review_board: "Materialwissenschaft",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Systemtechnik",
+    review_board: "Systemtechnik",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Elektrotechnik und Informationstechnik",
+    review_board: "Elektrotechnik und Informationstechnik",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Informatik",
+    review_board: "Informatik",
+    field: 4,
+    color: "#9467bd"
+  },
+  {
+    name: "Bauwesen und Architektur",
     review_board: "Bauwesen und Architektur",
     field: 4,
     color: "#9467bd"

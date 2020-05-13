@@ -17,20 +17,19 @@ const Cluster = props => {
     color: project.color,
     icon: project.icon
   }));
-
   return (
     <g key={cluster.id}>
       {projects.map((project, i) => (
         <ClusterDot
           point={project}
-          isVisible={filteredProjects.includes(project.id)}
+          isVisible={filteredProjects.includes(project.title)}
           color={project.color}
           icon={project.icon}
           key={i + "project"}
-          radius={radius}
+          radius={radius + Math.sqrt(project.doc_count) * radius * 0.03}
           x={project.point[0]}
           y={project.point[1]}
-          isHighlighted={highlightedProjects.includes(project.id)}
+          isHighlighted={highlightedProjects.includes(project.title)}
           isTouchMode={isTouchMode}
         />
       ))}

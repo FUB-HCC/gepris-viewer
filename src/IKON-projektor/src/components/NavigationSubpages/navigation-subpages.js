@@ -49,7 +49,6 @@ class NavigationSubpages extends Component {
                 " " +
                 (this.props.graph === "2" ? classes.active : "")
               }
-              onClick={() => changeGraph("2")}
             >
               RAUM
             </div>

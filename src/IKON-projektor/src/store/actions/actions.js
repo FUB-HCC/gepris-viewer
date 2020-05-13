@@ -1,7 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import { batch } from "react-redux";
-const Flatted = require("flatted/esm");
 
 /* value can be 0=WISSEN, 1=ZEIT, 2=RAUM. switches to the page accordingly (only if not touch version)*/
 export const changeGraph = value => {
@@ -119,16 +118,13 @@ export const legendHovered = legendKey => ({
 /* fetches the flattened data graph from the backend and parses it back into  json. Also triggers updating and after that processing of the data*/
 export const fetchData = () => {
   return dispatch => {
-    axios
-      .get("test.json", {
-        transformResponse: res => Flatted.parse(res)
-      })
-      .then(result => {
-        batch(() => {
-          dispatch(updateData(result.data));
-          dispatch(processDataIfReady());
-        });
+    axios.get("dump.json").then(result => {
+      console.log(result.data);
+      batch(() => {
+        dispatch(updateData(result.data));
+        dispatch(processDataIfReady());
       });
+    });
   };
 };
 

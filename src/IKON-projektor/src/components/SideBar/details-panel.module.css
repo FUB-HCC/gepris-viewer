@@ -4,9 +4,6 @@
   height: 100%;
   width: 100%;
   border-top: 5px solid #0e0e0e;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
 }
 
 .DetailsExit {

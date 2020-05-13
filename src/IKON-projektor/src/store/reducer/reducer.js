@@ -1,17 +1,10 @@
 import * as actionTypes from "../actions/actionTypes";
 import React from "react";
-import { topicToField, continents } from "../../util/utility";
-import {
-  processProjectsData,
-  processLabels,
-  processInstitutions,
-  linkLabelsToProjectsData
-} from "./data-transforms";
+import { hauptthemaToField, continents } from "../../util/utility";
+import { processProjectsData } from "./data-transforms";
 import FilterPanel from "../../components/FilterPanel/filter-panel";
 import ProjectDetailsPanel from "../../components/ProjectDetailsPanel/project-details-panel";
 import YearDetailsPanel from "../../components/YearDetailsPanel/year-details-panel";
-import LabelDetailsPanel from "../../components/LabelDetailsPanel/label-details-panel";
-import InstDetailsPanel from "../../components/InstDetailsPanel/inst-details-panel";
 
 export const initialState = {
   filters: {
@@ -35,43 +28,25 @@ export const initialState = {
       type: "timeframe",
       uniqueVals: [],
       value: null
-    },
-    labels: {
-      name: "labels",
-      filterKey: "labels",
-      type: "array",
-      uniqueVals: [],
-      value: null
-    },
-    labelToggle: {
-      name: "labelToggle",
-      filterKey: "labelToggle",
-      type: "array",
-      uniqueVals: [6],
-      value: [6]
     }
   },
   graph: "0",
   projects: [],
-  institutions: [],
-  continents: [],
-  formats: [],
   isHovered: {
     project: null,
-    label: null,
     year: null
   },
   isClicked: {
     project: null,
-    label: null,
-    year: null,
-    inst: null
+    year: null
   },
   projectsMaxSizing: [0, 0],
+  contoursSize: 0,
   legendHovered: "none",
   uncertaintyOn: false,
   uncertaintyHighlighted: false,
   clusterData: undefined,
+  clusterTopography: undefined,
   isDataLoaded: false,
   isDataProcessed: false,
   sideBarComponent: <FilterPanel />
@@ -185,7 +160,7 @@ const changeTimeRangeFilter = (state, action) => {
 
 const toggleAllFiltersOfField = (filters, fieldValue) => {
   const subjectsOfField = filters.hauptthema.uniqueVals.filter(
-    val => topicToField(val) === fieldValue
+    val => hauptthemaToField(val) === fieldValue
   );
   let newValue = filters.hauptthema.value.filter(
     val => !subjectsOfField.includes(val)
@@ -196,18 +171,13 @@ const toggleAllFiltersOfField = (filters, fieldValue) => {
   return newValue;
 };
 
-const compare = (a, b) => {
-  if (topicToField(a) < topicToField(b)) return -1;
-  else return 1;
-};
-
 const updateData = (state, action) => ({
   ...state,
-  projects: action.value.projects,
-  labels: action.value.targetgroups,
-  institutions: action.value.institutions,
+  projects: action.value.project_data,
   continents: continents,
-  clusterData: action.value.cluster_topography,
+  clusterData: action.value.cluster_data,
+  clusterTopography: action.value.cluster_topography,
+  contoursSize: action.value.topography_height,
   isDataLoaded: true
 });
 
@@ -217,29 +187,19 @@ const processDataWhenReady = state =>
 /* The received data is transformed in the beginning (e.g. sorted, some attributes slightly changed), the filters get their initial filling too */
 const processAllData = state => {
   const processedProjects = processProjectsData(state);
-  const processedLabels = processLabels(processedProjects, state);
-  const processedInstState = processInstitutions(state);
-
-  var unflattened = [];
-  while (state.clusterData.length > 0)
-    unflattened.push(state.clusterData.splice(0, 200));
-  const processedClusterData = unflattened.reverse().flat();
+  const processedClusterTopography = state.clusterTopography;
 
   const newState = {
-    projects: linkLabelsToProjectsData(processedProjects, processedLabels),
-    labels: processedLabels,
-    clusterData: processedClusterData,
-    institutions: processedInstState.institutions,
-    continents: processedInstState.continents,
+    clusterTopography: processedClusterTopography,
+    projects: processedProjects,
     projectsMaxSizing: [
       Math.max(...processedProjects.map(p => p.mappoint[0])),
       Math.max(...processedProjects.map(p => p.mappoint[1]))
     ]
   };
   const uniqueFields = [];
-  const uniqueTopics = [];
-  const uniqueLabels = newState.labels.map(t => t.id);
-  const maxDateRange = [5000, 0];
+  const uniqueHauptthemas = [];
+  const maxDateRange = [2050, 1990];
 
   Object.values(newState.projects).forEach(project => {
     Object.keys(project).forEach(property => {
@@ -247,7 +207,8 @@ const processAllData = state => {
       if (property === "forschungsbereich") {
         if (!uniqueFields.some(e => e === value)) uniqueFields.push(value);
       } else if (property === "hauptthema") {
-        if (!uniqueTopics.some(e => e === value)) uniqueTopics.push(value);
+        if (!uniqueHauptthemas.some(e => e === value))
+          uniqueHauptthemas.push(value);
       } else if (property === "timeframe") {
         maxDateRange[0] =
           maxDateRange[0] < value[0] ? maxDateRange[0] : value[0];
@@ -268,22 +229,15 @@ const processAllData = state => {
     },
     hauptthema: {
       ...state.filters.hauptthema,
-      uniqueVals: uniqueTopics.sort(compare),
+      uniqueVals: uniqueHauptthemas,
       value: state.filters.hauptthema.value
         ? state.filters.hauptthema.value
-        : uniqueTopics
+        : uniqueHauptthemas
     },
     time: {
       ...state.filters.time,
       uniqueVals: maxDateRange,
       value: state.filters.time.value ? state.filters.time.value : maxDateRange
-    },
-    labels: {
-      ...state.filters.labels,
-      uniqueVals: uniqueLabels,
-      value: state.filters.labels.value
-        ? state.filters.labels.value
-        : uniqueLabels
     }
   };
 
@@ -364,7 +318,7 @@ const labelClicked = (state, action) => ({
     inst: null,
     samples: null
   },
-  sideBarComponent: <LabelDetailsPanel />
+  sideBarComponent: <FilterPanel />
 });
 
 const yearClicked = (state, action) => ({
@@ -392,7 +346,7 @@ const instClicked = (state, action) => ({
     inst: action.value,
     samples: null
   },
-  sideBarComponent: <InstDetailsPanel />
+  sideBarComponent: <FilterPanel />
 });
 
 const unClicked = state => ({

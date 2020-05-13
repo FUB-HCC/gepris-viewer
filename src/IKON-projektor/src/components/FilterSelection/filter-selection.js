@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import FilterSet from "./filter-set-view";
 import { checkboxFilterChange } from "../../store/actions/actions";
 import style from "./filter-selection.module.css";
-import { isTouchMode, topicToField } from "../../util/utility";
+import { isTouchMode, hauptthemaToField } from "../../util/utility";
 
 /* filter sets for browser version. highlevel fiters are fixed, subfilters dependend on the data */
 const getFilterSets = state => {
@@ -17,7 +17,7 @@ const getFilterSets = state => {
           filterId: "forschungsgebiet",
           isTogglable: true,
           subFilters: state.main.filters.hauptthema.uniqueVals.filter(
-            val => topicToField(val) === 1
+            val => hauptthemaToField(val) === 1
           ),
           subFilterId: "hauptthema"
         },
@@ -27,7 +27,7 @@ const getFilterSets = state => {
           filterId: "forschungsgebiet",
           isTogglable: true,
           subFilters: state.main.filters.hauptthema.uniqueVals.filter(
-            val => topicToField(val) === 2
+            val => hauptthemaToField(val) === 2
           ),
           subFilterId: "hauptthema"
         },
@@ -37,7 +37,7 @@ const getFilterSets = state => {
           filterId: "forschungsgebiet",
           isTogglable: true,
           subFilters: state.main.filters.hauptthema.uniqueVals.filter(
-            val => topicToField(val) === 3
+            val => hauptthemaToField(val) === 3
           ),
           subFilterId: "hauptthema"
         },
@@ -47,31 +47,9 @@ const getFilterSets = state => {
           filterId: "forschungsgebiet",
           isTogglable: true,
           subFilters: state.main.filters.hauptthema.uniqueVals.filter(
-            val => topicToField(val) === 4
+            val => hauptthemaToField(val) === 4
           ),
           subFilterId: "hauptthema"
-        },
-        {
-          name: "Sonstige",
-          nameId: 5,
-          filterId: "forschungsgebiet",
-          isTogglable: true,
-          subFilters: state.main.filters.hauptthema.uniqueVals.filter(
-            val => topicToField(val) === 5
-          ),
-          subFilterId: "hauptthema"
-        }
-      ]
-    },
-    {
-      name: "Labels",
-      subsets: [
-        {
-          name: "Labels",
-          nameId: 6,
-          filterId: "labelToggle",
-          isTogglable: true,
-          subFilters: []
         }
       ]
     }
@@ -111,25 +89,6 @@ const getFilterSetsTouch = filters => {
           filterId: "forschungsgebiet",
           isTogglable: true,
           subFilters: []
-        },
-        {
-          name: "Sonstige",
-          nameId: 5,
-          filterId: "forschungsgebiet",
-          isTogglable: true,
-          subFilters: []
-        }
-      ]
-    },
-    {
-      name: "Labels",
-      subsets: [
-        {
-          name: "Labels",
-          nameId: 6,
-          filterId: "labelToggle",
-          isTogglable: true,
-          subFilters: []
         }
       ]
     }
@@ -152,13 +111,8 @@ const FilterSelection = props => (
 const mapDispatchToProps = dispatch => {
   return {
     filterChangeHandler: (filterId, value, form) => {
+      console.log(filterId + " " + value + " " + form);
       dispatch(checkboxFilterChange(filterId, value, form));
-      if (value === 6) {
-        dispatch(checkboxFilterChange(filterId, 7, form));
-      }
-      if (value === 7) {
-        dispatch(checkboxFilterChange(filterId, 6, form));
-      }
     }
   };
 };

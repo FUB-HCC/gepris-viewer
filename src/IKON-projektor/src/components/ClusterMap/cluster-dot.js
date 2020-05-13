@@ -25,8 +25,8 @@ const ClusterDot = props => {
   const scale = isHighlighted ? 1.2 : 1;
   return (
     <InteractionHandler
-      onClick={() => (point ? dispatch(projectClicked(point.id)) : null)}
-      onMouseOver={() => (point ? dispatch(projectHovered(point.id)) : null)}
+      onClick={() => (point ? dispatch(projectClicked(point.title)) : null)}
+      onMouseOver={() => (point ? dispatch(projectHovered(point.title)) : null)}
       onMouseLeave={() => dispatch(unHovered())}
       doubleTapTreshold={500}
       isInTouchMode={isTouchMode}
