@@ -4,7 +4,7 @@ import ClusterMap from "../../components/ClusterMap/cluster-map";
 import GeoMap from "../../components/GeoMap/geo-map";
 import TimeGraph from "../../components/TimeLine/time-line";
 import classes from "./graph-view.module.css";
-import { fetchData } from "../../store/actions/actions";
+import { fetchData, fetchTimeData } from "../../store/actions/actions";
 import { appMargin, menuBarHeight } from "../../App";
 import { sideBarWidth } from "../../App";
 
@@ -35,6 +35,7 @@ class GraphView extends React.Component {
     this.resize();
     batch(() => {
       this.props.fetchData();
+      this.props.fetchTimeData();
     });
   }
 
@@ -123,11 +124,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: () => dispatch(fetchData())
+    fetchData: () => dispatch(fetchData()),
+    fetchTimeData: () => dispatch(fetchTimeData())
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GraphView);
+export default connect(mapStateToProps, mapDispatchToProps)(GraphView);

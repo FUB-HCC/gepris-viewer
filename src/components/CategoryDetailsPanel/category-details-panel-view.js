@@ -4,8 +4,8 @@ import { ReactComponent as Exit } from "../../assets/Exit.svg";
 import { ReactComponent as Icon } from "../../assets/Selected-Project.svg";
 import { getFieldColor } from "../../util/utility";
 
-const ProjectDetailsPanel = props => {
-  if (props.projectData == null) {
+const CategoryDetailsPanel = props => {
+  if (props.categoryData == null) {
     return (
       <div className={style.DetailsWrapper}>
         <div className={style.DetailsExit} onClick={props.returnToFilterView}>
@@ -14,7 +14,7 @@ const ProjectDetailsPanel = props => {
       </div>
     );
   }
-  let color = getFieldColor(props.projectData.forschungsbereich);
+  let color = getFieldColor(props.categoryData.forschungsbereich);
 
   return (
     <div className={style.DetailsWrapper}>
@@ -36,36 +36,36 @@ const ProjectDetailsPanel = props => {
           stroke={color}
         />
         <span className={style.titleTopic}>Forschungsthema</span> <br />
-        <span className={style.titleText}>{props.projectData.title}</span>
+        <span className={style.titleText}>{props.categoryData.title}</span>
       </div>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
           Hauptthema: <br />
         </span>
-        {props.projectData.hauptthema}
+        {props.categoryData.hauptthema}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
           Forschungsgebiet: <br />
         </span>
-        {props.projectData.forschungsbereichStr}
+        {props.categoryData.forschungsbereichStr}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
           Anzahl der Forschungsprojekte in diesem Themenfeld: <br />
         </span>
-        {props.projectData.doc_count}
+        {props.categoryData.doc_count}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
           Zeitraum: <br />
         </span>
-        {props.projectData.timeframe[0] +
+        {props.categoryData.timeframe[0] +
           " bis " +
-          props.projectData.timeframe[1]}
+          props.categoryData.timeframe[props.categoryData.timeframe.length - 1]}
       </p>
     </div>
   );
 };
 
-export default ProjectDetailsPanel;
+export default CategoryDetailsPanel;

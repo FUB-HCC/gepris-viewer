@@ -15,7 +15,12 @@ import {
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
 import { select as d3Select } from "d3-selection";
 import styles from "./time-line-view.module.css";
-import { getFieldColor, fieldsIntToString } from "../../util/utility";
+import {
+  getFieldColor,
+  fieldsIntToString,
+  fieldsStringToInt,
+  topicToField
+} from "../../util/utility";
 import SVGWithMargin from "./SVGWithMargin";
 import HoverPopover from "../HoverPopover/HoverPopover";
 import InteractionHandler from "../../util/interaction-handler";
@@ -25,9 +30,14 @@ export default class TimeLineView extends Component {
     super(props);
     this.state = {
       dataSplitYears: {
-        areaChartData: [{ Sonstige: 0, year: 2020, projects: [] }],
-        areaChartKeys: ["Sonstige"],
-        years: [2006]
+        areaChartData: [
+          {
+            year: 2019,
+            subject_area: { Naturwissenschaften: 0, Lebenswissenschaften: 0 }
+          }
+        ],
+        areaChartKeys: ["Naturwissenschaften"],
+        years: [1990]
       },
       height: props.height,
       width: props.width - 15,
@@ -59,7 +69,7 @@ export default class TimeLineView extends Component {
 
     this.setState({
       dataSplitYears: data.dataSplitFbYear,
-      projectsData: data.projects,
+      categoriesData: data.categories,
       firstUpdate: false
     });
   }
@@ -154,18 +164,20 @@ export default class TimeLineView extends Component {
     const stackedData = stack(this.state.dataSplitYears.areaChartData);
     const { isTouchMode } = this.props;
     const color = d => {
-      return getFieldColor(d.key);
+      return getFieldColor(topicToField(d.key));
     };
     const toYear = int => {
-      return new Date(int.toString()).setHours(0, 0, 0, 0);
+      return new Date(int).setHours(0, 0, 0, 0);
     };
-    const maxProjects = Math.max(
-      ...this.state.dataSplitYears.areaChartData
-        .map(year => year.projects.length)
-        .flat()
+    const maxCategories = Math.max(
+      ...this.state.dataSplitYears.areaChartData.map(year =>
+        Object.values(year)
+          .filter(x => typeof x === "number")
+          .reduce((a, b) => a + b, 0)
+      )
     );
-    const minYear = toYear(2006);
-    const maxYear = toYear(2025);
+    const minYear = toYear("1985");
+    const maxYear = toYear("2019");
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
@@ -173,7 +185,7 @@ export default class TimeLineView extends Component {
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])
-      .domain([maxProjects, 0]);
+      .domain([maxCategories, 0]);
 
     // Add an axis for our x scale which has half as many ticks as there are rows in the data set.
     const xAxis = d3AxisBottom()
@@ -223,61 +235,6 @@ export default class TimeLineView extends Component {
               className={styles.yAxis}
               ref={node => d3Select(node).call(yAxis)}
             />
-            <g>
-              <pattern
-                id="pattern-circles"
-                x={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                y="0"
-                width={(x(toYear(2018)) - x(toYear(2017))) / 2}
-                height={(x(toYear(2018)) - x(toYear(2017))) / 2}
-                patternUnits="userSpaceOnUse"
-                patternContentUnits="userSpaceOnUse"
-              >
-                <circle
-                  id="pattern-circle"
-                  cx={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  cy={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  r="1"
-                  fill="#e8e8e8"
-                />
-                <circle
-                  id="pattern-circle"
-                  cx={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  cy={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  r="1"
-                  fill="#989898"
-                />
-                <circle
-                  id="pattern-circle"
-                  cx={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  cy={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  r="1"
-                  fill="#e8e8e8"
-                />
-                <circle
-                  id="pattern-circle"
-                  cx={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  cy={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  r="1"
-                  fill="#989898"
-                />
-              </pattern>
-              <InteractionHandler
-                isInTouchMode={isTouchMode}
-                onMouseOver={event => this.handlePatternMouseEnter(event)}
-                onMouseLeave={() => this.handleMouseLeave()}
-                onClick={event => this.handlePatternMouseEnter(event)}
-                doubleTapTreshold={800}
-              >
-                <rect
-                  fill="url(#pattern-circles)"
-                  x={x(toYear(2018))}
-                  y={y(maxProjects)}
-                  width={x(maxYear) - x(toYear(2018))}
-                  height={y(0) - y(maxProjects)}
-                />
-              </InteractionHandler>
-            </g>
 
             {stackedData &&
               stackedData.map((d, i) => {

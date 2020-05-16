@@ -1,4 +1,4 @@
-import ProjectDetailsPanel from "../components/ProjectDetailsPanel/project-details-panel";
+import CategoryDetailsPanel from "../components/CategoryDetailsPanel/category-details-panel";
 import YearDetailsPanel from "../components/YearDetailsPanel/year-details-panel";
 import FilterPanel from "../components/FilterPanel/filter-panel";
 import { history } from "../index";
@@ -7,8 +7,8 @@ import React from "react";
 import { topicStringToInt, topicIntToString } from "./utility";
 
 const getTupleFromIsClicked = isClicked => {
-  if (isClicked.project) {
-    return [1, topicStringToInt(isClicked.project)];
+  if (isClicked.category) {
+    return [1, topicStringToInt(isClicked.category)];
   }
   if (isClicked.year) {
     return [5, isClicked.year];
@@ -20,7 +20,7 @@ const getIsClickedFromTuple = tuple => {
   const [key, value] = tuple;
   if (key === 1) {
     return {
-      project: topicIntToString(value),
+      category: topicIntToString(value),
       label: null,
       year: null,
       inst: null
@@ -28,14 +28,14 @@ const getIsClickedFromTuple = tuple => {
   }
   if (key === 3) {
     return {
-      project: null,
+      category: null,
       label: null,
       year: value,
       inst: null
     };
   }
   return {
-    project: null,
+    category: null,
     label: null,
     year: null,
     inst: null
@@ -45,7 +45,7 @@ const getIsClickedFromTuple = tuple => {
 const getSideBarComponentFromTuple = tuple => {
   const [key] = tuple;
   if (key === 1) {
-    return <ProjectDetailsPanel />;
+    return <CategoryDetailsPanel />;
   }
   if (key === 3) {
     return <YearDetailsPanel />;

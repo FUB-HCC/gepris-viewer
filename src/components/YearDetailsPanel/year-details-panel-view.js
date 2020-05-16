@@ -37,9 +37,9 @@ const YearDetailsPanel = props => {
         {props.year}:
         <br />
       </span>
-      {props.projects.length > 0 && (
+      {props.categories.length > 0 && (
         <div className={style.abstractText}>
-          {props.projects.map((project, i) => (
+          {props.categories.map((project, i) => (
             <span
               href="#"
               onClick={() => props.showProjectDetails(project.title)}

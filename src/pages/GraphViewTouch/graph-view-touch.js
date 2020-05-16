@@ -3,7 +3,7 @@ import { connect, batch } from "react-redux";
 import ClusterMap from "../../components/ClusterMap/cluster-map";
 import TimeGraph from "../../components/TimeLine/time-line";
 import classes from "./graph-view-touch.module.css";
-import { fetchData } from "../../store/actions/actions";
+import { fetchData, fetchTimeData } from "../../store/actions/actions";
 import { appMargin, menuBarHeight } from "../../App";
 import { sideBarWidth } from "../../App";
 
@@ -29,6 +29,7 @@ class GraphViewTouch extends React.Component {
     this.resize();
     batch(() => {
       this.props.fetchData();
+      this.props.fetchTimeData();
     });
     setTimeout(() => {
       document.getElementById("tutorialButton").click();
@@ -78,11 +79,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: () => dispatch(fetchData())
+    fetchData: () => dispatch(fetchData()),
+    fetchTimeData: () => dispatch(fetchTimeData())
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GraphViewTouch);
+export default connect(mapStateToProps, mapDispatchToProps)(GraphViewTouch);

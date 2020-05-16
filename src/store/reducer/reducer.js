@@ -1,9 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 import React from "react";
 import { hauptthemaToField, continents } from "../../util/utility";
-import { processProjectsData } from "./data-transforms";
+import { processCategoriesData } from "./data-transforms";
 import FilterPanel from "../../components/FilterPanel/filter-panel";
-import ProjectDetailsPanel from "../../components/ProjectDetailsPanel/project-details-panel";
+import CategoryDetailsPanel from "../../components/CategoryDetailsPanel/category-details-panel";
 import YearDetailsPanel from "../../components/YearDetailsPanel/year-details-panel";
 
 export const initialState = {
@@ -31,23 +31,24 @@ export const initialState = {
     }
   },
   graph: "0",
-  projects: [],
+  categories: [],
+  timeData: [],
   isHovered: {
-    project: null,
+    category: null,
     year: null
   },
   isClicked: {
-    project: null,
+    category: null,
     year: null
   },
-  projectsMaxSizing: [0, 0],
+  categoriesMaxSizing: [0, 0],
   contoursSize: 0,
   legendHovered: "none",
   uncertaintyOn: false,
   uncertaintyHighlighted: false,
   clusterData: undefined,
   clusterTopography: undefined,
-  isDataLoaded: false,
+  isDataLoaded: { time: false, data: false },
   isDataProcessed: false,
   sideBarComponent: <FilterPanel />
 };
@@ -70,11 +71,14 @@ const reducer = (state = initialState, action) => {
     case actionTypes.UPDATE_DATA:
       return updateData(state, action);
 
+    case actionTypes.UPDATE_TIME_DATA:
+      return updateTimeData(state, action);
+
     case actionTypes.PROCESS_DATA_IF_READY:
       return processDataWhenReady(state);
 
     case actionTypes.PROJECT_HOVERED:
-      return projectHovered(state, action);
+      return categoryHovered(state, action);
 
     case actionTypes.LABEL_HOVERED:
       return labelHovered(state, action);
@@ -86,7 +90,7 @@ const reducer = (state = initialState, action) => {
       return unHovered(state);
 
     case actionTypes.PROJECT_CLICKED:
-      return projectClicked(state, action);
+      return categoryClicked(state, action);
 
     case actionTypes.LABEL_CLICKED:
       return labelClicked(state, action);
@@ -173,46 +177,49 @@ const toggleAllFiltersOfField = (filters, fieldValue) => {
 
 const updateData = (state, action) => ({
   ...state,
-  projects: action.value.project_data,
+  categories: action.value.project_data,
   continents: continents,
   clusterData: action.value.cluster_data,
   clusterTopography: action.value.cluster_topography,
   contoursSize: action.value.topography_height,
-  isDataLoaded: true
+  isDataLoaded: { ...state.isDataLoaded, data: true }
+});
+
+const updateTimeData = (state, action) => ({
+  ...state,
+  timeData: action.value,
+  isDataLoaded: { ...state.isDataLoaded, time: true }
 });
 
 const processDataWhenReady = state =>
-  state.isDataLoaded ? processAllData(state) : state;
+  state.isDataLoaded.time && state.isDataLoaded.data
+    ? processAllData(state)
+    : state;
 
 /* The received data is transformed in the beginning (e.g. sorted, some attributes slightly changed), the filters get their initial filling too */
 const processAllData = state => {
-  const processedProjects = processProjectsData(state);
+  const processedCategories = processCategoriesData(state);
 
   const newState = {
     clusterTopography: state.clusterTopography,
-    projects: processedProjects,
-    projectsMaxSizing: [
-      Math.max(...processedProjects.map(p => p.mappoint[0])),
-      Math.max(...processedProjects.map(p => p.mappoint[1]))
+    categories: processedCategories,
+    categoriesMaxSizing: [
+      Math.max(...processedCategories.map(p => p.mappoint[0])),
+      Math.max(...processedCategories.map(p => p.mappoint[1]))
     ]
   };
   const uniqueFields = [];
   const uniqueHauptthemas = [];
-  const maxDateRange = [2050, 1990];
+  const maxDateRange = [1979, 2019];
 
-  Object.values(newState.projects).forEach(project => {
-    Object.keys(project).forEach(property => {
-      const value = project[property];
+  Object.values(newState.categories).forEach(category => {
+    Object.keys(category).forEach(property => {
+      const value = category[property];
       if (property === "forschungsbereich") {
         if (!uniqueFields.some(e => e === value)) uniqueFields.push(value);
       } else if (property === "hauptthema") {
         if (!uniqueHauptthemas.some(e => e === value))
           uniqueHauptthemas.push(value);
-      } else if (property === "timeframe") {
-        maxDateRange[0] =
-          maxDateRange[0] < value[0] ? maxDateRange[0] : value[0];
-        maxDateRange[1] =
-          maxDateRange[1] > value[1] ? maxDateRange[1] : value[1];
       }
     });
   });
@@ -248,10 +255,10 @@ const processAllData = state => {
   };
 };
 
-const projectHovered = (state, action) => ({
+const categoryHovered = (state, action) => ({
   ...state,
   isHovered: {
-    project: action.value,
+    category: action.value,
     infra: null,
     label: null,
     kta: null,
@@ -262,7 +269,7 @@ const projectHovered = (state, action) => ({
 const labelHovered = (state, action) => ({
   ...state,
   isHovered: {
-    project: null,
+    category: null,
     infra: null,
     label: action.value,
     kta: null,
@@ -273,7 +280,7 @@ const labelHovered = (state, action) => ({
 const yearHovered = (state, action) => ({
   ...state,
   isHovered: {
-    project: null,
+    category: null,
     infra: null,
     label: null,
     kta: null,
@@ -284,7 +291,7 @@ const yearHovered = (state, action) => ({
 const unHovered = state => ({
   ...state,
   isHovered: {
-    project: null,
+    category: null,
     infra: null,
     label: null,
     kta: null,
@@ -292,10 +299,10 @@ const unHovered = state => ({
   }
 });
 
-const projectClicked = (state, action) => ({
+const categoryClicked = (state, action) => ({
   ...state,
   isClicked: {
-    project: action.value,
+    category: action.value,
     infra: null,
     label: null,
     kta: null,
@@ -303,13 +310,13 @@ const projectClicked = (state, action) => ({
     inst: null,
     samples: null
   },
-  sideBarComponent: <ProjectDetailsPanel />
+  sideBarComponent: <CategoryDetailsPanel />
 });
 
 const labelClicked = (state, action) => ({
   ...state,
   isClicked: {
-    project: null,
+    category: null,
     infra: null,
     label: action.value,
     kta: null,
@@ -323,7 +330,7 @@ const labelClicked = (state, action) => ({
 const yearClicked = (state, action) => ({
   ...state,
   isClicked: {
-    project: null,
+    category: null,
     infra: null,
     label: null,
     kta: null,
@@ -337,7 +344,7 @@ const yearClicked = (state, action) => ({
 const instClicked = (state, action) => ({
   ...state,
   isClicked: {
-    project: null,
+    category: null,
     infra: null,
     label: null,
     kta: null,
@@ -351,7 +358,7 @@ const instClicked = (state, action) => ({
 const unClicked = state => ({
   ...state,
   isClicked: {
-    project: null,
+    category: null,
     infra: null,
     label: null,
     kta: null,
