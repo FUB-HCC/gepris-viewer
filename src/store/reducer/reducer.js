@@ -187,10 +187,9 @@ const processDataWhenReady = state =>
 /* The received data is transformed in the beginning (e.g. sorted, some attributes slightly changed), the filters get their initial filling too */
 const processAllData = state => {
   const processedProjects = processProjectsData(state);
-  const processedClusterTopography = state.clusterTopography;
 
   const newState = {
-    clusterTopography: processedClusterTopography,
+    clusterTopography: state.clusterTopography,
     projects: processedProjects,
     projectsMaxSizing: [
       Math.max(...processedProjects.map(p => p.mappoint[0])),

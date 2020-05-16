@@ -1,7 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import { batch } from "react-redux";
-
 /* value can be 0=WISSEN, 1=ZEIT, 2=RAUM. switches to the page accordingly (only if not touch version)*/
 export const changeGraph = value => {
   return {
@@ -119,7 +118,6 @@ export const legendHovered = legendKey => ({
 export const fetchData = () => {
   return dispatch => {
     axios.get("dump.json").then(result => {
-      console.log(result.data);
       batch(() => {
         dispatch(updateData(result.data));
         dispatch(processDataIfReady());

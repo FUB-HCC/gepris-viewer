@@ -1,7 +1,5 @@
 import ProjectDetailsPanel from "../components/ProjectDetailsPanel/project-details-panel";
-import LabelDetailsPanel from "../components/LabelDetailsPanel/label-details-panel";
 import YearDetailsPanel from "../components/YearDetailsPanel/year-details-panel";
-import InstDetailsPanel from "../components/InstDetailsPanel/inst-details-panel";
 import FilterPanel from "../components/FilterPanel/filter-panel";
 import { history } from "../index";
 import { initialState } from "../store/reducer/reducer";
@@ -28,28 +26,12 @@ const getIsClickedFromTuple = tuple => {
       inst: null
     };
   }
-  if (key === 2) {
-    return {
-      project: null,
-      label: value,
-      year: null,
-      inst: null
-    };
-  }
   if (key === 3) {
     return {
       project: null,
       label: null,
       year: value,
       inst: null
-    };
-  }
-  if (key === 4) {
-    return {
-      project: null,
-      label: null,
-      year: null,
-      inst: value
     };
   }
   return {
@@ -65,14 +47,8 @@ const getSideBarComponentFromTuple = tuple => {
   if (key === 1) {
     return <ProjectDetailsPanel />;
   }
-  if (key === 2) {
-    return <LabelDetailsPanel />;
-  }
   if (key === 3) {
     return <YearDetailsPanel />;
-  }
-  if (key === 4) {
-    return <InstDetailsPanel />;
   }
   return <FilterPanel />;
 };
