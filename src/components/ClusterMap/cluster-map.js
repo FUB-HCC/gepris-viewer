@@ -8,7 +8,7 @@ import {
 } from "../../store/actions/actions";
 import { getFieldColor, isTouchMode, applyFilters } from "../../util/utility";
 
-/* project list is divided into clusters */
+/* category list is divided into clusters */
 const computeClusters = categories => {
   if (!categories || categories.length === 0) return [];
 
@@ -35,9 +35,9 @@ const extractHighlightedFromState = state => {
 };
 
 const addExtractedHighlighted = (selectedState, highlighted, state) => {
-  if (selectedState.project) {
-    highlighted = addExtractedHighlightedFromProject(
-      selectedState.project,
+  if (selectedState.category) {
+    highlighted = addExtractedHighlightedFromCategory(
+      selectedState.category,
       highlighted,
       state
     );
@@ -45,20 +45,20 @@ const addExtractedHighlighted = (selectedState, highlighted, state) => {
   return highlighted;
 };
 
-const addExtractedHighlightedFromProject = (
-  projectTitle,
+const addExtractedHighlightedFromCategory = (
+  categoryTitle,
   highlighted,
   state
 ) => {
-  const project = getProjectByTitle(projectTitle, state);
+  const category = getCategoryByTitle(categoryTitle, state);
   return {
     ...highlighted,
-    categories: highlighted.categories.concat([project.title])
+    categories: highlighted.categories.concat([category.title])
   };
 };
 
-const getProjectByTitle = (title, state) =>
-  state.categories.find(project => project.title === title);
+const getCategoryByTitle = (title, state) =>
+  state.categories.find(category => category.title === title);
 
 const mapStateToProps = state => {
   const {
@@ -93,7 +93,7 @@ const mapStateToProps = state => {
     uncertaintyOn: state.main.uncertaintyOn,
     uncertaintyHighlighted: state.main.uncertaintyHighlighted,
     isTouch: isTouchMode(state),
-    isProjectHovered: isHovered.project,
+    isCategoryHovered: isHovered.category,
     categoriesMaxSizing: categoriesMaxSizing,
     filteredCategories: categoriesForView,
     contoursSize: contoursSize

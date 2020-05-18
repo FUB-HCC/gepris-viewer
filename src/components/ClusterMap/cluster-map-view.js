@@ -84,7 +84,7 @@ export default class ClusterMapView extends React.Component {
       uncertaintyOn,
       uncertaintyHighlighted,
       isTouch,
-      isProjectHovered,
+      isCategoryHovered,
       filteredCategories,
       topography,
       contoursSize
@@ -150,7 +150,7 @@ export default class ClusterMapView extends React.Component {
             })}
           </g>
         </svg>
-        {this.renderHover(isProjectHovered)}
+        {this.renderHover(isCategoryHovered)}
       </div>
     );
   }

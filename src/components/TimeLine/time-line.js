@@ -82,18 +82,41 @@ const processData = (filteredCategories, timeData) => {
    Transforms the timeData in to a format which can be easily used for the visualization.
    published and unpublished research categories are binned into years
  */
-  if (!timeData || timeData === []) return [];
-  let filtered = Object.entries(timeData).map(entry => ({
-    ...entry[1].research_area,
-    year: entry[0]
-  }));
+  if (
+    !timeData ||
+    timeData === [] ||
+    !filteredCategories ||
+    filteredCategories === []
+  )
+    return [];
+  let keys = [1, 2, 3, 4];
+  let map = [];
+  let years = Object.keys(timeData);
+  for (let year = 1979; year < 2020; year++) {
+    let submap = {};
+    submap.year = year;
+    submap.categories = filteredCategories
+      .filter(p => p.timeframe.includes(year))
+      .map(p => p.title);
+    keys.map(key => (submap[key] = 0));
+    map.push(submap);
+    years.push(year);
+  }
 
-  let keys = Object.entries(timeData).map(entry => entry[1].research_area)[0];
-  if (!keys) return [];
+  filteredCategories.forEach(category => {
+    let fb = category.forschungsbereich;
+    category.timeframe.forEach(year => {
+      if (timeData[year].subject_area[category.title]) {
+        map[`${year - 1979}`][`${fb}`] +=
+          timeData[year].subject_area[category.title];
+      }
+    });
+  });
+
   let result = {
-    areaChartData: filtered,
-    areaChartKeys: Object.keys(keys),
-    years: Object.keys(timeData)
+    areaChartData: map,
+    areaChartKeys: keys,
+    years: years
   };
   return result;
 };

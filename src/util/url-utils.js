@@ -11,7 +11,7 @@ const getTupleFromIsClicked = isClicked => {
     return [1, topicStringToInt(isClicked.category)];
   }
   if (isClicked.year) {
-    return [5, isClicked.year];
+    return [2, isClicked.year];
   }
   return [0, null];
 };
@@ -21,24 +21,18 @@ const getIsClickedFromTuple = tuple => {
   if (key === 1) {
     return {
       category: topicIntToString(value),
-      label: null,
-      year: null,
-      inst: null
+      year: null
     };
   }
-  if (key === 3) {
+  if (key === 2) {
     return {
       category: null,
-      label: null,
-      year: value,
-      inst: null
+      year: value
     };
   }
   return {
     category: null,
-    label: null,
-    year: null,
-    inst: null
+    year: null
   };
 };
 
@@ -47,7 +41,7 @@ const getSideBarComponentFromTuple = tuple => {
   if (key === 1) {
     return <CategoryDetailsPanel />;
   }
-  if (key === 3) {
+  if (key === 2) {
     return <YearDetailsPanel />;
   }
   return <FilterPanel />;

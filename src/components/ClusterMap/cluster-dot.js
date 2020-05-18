@@ -77,7 +77,6 @@ const ClusterDot = props => {
           cursor="POINTER"
           style={{ opacity: isVisible ? "1" : "0", transition: "opacity 1s" }}
         />
-        )}
       </g>
     </InteractionHandler>
   );

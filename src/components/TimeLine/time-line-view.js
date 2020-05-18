@@ -15,12 +15,7 @@ import {
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
 import { select as d3Select } from "d3-selection";
 import styles from "./time-line-view.module.css";
-import {
-  getFieldColor,
-  fieldsIntToString,
-  fieldsStringToInt,
-  topicToField
-} from "../../util/utility";
+import { getFieldColor, fieldsIntToString } from "../../util/utility";
 import SVGWithMargin from "./SVGWithMargin";
 import HoverPopover from "../HoverPopover/HoverPopover";
 import InteractionHandler from "../../util/interaction-handler";
@@ -33,11 +28,11 @@ export default class TimeLineView extends Component {
         areaChartData: [
           {
             year: 2019,
-            subject_area: { Naturwissenschaften: 0, Lebenswissenschaften: 0 }
+            subject_area: { 1: 0, 2: 0, 3: 0, 4: 0 }
           }
         ],
-        areaChartKeys: ["Naturwissenschaften"],
-        years: [1990]
+        areaChartKeys: [1, 2, 3, 4],
+        years: [2019]
       },
       height: props.height,
       width: props.width - 15,
@@ -53,7 +48,6 @@ export default class TimeLineView extends Component {
     this.renderHoverField = this.renderHoverField.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleAreaMouseEnter = this.handleAreaMouseEnter.bind(this);
-    this.handlePatternMouseEnter = this.handlePatternMouseEnter.bind(this);
     this.handleCircleMouseEnter = this.handleCircleMouseEnter.bind(this);
   }
 
@@ -130,15 +124,6 @@ export default class TimeLineView extends Component {
     });
   }
 
-  handlePatternMouseEnter(evt) {
-    this.setState({
-      hoveredArea: {
-        text: "Unsichere Datenlage"
-      },
-      mouseLocation: [evt.nativeEvent.clientX, evt.nativeEvent.clientY]
-    });
-  }
-
   handleCircleMouseEnter(circle, evt) {
     this.setState({
       hoveredArea: circle,
@@ -154,7 +139,7 @@ export default class TimeLineView extends Component {
     if (this.state.dataSplitYears.length === 0) {
       return <div />;
     }
-    const stackedAreaHeight = this.state.height * 0.5;
+    const stackedAreaHeight = this.state.height * 0.7;
 
     // turns the preprocessed data into a d3 stack
     const stack = d3stack()
@@ -164,10 +149,10 @@ export default class TimeLineView extends Component {
     const stackedData = stack(this.state.dataSplitYears.areaChartData);
     const { isTouchMode } = this.props;
     const color = d => {
-      return getFieldColor(topicToField(d.key));
+      return getFieldColor(d.key);
     };
     const toYear = int => {
-      return new Date(int).setHours(0, 0, 0, 0);
+      return new Date(int.toString()).setHours(0, 0, 0, 0);
     };
     const maxCategories = Math.max(
       ...this.state.dataSplitYears.areaChartData.map(year =>
@@ -176,12 +161,10 @@ export default class TimeLineView extends Component {
           .reduce((a, b) => a + b, 0)
       )
     );
-    const minYear = toYear("1985");
-    const maxYear = toYear("2019");
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
-      .domain([minYear, maxYear]);
+      .domain([toYear(1985), toYear(2019)]);
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])
@@ -190,7 +173,7 @@ export default class TimeLineView extends Component {
     // Add an axis for our x scale which has half as many ticks as there are rows in the data set.
     const xAxis = d3AxisBottom()
       .scale(x)
-      .ticks(this.state.dataSplitYears.years.length / 2);
+      .ticks(this.state.dataSplitYears.years.length / 4);
 
     // Add an axis for our y scale that has 4 ticks
     const yAxis = d3AxisLeft()
@@ -206,7 +189,7 @@ export default class TimeLineView extends Component {
       <div
         data-intro="In der Ansicht <b>ZEIT</b> wird eine weitere integrative Perspektive auf die Verläufe geförderter Projekte basierend auf aktuellen Informationen aus dem <b style='color: #afca0b;'>GEPRIS-Datensatz</b> und gruppiert nach <b>Forschungsgebieten</b> über die Jahre dargestellt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich laufenden Projekte in dem GEPRIS Datensatz vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung berücksichtigt werden könnten."
         data-step="1"
-        style={{ height: "auto", marginLeft: this.state.margin * 0.8 }}
+        style={{ height: "auto", marginLeft: this.state.margin }}
       >
         <div>
           <SVGWithMargin
@@ -234,6 +217,9 @@ export default class TimeLineView extends Component {
             <g
               className={styles.yAxis}
               ref={node => d3Select(node).call(yAxis)}
+              style={{
+                transform: `translateX(${this.state.margin * 2}px)`
+              }}
             />
 
             {stackedData &&

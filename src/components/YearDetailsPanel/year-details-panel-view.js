@@ -28,33 +28,62 @@ const YearDetailsPanel = props => {
         </div>
         <span className={style.titleTopic}>Jahr {props.year}</span> <br />
         <span className={style.titleText}>
-          {isNaN(props.title) ? props.title : fieldsIntToString(props.title)}
+          {fieldsIntToString(props.title)}
         </span>
       </div>
-
+      <p className={style.infoItems}>
+        <span className={style.infoItemTitle}>
+          {"Forschungsprojekte in den " +
+            fieldsIntToString(props.title) +
+            " im Jahr " +
+            props.year +
+            " insgesamt: "}
+          <br />
+        </span>
+        {props.count}
+      </p>
       <span className={style.infoItemTitle}>
-        {"Forschungsthemen in diesem Forschungsbereich im Jahr "}
+        {
+          "Forschungsprojekte in den Unterthemen dieses Forschungsbereiches im Jahr "
+        }
         {props.year}:
         <br />
       </span>
-      {props.categories.length > 0 && (
-        <div className={style.abstractText}>
-          {props.categories.map((project, i) => (
-            <span
-              href="#"
-              onClick={() => props.showProjectDetails(project.title)}
-              key={i + " " + project.title}
-              className={style.DetailsLink}
-              style={{
-                color: color
-              }}
-            >
-              {project.title}
-              <br />
-            </span>
-          ))}
-        </div>
-      )}
+
+      <div className={style.abstractText}>
+        <table className={style.infoItems}>
+          <tbody>
+            <tr>
+              <th className={style.sampleHeader}>THEMA</th>
+              <th className={style.sampleHeader}>ANZAHL</th>
+            </tr>
+            {props.categories.map(category => (
+              <tr
+                key={category[0] + " " + category[1]}
+                onClick={() => props.showCategoryDetails(category[0])}
+              >
+                <td
+                  width="80%"
+                  className={style.sampleName}
+                  style={{
+                    color: color
+                  }}
+                >
+                  {category[0] + ": "}
+                </td>
+                <td
+                  className={style.sampleDate}
+                  style={{
+                    color: color
+                  }}
+                >
+                  {category[1]}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
