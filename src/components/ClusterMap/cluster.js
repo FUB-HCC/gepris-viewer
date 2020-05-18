@@ -1,35 +1,35 @@
 import React from "react";
 import ClusterDot from "./cluster-dot";
 
-/* Clusters are not visible in the current state of the visualization. Yet the projects are separated by clusters in the data structure as this might change again. */
+/* Clusters are not visible in the current state of the visualization. Yet the categories are separated by clusters in the data structure as this might change again. */
 const Cluster = props => {
   const {
     cluster,
     getLocation,
     radius,
-    highlightedProjects,
+    highlightedCategories,
     isTouchMode,
-    filteredProjects
+    filteredCategories
   } = props;
-  const projects = cluster.projects.map(project => ({
-    ...project,
-    point: getLocation(project.mappoint),
-    color: project.color,
-    icon: project.icon
+  const categories = cluster.categories.map(category => ({
+    ...category,
+    point: getLocation(category.mappoint),
+    color: category.color,
+    icon: category.icon
   }));
   return (
     <g key={cluster.id}>
-      {projects.map((project, i) => (
+      {categories.map((category, i) => (
         <ClusterDot
-          point={project}
-          isVisible={filteredProjects.includes(project.title)}
-          color={project.color}
-          icon={project.icon}
-          key={i + "project"}
-          radius={radius + Math.sqrt(project.doc_count) * radius * 0.03}
-          x={project.point[0]}
-          y={project.point[1]}
-          isHighlighted={highlightedProjects.includes(project.title)}
+          point={category}
+          isVisible={filteredCategories.includes(category.title)}
+          color={category.color}
+          icon={category.icon}
+          key={i + "category"}
+          radius={radius + Math.sqrt(category.doc_count) * radius * 0.03}
+          x={category.point[0]}
+          y={category.point[1]}
+          isHighlighted={highlightedCategories.includes(category.title)}
           isTouchMode={isTouchMode}
         />
       ))}

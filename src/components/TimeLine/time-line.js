@@ -9,7 +9,7 @@ class TimeLine extends React.Component {
     this.Graph.updateTimeGraph(
       {
         dataSplitFbYear: this.props.dataSplitFbYear,
-        projects: this.props.projects
+        subcategories: this.props.subcategories
       },
       this.props.width,
       this.props.height,
@@ -21,7 +21,7 @@ class TimeLine extends React.Component {
     this.Graph.updateTimeGraph(
       {
         dataSplitFbYear: this.props.dataSplitFbYear,
-        projects: this.props.projects
+        subcategories: this.props.subcategories
       },
       this.props.height,
       this.props.width,
@@ -63,59 +63,56 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  let projectsForView = applyFilters(state.main.projects, state.main.filters);
-  const processedData = processData(projectsForView);
+  let categoriesForView = applyFilters(
+    state.main.categories,
+    state.main.filters
+  );
+  const processedData = processData(categoriesForView, state.main.timeData);
   return {
     dataSplitFbYear: processedData,
-    projects: projectsForView,
+    categories: categoriesForView,
     colors: graphColors,
     isTouchMode: isTouchMode(state)
   };
 };
 
-const processData = data => {
+const processData = (filteredCategories, timeData) => {
   /*
    Private
-   Transforms the data in to a format which can be easily used for the visualization.
-   published and unpublished research projects are binned into years
+   Transforms the timeData in to a format which can be easily used for the visualization.
+   published and unpublished research categories are binned into years
  */
-
-  if (!data || data === []) return [];
-
-  let keys = [1, 2, 3, 4, 5];
-  let map = [],
-    years = [];
-  let projects = data.map(project => {
-    let startDate = project.timeframe[0];
-    let endDate = project.timeframe[1];
-    let years = [];
-    while (startDate <= endDate) {
-      years.push(startDate++);
-    }
-    return {
-      id: project.id,
-      years: years,
-      fb: project.forschungsbereich
-    };
-  });
-  let startYear = 2006;
-  let endYear = 2026;
-  for (let year = startYear; year <= endYear; year++) {
+  if (
+    !timeData ||
+    timeData === [] ||
+    !filteredCategories ||
+    filteredCategories === []
+  )
+    return [];
+  let keys = [1, 2, 3, 4];
+  let map = [];
+  let years = Object.keys(timeData);
+  for (let year = 1979; year < 2020; year++) {
     let submap = {};
     submap.year = year;
-    submap.projects = projects
-      .filter(p => p.years.includes(year))
-      .map(p => p.id);
+    submap.categories = filteredCategories
+      .filter(p => p.timeframe.includes(year))
+      .map(p => p.title);
     keys.map(key => (submap[key] = 0));
     map.push(submap);
     years.push(year);
   }
-  projects.forEach(function(project) {
-    let fbereich = project.fb;
-    project.years.forEach(function(year) {
-      map[`${year - startYear}`][`${fbereich}`]++;
+
+  filteredCategories.forEach(category => {
+    let fb = category.forschungsbereich;
+    category.timeframe.forEach(year => {
+      if (timeData[year].subject_area[category.title]) {
+        map[`${year - 1979}`][`${fb}`] +=
+          timeData[year].subject_area[category.title];
+      }
     });
   });
+
   let result = {
     areaChartData: map,
     areaChartKeys: keys,
@@ -124,7 +121,4 @@ const processData = data => {
   return result;
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TimeLine);
+export default connect(mapStateToProps, mapDispatchToProps)(TimeLine);

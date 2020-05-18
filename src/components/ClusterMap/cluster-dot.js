@@ -5,8 +5,8 @@ import { ReactComponent as UnselectedIcon } from "../../assets/Unselected-Projec
 import { useDispatch } from "react-redux";
 import InteractionHandler from "../../util/interaction-handler";
 import {
-  projectClicked,
-  projectHovered,
+  categoryClicked,
+  categoryHovered,
   unHovered
 } from "../../store/actions/actions";
 
@@ -25,8 +25,10 @@ const ClusterDot = props => {
   const scale = isHighlighted ? 1.2 : 1;
   return (
     <InteractionHandler
-      onClick={() => (point ? dispatch(projectClicked(point.title)) : null)}
-      onMouseOver={() => (point ? dispatch(projectHovered(point.title)) : null)}
+      onClick={() => (point ? dispatch(categoryClicked(point.title)) : null)}
+      onMouseOver={() =>
+        point ? dispatch(categoryHovered(point.title)) : null
+      }
       onMouseLeave={() => dispatch(unHovered())}
       doubleTapTreshold={500}
       isInTouchMode={isTouchMode}
@@ -75,7 +77,6 @@ const ClusterDot = props => {
           cursor="POINTER"
           style={{ opacity: isVisible ? "1" : "0", transition: "opacity 1s" }}
         />
-        )}
       </g>
     </InteractionHandler>
   );

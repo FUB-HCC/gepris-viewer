@@ -1,7 +1,5 @@
-import ProjectDetailsPanel from "../components/ProjectDetailsPanel/project-details-panel";
-import LabelDetailsPanel from "../components/LabelDetailsPanel/label-details-panel";
+import CategoryDetailsPanel from "../components/CategoryDetailsPanel/category-details-panel";
 import YearDetailsPanel from "../components/YearDetailsPanel/year-details-panel";
-import InstDetailsPanel from "../components/InstDetailsPanel/inst-details-panel";
 import FilterPanel from "../components/FilterPanel/filter-panel";
 import { history } from "../index";
 import { initialState } from "../store/reducer/reducer";
@@ -9,11 +7,11 @@ import React from "react";
 import { topicStringToInt, topicIntToString } from "./utility";
 
 const getTupleFromIsClicked = isClicked => {
-  if (isClicked.project) {
-    return [1, topicStringToInt(isClicked.project)];
+  if (isClicked.category) {
+    return [1, topicStringToInt(isClicked.category)];
   }
   if (isClicked.year) {
-    return [5, isClicked.year];
+    return [2, isClicked.year];
   }
   return [0, null];
 };
@@ -22,57 +20,29 @@ const getIsClickedFromTuple = tuple => {
   const [key, value] = tuple;
   if (key === 1) {
     return {
-      project: topicIntToString(value),
-      label: null,
-      year: null,
-      inst: null
+      category: topicIntToString(value),
+      year: null
     };
   }
   if (key === 2) {
     return {
-      project: null,
-      label: value,
-      year: null,
-      inst: null
-    };
-  }
-  if (key === 3) {
-    return {
-      project: null,
-      label: null,
-      year: value,
-      inst: null
-    };
-  }
-  if (key === 4) {
-    return {
-      project: null,
-      label: null,
-      year: null,
-      inst: value
+      category: null,
+      year: value
     };
   }
   return {
-    project: null,
-    label: null,
-    year: null,
-    inst: null
+    category: null,
+    year: null
   };
 };
 
 const getSideBarComponentFromTuple = tuple => {
   const [key] = tuple;
   if (key === 1) {
-    return <ProjectDetailsPanel />;
+    return <CategoryDetailsPanel />;
   }
   if (key === 2) {
-    return <LabelDetailsPanel />;
-  }
-  if (key === 3) {
     return <YearDetailsPanel />;
-  }
-  if (key === 4) {
-    return <InstDetailsPanel />;
   }
   return <FilterPanel />;
 };

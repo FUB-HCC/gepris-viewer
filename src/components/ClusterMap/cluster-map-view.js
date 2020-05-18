@@ -18,11 +18,11 @@ export default class ClusterMapView extends React.Component {
     this.renderHover = this.renderHover.bind(this);
   }
 
-  // translate mappoint of projects to current screen size
+  // translate mappoint of categories to current screen size
   getPointLocation = (pt, width, height) => {
     const [x, y] = pt;
-    const normalizedX = x / this.props.projectsMaxSizing[0];
-    const normalizedY = -y / this.props.projectsMaxSizing[1] + 1;
+    const normalizedX = x / this.props.categoriesMaxSizing[0];
+    const normalizedY = -y / this.props.categoriesMaxSizing[1] + 1;
     return [
       normalizedX * clusterSize(this.scale) + clusterPosX(width, this.scale),
       normalizedY * clusterSize(this.scale) + clusterPosY(height, this.scale)
@@ -33,14 +33,14 @@ export default class ClusterMapView extends React.Component {
     let text = "";
     let mouseLocation = [0, 0];
     if (title) {
-      let project = this.props.clusterData
+      let category = this.props.clusterData
         .map(cluster =>
-          cluster.projects.find(project => project.title === title)
+          cluster.categories.find(category => category.title === title)
         )
         .find(p => p);
-      text = project.title;
+      text = category.title;
       mouseLocation = this.getPointLocation(
-        project.mappoint,
+        category.mappoint,
         this.props.width,
         this.props.height
       );
@@ -78,14 +78,14 @@ export default class ClusterMapView extends React.Component {
       width,
       height,
       onUnClicked,
-      highlightedProjects,
+      highlightedCategories,
       clusterData,
       isAnyClicked,
       uncertaintyOn,
       uncertaintyHighlighted,
       isTouch,
-      isProjectHovered,
-      filteredProjects,
+      isCategoryHovered,
+      filteredCategories,
       topography,
       contoursSize
     } = this.props;
@@ -143,14 +143,14 @@ export default class ClusterMapView extends React.Component {
                   cluster={cluster}
                   getLocation={p => this.getPointLocation(p, width, height)}
                   radius={radius}
-                  highlightedProjects={highlightedProjects}
-                  filteredProjects={filteredProjects}
+                  highlightedCategories={highlightedCategories}
+                  filteredCategories={filteredCategories}
                 />
               );
             })}
           </g>
         </svg>
-        {this.renderHover(isProjectHovered)}
+        {this.renderHover(isCategoryHovered)}
       </div>
     );
   }

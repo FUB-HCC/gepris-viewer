@@ -8,14 +8,14 @@ import {
 } from "../../store/actions/actions";
 import { getFieldColor, isTouchMode, applyFilters } from "../../util/utility";
 
-/* project list is divided into clusters */
-const computeClusters = projects => {
-  if (!projects || projects.length === 0) return [];
+/* category list is divided into clusters */
+const computeClusters = categories => {
+  if (!categories || categories.length === 0) return [];
 
-  const clusterIds = [...new Set(projects.map(p => p.cluster))];
+  const clusterIds = [...new Set(categories.map(p => p.cluster))];
   return clusterIds.map(id => ({
     id: id,
-    projects: projects
+    categories: categories
       .filter(p => p.cluster === id)
       .map(p => ({
         ...p,
@@ -26,7 +26,7 @@ const computeClusters = projects => {
 /* helper functions to determine whcih elements in the visualization should b highlighted in the IKON green */
 const extractHighlightedFromState = state => {
   let highlighted = {
-    projects: [],
+    categories: [],
     labels: []
   };
   highlighted = addExtractedHighlighted(state.isHovered, highlighted, state);
@@ -35,9 +35,9 @@ const extractHighlightedFromState = state => {
 };
 
 const addExtractedHighlighted = (selectedState, highlighted, state) => {
-  if (selectedState.project) {
-    highlighted = addExtractedHighlightedFromProject(
-      selectedState.project,
+  if (selectedState.category) {
+    highlighted = addExtractedHighlightedFromCategory(
+      selectedState.category,
       highlighted,
       state
     );
@@ -45,57 +45,57 @@ const addExtractedHighlighted = (selectedState, highlighted, state) => {
   return highlighted;
 };
 
-const addExtractedHighlightedFromProject = (
-  projectTitle,
+const addExtractedHighlightedFromCategory = (
+  categoryTitle,
   highlighted,
   state
 ) => {
-  const project = getProjectByTitle(projectTitle, state);
+  const category = getCategoryByTitle(categoryTitle, state);
   return {
     ...highlighted,
-    projects: highlighted.projects.concat([project.title])
+    categories: highlighted.categories.concat([category.title])
   };
 };
 
-const getProjectByTitle = (title, state) =>
-  state.projects.find(project => project.title === title);
+const getCategoryByTitle = (title, state) =>
+  state.categories.find(category => category.title === title);
 
 const mapStateToProps = state => {
   const {
     clusterTopography,
-    projects,
+    categories,
     filters,
     isDataProcessed,
     isClicked,
     isHovered,
-    projectsMaxSizing,
+    categoriesMaxSizing,
     contoursSize
   } = state.main;
 
   let clusterDataForView = [];
   let topography = [];
-  let highlightedProjects = [];
-  let projectsForView = [];
+  let highlightedCategories = [];
+  let categoriesForView = [];
   if (isDataProcessed) {
     // filters are applied to all lists and data is prepared for the vis
-    projectsForView = applyFilters(projects, filters).map(p => p.title);
-    clusterDataForView = computeClusters(projects);
+    categoriesForView = applyFilters(categories, filters).map(p => p.title);
+    clusterDataForView = computeClusters(categories);
     topography = clusterTopography;
     const highlighted = extractHighlightedFromState(state.main);
-    highlightedProjects = highlighted.projects;
+    highlightedCategories = highlighted.categories;
   }
 
   return {
     clusterData: clusterDataForView,
     topography: topography,
     isAnyClicked: !Object.values(isClicked).every(clickState => !clickState),
-    highlightedProjects: highlightedProjects,
+    highlightedCategories: highlightedCategories,
     uncertaintyOn: state.main.uncertaintyOn,
     uncertaintyHighlighted: state.main.uncertaintyHighlighted,
     isTouch: isTouchMode(state),
-    isProjectHovered: isHovered.project,
-    projectsMaxSizing: projectsMaxSizing,
-    filteredProjects: projectsForView,
+    isCategoryHovered: isHovered.category,
+    categoriesMaxSizing: categoriesMaxSizing,
+    filteredCategories: categoriesForView,
     contoursSize: contoursSize
   };
 };
@@ -117,7 +117,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ClusterMapView);
+export default connect(mapStateToProps, mapDispatchToProps)(ClusterMapView);

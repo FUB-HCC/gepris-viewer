@@ -4,19 +4,29 @@ import {
   topicTohauptthema
 } from "../../util/utility";
 
-/* the property "Forschungsthema, Expertise, Kompetenzen" of projects is split into "hauptthema" and "forschungsbereich" by which they are later sorted. the date format is changed and the research regions of a project are translated into continents */
-export const processProjectsData = state => {
-  const projectData = state.projects;
-  return projectData.map(project => {
-    let topic = project.title.trim();
+/* the property "Forschungsthema, Expertise, Kompetenzen" of categories is split into "hauptthema" and "forschungsbereich" by which they are later sorted. the date format is changed and the research regions of a category are translated into continents */
+export const processCategoriesData = state => {
+  const categoryData = state.categories;
+  return categoryData.map(category => {
+    let topic = category.title.trim();
     let fb = topicToField(topic);
     let rb = topicTohauptthema(topic);
+    let years = [];
+    for (let year in state.timeData) {
+      if (
+        state.timeData[year].subject_area[topic] > 0 ||
+        state.timeData[year].research_area[topic] > 0 ||
+        state.timeData[year].review_board[topic] > 0
+      ) {
+        years.push(parseInt(year));
+      }
+    }
     return {
-      ...project,
+      ...category,
       hauptthema: rb,
       forschungsbereichStr: fieldsIntToString(fb),
       forschungsbereich: fb,
-      timeframe: [2010, 2020]
+      timeframe: years
     };
   });
 };

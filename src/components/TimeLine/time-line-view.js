@@ -25,9 +25,14 @@ export default class TimeLineView extends Component {
     super(props);
     this.state = {
       dataSplitYears: {
-        areaChartData: [{ Sonstige: 0, year: 2020, projects: [] }],
-        areaChartKeys: ["Sonstige"],
-        years: [2006]
+        areaChartData: [
+          {
+            year: 2019,
+            subject_area: { 1: 0, 2: 0, 3: 0, 4: 0 }
+          }
+        ],
+        areaChartKeys: [1, 2, 3, 4],
+        years: [2019]
       },
       height: props.height,
       width: props.width - 15,
@@ -43,7 +48,6 @@ export default class TimeLineView extends Component {
     this.renderHoverField = this.renderHoverField.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleAreaMouseEnter = this.handleAreaMouseEnter.bind(this);
-    this.handlePatternMouseEnter = this.handlePatternMouseEnter.bind(this);
     this.handleCircleMouseEnter = this.handleCircleMouseEnter.bind(this);
   }
 
@@ -59,7 +63,7 @@ export default class TimeLineView extends Component {
 
     this.setState({
       dataSplitYears: data.dataSplitFbYear,
-      projectsData: data.projects,
+      categoriesData: data.categories,
       firstUpdate: false
     });
   }
@@ -120,15 +124,6 @@ export default class TimeLineView extends Component {
     });
   }
 
-  handlePatternMouseEnter(evt) {
-    this.setState({
-      hoveredArea: {
-        text: "Unsichere Datenlage"
-      },
-      mouseLocation: [evt.nativeEvent.clientX, evt.nativeEvent.clientY]
-    });
-  }
-
   handleCircleMouseEnter(circle, evt) {
     this.setState({
       hoveredArea: circle,
@@ -144,7 +139,7 @@ export default class TimeLineView extends Component {
     if (this.state.dataSplitYears.length === 0) {
       return <div />;
     }
-    const stackedAreaHeight = this.state.height * 0.5;
+    const stackedAreaHeight = this.state.height * 0.7;
 
     // turns the preprocessed data into a d3 stack
     const stack = d3stack()
@@ -159,26 +154,26 @@ export default class TimeLineView extends Component {
     const toYear = int => {
       return new Date(int.toString()).setHours(0, 0, 0, 0);
     };
-    const maxProjects = Math.max(
-      ...this.state.dataSplitYears.areaChartData
-        .map(year => year.projects.length)
-        .flat()
+    const maxCategories = Math.max(
+      ...this.state.dataSplitYears.areaChartData.map(year =>
+        Object.values(year)
+          .filter(x => typeof x === "number")
+          .reduce((a, b) => a + b, 0)
+      )
     );
-    const minYear = toYear(2006);
-    const maxYear = toYear(2025);
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
-      .domain([minYear, maxYear]);
+      .domain([toYear(1985), toYear(2019)]);
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])
-      .domain([maxProjects, 0]);
+      .domain([maxCategories, 0]);
 
     // Add an axis for our x scale which has half as many ticks as there are rows in the data set.
     const xAxis = d3AxisBottom()
       .scale(x)
-      .ticks(this.state.dataSplitYears.years.length / 2);
+      .ticks(this.state.dataSplitYears.years.length / 4);
 
     // Add an axis for our y scale that has 4 ticks
     const yAxis = d3AxisLeft()
@@ -194,7 +189,7 @@ export default class TimeLineView extends Component {
       <div
         data-intro="In der Ansicht <b>ZEIT</b> wird eine weitere integrative Perspektive auf die Verläufe geförderter Projekte basierend auf aktuellen Informationen aus dem <b style='color: #afca0b;'>GEPRIS-Datensatz</b> und gruppiert nach <b>Forschungsgebieten</b> über die Jahre dargestellt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich laufenden Projekte in dem GEPRIS Datensatz vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung berücksichtigt werden könnten."
         data-step="1"
-        style={{ height: "auto", marginLeft: this.state.margin * 0.8 }}
+        style={{ height: "auto", marginLeft: this.state.margin }}
       >
         <div>
           <SVGWithMargin
@@ -222,62 +217,10 @@ export default class TimeLineView extends Component {
             <g
               className={styles.yAxis}
               ref={node => d3Select(node).call(yAxis)}
+              style={{
+                transform: `translateX(${this.state.margin * 2}px)`
+              }}
             />
-            <g>
-              <pattern
-                id="pattern-circles"
-                x={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                y="0"
-                width={(x(toYear(2018)) - x(toYear(2017))) / 2}
-                height={(x(toYear(2018)) - x(toYear(2017))) / 2}
-                patternUnits="userSpaceOnUse"
-                patternContentUnits="userSpaceOnUse"
-              >
-                <circle
-                  id="pattern-circle"
-                  cx={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  cy={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  r="1"
-                  fill="#e8e8e8"
-                />
-                <circle
-                  id="pattern-circle"
-                  cx={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  cy={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  r="1"
-                  fill="#989898"
-                />
-                <circle
-                  id="pattern-circle"
-                  cx={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  cy={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  r="1"
-                  fill="#e8e8e8"
-                />
-                <circle
-                  id="pattern-circle"
-                  cx={(x(toYear(2018)) - x(toYear(2017))) / 8}
-                  cy={(3 * (x(toYear(2018)) - x(toYear(2017)))) / 8}
-                  r="1"
-                  fill="#989898"
-                />
-              </pattern>
-              <InteractionHandler
-                isInTouchMode={isTouchMode}
-                onMouseOver={event => this.handlePatternMouseEnter(event)}
-                onMouseLeave={() => this.handleMouseLeave()}
-                onClick={event => this.handlePatternMouseEnter(event)}
-                doubleTapTreshold={800}
-              >
-                <rect
-                  fill="url(#pattern-circles)"
-                  x={x(toYear(2018))}
-                  y={y(maxProjects)}
-                  width={x(maxYear) - x(toYear(2018))}
-                  height={y(0) - y(maxProjects)}
-                />
-              </InteractionHandler>
-            </g>
 
             {stackedData &&
               stackedData.map((d, i) => {

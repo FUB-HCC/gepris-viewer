@@ -1,7 +1,6 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import { batch } from "react-redux";
-
 /* value can be 0=WISSEN, 1=ZEIT, 2=RAUM. switches to the page accordingly (only if not touch version)*/
 export const changeGraph = value => {
   return {
@@ -28,10 +27,10 @@ export const timerangeFilterChange = value => {
 };
 
 /* hovering events for different elements (help to highlight on hover) In touch version hover event is triggered on one tap, value is id of the hovered element. changes the isHovered state to that id */
-export const projectHovered = projectId => {
+export const categoryHovered = categoryId => {
   return {
     type: actionTypes.PROJECT_HOVERED,
-    value: projectId
+    value: categoryId
   };
 };
 
@@ -56,10 +55,10 @@ export const unHovered = () => {
 };
 
 /* click events for different elements (the sidebar component will be changed according to the clicked element) In touch version click event is triggered on double tap, value is id of the clicked element. changes the "isClicked" state to that id */
-export const projectClicked = projectId => {
+export const categoryClicked = categoryId => {
   return {
     type: actionTypes.PROJECT_CLICKED,
-    value: projectId
+    value: categoryId
   };
 };
 
@@ -115,13 +114,23 @@ export const legendHovered = legendKey => ({
   value: legendKey
 });
 
-/* fetches the flattened data graph from the backend and parses it back into  json. Also triggers updating and after that processing of the data*/
+/* fetches the data and triggers updating and after that processing of the data*/
 export const fetchData = () => {
   return dispatch => {
     axios.get("dump.json").then(result => {
-      console.log(result.data);
       batch(() => {
         dispatch(updateData(result.data));
+        dispatch(processDataIfReady());
+      });
+    });
+  };
+};
+
+export const fetchTimeData = () => {
+  return dispatch => {
+    axios.get("year_dist.json").then(time => {
+      batch(() => {
+        dispatch(updateTimeData(time.data));
         dispatch(processDataIfReady());
       });
     });
@@ -132,6 +141,13 @@ export const fetchData = () => {
 export const updateData = data => {
   return {
     type: actionTypes.UPDATE_DATA,
+    value: data
+  };
+};
+
+export const updateTimeData = data => {
+  return {
+    type: actionTypes.UPDATE_TIME_DATA,
     value: data
   };
 };

@@ -4,6 +4,9 @@
   height: 100%;
   width: 100%;
   border-top: 5px solid #0e0e0e;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .DetailsExit {
@@ -60,36 +63,16 @@
 }
 
 .DetailsLink {
-  background-color: #000;
-  border: 5px solid black;
-  border-radius: 5px;
   margin-right: 3px;
   cursor: pointer;
   line-height: 230%;
 }
 .DetailsLink:hover {
-  color: #afca0b;
+  background-color: #000;
+  border: 5px solid black;
+  border-radius: 5px;
 }
 
-.DetailsLinkUnclickable {
-  margin-right: 3px;
-  color: #aaa;
-}
-
-.DetailsViaLink {
-  color: #afca0b;
-  margin-top: 5px;
-  margin-bottom: 10px;
-  padding: 5px;
-  text-align: center;
-  font-size: 130%;
-  background-color: #333;
-  cursor: pointer;
-}
-.DetailsViaLink:hover {
-  color: #fff;
-  text-decoration: none;
-}
 .abstractText {
   color: #aaa;
   margin-bottom: 5px;
@@ -107,15 +90,22 @@
   padding-top: 20px;
 }
 .sampleName {
-  font-weight: bolder;
   font-size: 14px;
   padding-bottom: 15px;
+  cursor: pointer;
 }
 .sampleName:active {
   color: #afca0b;
 }
+.sampleName:hover {
+  background-color: #000;
+  border: 0px solid black;
+  border-radius: 5px;
+  color: #afca0b;
+}
+
 .sampleDate {
-  font-family: IBM_Plex_Mono;
-  font-size: 12px;
-  padding-bottom: 10px;
+  font-size: 14px;
+  padding-bottom: 15px;
+  padding-left: 10px;
 }
