@@ -4,9 +4,15 @@ import ClusterMap from "../../components/ClusterMap/cluster-map";
 import GeoMap from "../../components/GeoMap/geo-map";
 import TimeGraph from "../../components/TimeLine/time-line";
 import classes from "./graph-view.module.css";
-import { fetchData, fetchTimeData } from "../../store/actions/actions";
+import {
+  updateData,
+  updateTimeData,
+  processDataIfReady
+} from "../../store/actions/actions";
 import { appMargin, menuBarHeight } from "../../App";
 import { sideBarWidth } from "../../App";
+import topicData from "../../assets/dump.json";
+import timeData from "../../assets/year_dist.json";
 
 /* wrapper for visualization when in browser mode. Depending on state different visualizations are rendered */
 class GraphView extends React.Component {
@@ -34,8 +40,9 @@ class GraphView extends React.Component {
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     batch(() => {
-      this.props.fetchData();
-      this.props.fetchTimeData();
+      this.props.updateData(topicData);
+      this.props.updateTimeData(timeData);
+      this.props.processData();
     });
   }
 
@@ -124,8 +131,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchData: () => dispatch(fetchData()),
-    fetchTimeData: () => dispatch(fetchTimeData())
+    updateData: topicData => dispatch(updateData(topicData)),
+    updateTimeData: timeData => dispatch(updateTimeData(timeData)),
+    processData: () => dispatch(processDataIfReady())
   };
 };
 
