@@ -1,7 +1,5 @@
 import * as actionTypes from "./actionTypes";
-import { batch } from "react-redux";
-//import topicData from "../../assets/dump.json";
-//import timeData from "../../assets/year_dist.json";
+
 /* value can be 0=WISSEN, 1=ZEIT, 2=RAUM. switches to the page accordingly (only if not touch version)*/
 export const changeGraph = value => {
   return {
