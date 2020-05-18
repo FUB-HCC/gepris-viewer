@@ -1,5 +1,4 @@
 import * as actionTypes from "./actionTypes";
-import axios from "axios";
 import { batch } from "react-redux";
 import topicData from "../../assets/dump.json";
 import timeData from "../../assets/year_dist.json";
