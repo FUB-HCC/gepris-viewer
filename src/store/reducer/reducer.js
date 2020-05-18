@@ -1,10 +1,13 @@
 import * as actionTypes from "../actions/actionTypes";
 import React from "react";
-import { hauptthemaToField, continents } from "../../util/utility";
+import { hauptthemaToField } from "../../util/utility";
 import { processCategoriesData } from "./data-transforms";
 import FilterPanel from "../../components/FilterPanel/filter-panel";
 import CategoryDetailsPanel from "../../components/CategoryDetailsPanel/category-details-panel";
 import YearDetailsPanel from "../../components/YearDetailsPanel/year-details-panel";
+
+import topicData from "../../assets/dump.json";
+import timeData from "../../assets/year_dist.json";
 
 export const initialState = {
   filters: {
@@ -12,8 +15,8 @@ export const initialState = {
       name: "Forschungsgebiet",
       filterKey: "forschungsbereich",
       type: "string",
-      uniqueVals: [],
-      value: null
+      uniqueVals: [1, 2, 3, 4],
+      value: [1, 2, 3, 4]
     },
     hauptthema: {
       name: "Hauptthema",
@@ -31,8 +34,8 @@ export const initialState = {
     }
   },
   graph: "0",
-  categories: [],
-  timeData: [],
+  categories: processCategoriesData(topicData.project_data, timeData),
+  timeData: timeData,
   isHovered: {
     category: null,
     year: null
@@ -41,14 +44,16 @@ export const initialState = {
     category: null,
     year: null
   },
-  categoriesMaxSizing: [0, 0],
-  contoursSize: 0,
+  categoriesMaxSizing: [
+    Math.max(...topicData.project_data.map(p => p.mappoint[0])),
+    Math.max(...topicData.project_data.map(p => p.mappoint[1]))
+  ],
+  contoursSize: topicData.topography_height,
   legendHovered: "none",
   uncertaintyOn: false,
   uncertaintyHighlighted: false,
-  clusterData: undefined,
-  clusterTopography: undefined,
-  isDataLoaded: { time: false, data: false },
+  clusterData: topicData.cluster_data,
+  clusterTopography: topicData.cluster_topography,
   isDataProcessed: false,
   sideBarComponent: <FilterPanel />
 };
@@ -68,14 +73,8 @@ const reducer = (state = initialState, action) => {
     case actionTypes.TIMERANGE_FILTER_CHANGE:
       return changeTimeRangeFilter(state, action);
 
-    case actionTypes.UPDATE_DATA:
-      return updateData(state, action);
-
-    case actionTypes.UPDATE_TIME_DATA:
-      return updateTimeData(state, action);
-
     case actionTypes.PROCESS_DATA_IF_READY:
-      return processDataWhenReady(state);
+      return processAllData(state);
 
     case actionTypes.PROJECT_HOVERED:
       return categoryHovered(state, action);
@@ -175,53 +174,20 @@ const toggleAllFiltersOfField = (filters, fieldValue) => {
   return newValue;
 };
 
-const updateData = (state, action) => ({
-  ...state,
-  categories: action.value.project_data,
-  continents: continents,
-  clusterData: action.value.cluster_data,
-  clusterTopography: action.value.cluster_topography,
-  contoursSize: action.value.topography_height,
-  isDataLoaded: { ...state.isDataLoaded, data: true }
-});
-
-const updateTimeData = (state, action) => ({
-  ...state,
-  timeData: action.value,
-  isDataLoaded: { ...state.isDataLoaded, time: true }
-});
-
-const processDataWhenReady = state =>
-  state.isDataLoaded.time && state.isDataLoaded.data
-    ? processAllData(state)
-    : state;
-
 /* The received data is transformed in the beginning (e.g. sorted, some attributes slightly changed), the filters get their initial filling too */
 const processAllData = state => {
-  const processedCategories = processCategoriesData(state);
-
   const newState = {
     clusterTopography: state.clusterTopography,
-    categories: processedCategories,
-    categoriesMaxSizing: [
-      Math.max(...processedCategories.map(p => p.mappoint[0])),
-      Math.max(...processedCategories.map(p => p.mappoint[1]))
-    ]
+    categories: state.categories
   };
   const uniqueFields = [];
   const uniqueHauptthemas = [];
   const maxDateRange = [1979, 2019];
 
   Object.values(newState.categories).forEach(category => {
-    Object.keys(category).forEach(property => {
-      const value = category[property];
-      if (property === "forschungsbereich") {
-        if (!uniqueFields.some(e => e === value)) uniqueFields.push(value);
-      } else if (property === "hauptthema") {
-        if (!uniqueHauptthemas.some(e => e === value))
-          uniqueHauptthemas.push(value);
-      }
-    });
+    const value = category["hauptthema"];
+    if (!uniqueHauptthemas.some(e => e === value))
+      uniqueHauptthemas.push(value);
   });
 
   const newFilters = {

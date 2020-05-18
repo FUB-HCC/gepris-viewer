@@ -113,21 +113,6 @@ export const legendHovered = legendKey => ({
   value: legendKey
 });
 
-/* fills the states with just fetched and unprocessed data from api/graph first */
-export const updateData = data => {
-  return {
-    type: actionTypes.UPDATE_DATA,
-    value: data
-  };
-};
-
-export const updateTimeData = data => {
-  return {
-    type: actionTypes.UPDATE_TIME_DATA,
-    value: data
-  };
-};
-
 /* when all initial data has been loaded into the state, processing starts*/
 export const processDataIfReady = () => {
   return {

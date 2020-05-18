@@ -3,15 +3,9 @@ import { connect, batch } from "react-redux";
 import ClusterMap from "../../components/ClusterMap/cluster-map";
 import TimeGraph from "../../components/TimeLine/time-line";
 import classes from "./graph-view-touch.module.css";
-import {
-  updateData,
-  updateTimeData,
-  processDataIfReady
-} from "../../store/actions/actions";
+import { processDataIfReady } from "../../store/actions/actions";
 import { appMargin, menuBarHeight } from "../../App";
 import { sideBarWidth } from "../../App";
-import topicData from "../../assets/dump.json";
-import timeData from "../../assets/year_dist.json";
 
 /* wrapper for visualization when in touch mode. Only the timeline stacked-area chart and the cluster visualization are rendered above each other */
 class GraphViewTouch extends React.Component {
@@ -34,8 +28,6 @@ class GraphViewTouch extends React.Component {
     window.addEventListener("resize", this.resize.bind(this));
     this.resize();
     batch(() => {
-      this.props.updateData(topicData);
-      this.props.updateTimeData(timeData);
       this.props.processData();
     });
     setTimeout(() => {
@@ -86,8 +78,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateData: topicData => dispatch(updateData(topicData)),
-    updateTimeData: timeData => dispatch(updateTimeData(timeData)),
     processData: () => dispatch(processDataIfReady())
   };
 };
