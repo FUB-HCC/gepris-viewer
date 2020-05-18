@@ -1,6 +1,8 @@
 import * as actionTypes from "./actionTypes";
 import axios from "axios";
 import { batch } from "react-redux";
+import topicData from "../../assets/dump.json";
+import timeData from "../../assets/year_dist.json";
 /* value can be 0=WISSEN, 1=ZEIT, 2=RAUM. switches to the page accordingly (only if not touch version)*/
 export const changeGraph = value => {
   return {
@@ -117,22 +119,18 @@ export const legendHovered = legendKey => ({
 /* fetches the data and triggers updating and after that processing of the data*/
 export const fetchData = () => {
   return dispatch => {
-    axios.get("dump.json").then(result => {
-      batch(() => {
-        dispatch(updateData(result.data));
-        dispatch(processDataIfReady());
-      });
+    batch(() => {
+      dispatch(updateData(topicData));
+      dispatch(processDataIfReady());
     });
   };
 };
 
 export const fetchTimeData = () => {
   return dispatch => {
-    axios.get("year_dist.json").then(time => {
-      batch(() => {
-        dispatch(updateTimeData(time.data));
-        dispatch(processDataIfReady());
-      });
+    batch(() => {
+      dispatch(updateTimeData(timeData));
+      dispatch(processDataIfReady());
     });
   };
 };
