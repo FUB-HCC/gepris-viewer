@@ -5,7 +5,7 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import { createBrowserHistory } from "history";
+import { createBrowserHistory, createHashHistory } from "history";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import reducer from "./store/reducer/reducer";
 import { updateUrl, logger, thunk } from "./store/middleware/middleware";
@@ -17,7 +17,7 @@ const getPreloadedState = () => {
   return parseStateFromUrl(urlParams);
 };
 
-export const history = createBrowserHistory();
+export const history = createHashHistory();
 
 const mergedReducers = combineReducers({
   main: reducer,
