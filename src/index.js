@@ -5,7 +5,7 @@ import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import { createBrowserHistory, createHashHistory } from "history";
+import { createHashHistory } from "history";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import reducer from "./store/reducer/reducer";
 import { updateUrl, logger, thunk } from "./store/middleware/middleware";
