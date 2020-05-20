@@ -14,14 +14,14 @@ export const initialState = {
     forschungsgebiet: {
       name: "Forschungsgebiet",
       filterKey: "forschungsbereich",
-      type: "string",
+      type: "fb",
       uniqueVals: [1, 2, 3, 4],
       value: [1, 2, 3, 4]
     },
     hauptthema: {
       name: "Hauptthema",
       filterKey: "hauptthema",
-      type: "string",
+      type: "ht",
       uniqueVals: [],
       value: null
     },

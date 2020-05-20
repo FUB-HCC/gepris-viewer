@@ -3,6 +3,7 @@ import React from "react";
 import Cluster from "./cluster";
 import style from "./cluster-map-view.module.css";
 import UncertaintyExplanation from "./uncertainty-explanation";
+import CircleExplanation from "./circle-explanation";
 import HoverPopover from "../HoverPopover/HoverPopover";
 import ClusterContoursMap from "./cluster-contours-map";
 
@@ -30,26 +31,19 @@ export default class ClusterMapView extends React.Component {
   };
 
   renderHover(title) {
-    let text = "";
     let mouseLocation = [0, 0];
-    if (title) {
-      let category = this.props.clusterData
-        .map(cluster =>
-          cluster.categories.find(category => category.title === title)
-        )
-        .find(p => p);
-      text = category.title;
+    if (title && this.props.filteredCategories.find(c => c.title === title)) {
+      let category = this.props.filteredCategories.find(c => c.title === title);
       mouseLocation = this.getPointLocation(
         category.mappoint,
         this.props.width,
         this.props.height
       );
-    }
-    return (
-      title && (
+
+      return (
         <HoverPopover
           width={"15em"}
-          height="20px"
+          height="10px"
           locationX={mouseLocation[0]}
           locationY={mouseLocation[1] - 30}
         >
@@ -66,11 +60,14 @@ export default class ClusterMapView extends React.Component {
               padding: "5px 10px"
             }}
           >
-            <label>{text}</label>
+            <label>
+              {title} <br />
+              {category.doc_count} Forschungsprojekte
+            </label>
           </p>
         </HoverPopover>
-      )
-    );
+      );
+    }
   }
 
   render() {
@@ -94,7 +91,6 @@ export default class ClusterMapView extends React.Component {
     if (!contoursSize || !clusterData || !width || !height || scale <= 0) {
       return <div />;
     }
-
     const radius = (clusterSize(scale) - arcMarginSides(width, scale)) * 0.3;
 
     return (
@@ -109,6 +105,11 @@ export default class ClusterMapView extends React.Component {
         <UncertaintyExplanation
           posX={width - 170}
           posY={20}
+          uncertaintyOn={uncertaintyOn}
+        />
+        <CircleExplanation
+          posX={20}
+          posY={height - 160}
           uncertaintyOn={uncertaintyOn}
         />
         <svg

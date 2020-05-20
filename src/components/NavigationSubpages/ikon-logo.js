@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import classes from "./navigation-subpages.module.css";
-import logo from "../../assets/IKON-Logo.svg";
 import introJs from "intro.js";
 import { changeGraph, tourStarted } from "../../store/actions/actions";
 import { isTouchMode } from "../../util/utility";
@@ -20,13 +19,7 @@ class IKONlogo extends Component {
         }
         style={{ backgroundColor: "#1c1d1f", textAlign: "center" }}
         onClick={this.props.isTouch ? null : this.startTour}
-      >
-        <img
-          src={logo}
-          alt={"GEPRIS-VIEWER IKON"}
-          height={this.props.isTouch ? 80 : 65}
-        />
-      </div>
+      ></div>
     );
   }
 
@@ -119,7 +112,4 @@ const mapDispatchToProps = dispatch => ({
   tourStarted: () => dispatch(tourStarted())
 });
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(IKONlogo);
+export default connect(mapStateToProps, mapDispatchToProps)(IKONlogo);

@@ -11,18 +11,20 @@ const Cluster = props => {
     isTouchMode,
     filteredCategories
   } = props;
-  const categories = cluster.categories.map(category => ({
-    ...category,
-    point: getLocation(category.mappoint),
-    color: category.color,
-    icon: category.icon
-  }));
+  const categories = cluster.categories
+    .map(category => ({
+      ...category,
+      point: getLocation(category.mappoint),
+      color: category.color,
+      icon: category.icon
+    }))
+    .sort((a, b) => (a.mappoint[1] < b.mappoint[1] ? 1 : -1));
   return (
     <g key={cluster.id}>
       {categories.map((category, i) => (
         <ClusterDot
           point={category}
-          isVisible={filteredCategories.includes(category.title)}
+          isVisible={filteredCategories.find(c => c.title === category.title)}
           color={category.color}
           icon={category.icon}
           key={i + "category"}

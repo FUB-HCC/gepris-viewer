@@ -43,8 +43,8 @@ const ClusterDot = props => {
         }
       >
         <circle
-          cx={radius / 60}
-          cy={radius / 60}
+          cx={radius / 24}
+          cy={radius / 24}
           r={radius / 35}
           fill={"transparent"}
         />
@@ -60,7 +60,7 @@ const ClusterDot = props => {
           stroke={isHighlighted ? "#7c7c7c" : "transparent"}
           fill={color}
           style={{
-            opacity: isHighlighted ? "1" : "0",
+            opacity: isHighlighted && isVisible ? "1" : "0",
             transition: "opacity 800ms"
           }}
         />
@@ -77,6 +77,22 @@ const ClusterDot = props => {
           cursor="POINTER"
           style={{ opacity: isVisible ? "1" : "0", transition: "opacity 1s" }}
         />
+        {point.doc_count > 10000 && (
+          <text
+            fill="#fff"
+            stroke="#000"
+            strokeWidth="0.3"
+            fontWeight="500"
+            x={radius / 24}
+            y={radius / 24}
+            fontSize="90%"
+            textAnchor="middle"
+            dominantBaseline="middle"
+            style={{ opacity: isVisible ? "1" : "0", transition: "opacity 1s" }}
+          >
+            {point.title}
+          </text>
+        )}
       </g>
     </InteractionHandler>
   );
