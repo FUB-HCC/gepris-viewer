@@ -177,21 +177,29 @@ export const getQueryStringParams = query => {
     : {};
 };
 /* filters projects according to time filter and topics/subjects filter */
-export const applyFilters = (data, filter) => {
+export const applyFilters = (data, timeData, filter) => {
   let filteredData = data;
   Object.values(filter).forEach(f => {
     let newFilteredData = {};
     filteredData = Object.keys(filteredData).forEach(d => {
-      if (
-        f.type === "string" &&
-        typeof filteredData[d][f.filterKey] !== "undefined"
-      ) {
+      if (f.type === "ht") {
         if (f.value.some(value => value === filteredData[d][f.filterKey]))
           newFilteredData[d] = filteredData[d];
       } else if (f.type === "timeframe") {
-        if (f.value[0] <= filteredData[d][f.filterKey][0]) {
-          newFilteredData[d] = filteredData[d];
-        }
+        // let year = f.value[0].toString();
+        // let doc_count = filteredData[d].doc_count;
+        // if (timeData[year].research_area[filteredData[d].title.trim()]) {
+        //   doc_count -=
+        //     timeData[year].research_area[filteredData[d].title.trim()];
+        // } else if (timeData[year].review_board[filteredData[d].title]) {
+        //   doc_count -= timeData[year].review_board[filteredData[d].title];
+        // } else if (timeData[year].subject_area[filteredData[d].title]) {
+        //   doc_count -= timeData[year].subject_area[filteredData[d].title];
+        // }
+        //
+        // filteredData[d].doc_count = doc_count;
+        // if (filteredData[d].doc_count <= 0) filteredData[d].doc_count = 1;
+        newFilteredData[d] = filteredData[d];
       } else {
         newFilteredData[d] = filteredData[d];
       }

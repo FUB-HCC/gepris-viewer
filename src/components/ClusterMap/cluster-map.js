@@ -69,7 +69,8 @@ const mapStateToProps = state => {
     isClicked,
     isHovered,
     categoriesMaxSizing,
-    contoursSize
+    contoursSize,
+    timeData
   } = state.main;
 
   let clusterDataForView = [];
@@ -78,7 +79,7 @@ const mapStateToProps = state => {
   let categoriesForView = [];
   if (isDataProcessed) {
     // filters are applied to all lists and data is prepared for the vis
-    categoriesForView = applyFilters(categories, filters).map(p => p.title);
+    categoriesForView = applyFilters(categories, timeData, filters);
     clusterDataForView = computeClusters(categories);
     topography = clusterTopography;
     const highlighted = extractHighlightedFromState(state.main);

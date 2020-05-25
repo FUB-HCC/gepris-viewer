@@ -64,17 +64,14 @@ class ActionButtons extends Component {
     tour
       .onbeforechange(() => {
         switch (tour._currentStep) {
-          case 1: {
+          case 2: {
             this.props.onShowUncertainty(true);
             this.props.onHighlightUncertainty(true);
             break;
           }
-          case 2: {
+          default: {
             this.props.onHighlightUncertainty(false);
             this.props.onShowUncertainty(false);
-            break;
-          }
-          default: {
             break;
           }
         }
@@ -290,7 +287,4 @@ const mapDispatchToProps = dispatch => ({
   changeGraph: key => dispatch(changeGraph(key))
 });
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(ActionButtons);
+export default connect(null, mapDispatchToProps)(ActionButtons);

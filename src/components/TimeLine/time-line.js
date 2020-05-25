@@ -65,6 +65,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   let categoriesForView = applyFilters(
     state.main.categories,
+    state.main.timeData,
     state.main.filters
   );
   const processedData = processData(categoriesForView, state.main.timeData);
