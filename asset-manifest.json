@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/gepris-viewer/static/css/main.7580ade8.chunk.css",
-    "main.js": "/gepris-viewer/static/js/main.b4e8c2ba.chunk.js",
-    "main.js.map": "/gepris-viewer/static/js/main.b4e8c2ba.chunk.js.map",
+    "main.js": "/gepris-viewer/static/js/main.bcf6a768.chunk.js",
+    "main.js.map": "/gepris-viewer/static/js/main.bcf6a768.chunk.js.map",
     "runtime~main.js": "/gepris-viewer/static/js/runtime~main.0e069b35.js",
     "runtime~main.js.map": "/gepris-viewer/static/js/runtime~main.0e069b35.js.map",
     "static/css/2.8819abe8.chunk.css": "/gepris-viewer/static/css/2.8819abe8.chunk.css",
     "static/js/2.e242723b.chunk.js": "/gepris-viewer/static/js/2.e242723b.chunk.js",
     "static/js/2.e242723b.chunk.js.map": "/gepris-viewer/static/js/2.e242723b.chunk.js.map",
     "index.html": "/gepris-viewer/index.html",
-    "precache-manifest.a1ad8bb53f0516559d9840280e3fc374.js": "/gepris-viewer/precache-manifest.a1ad8bb53f0516559d9840280e3fc374.js",
+    "precache-manifest.7d8083218935818aa68e461324b7fae0.js": "/gepris-viewer/precache-manifest.7d8083218935818aa68e461324b7fae0.js",
     "service-worker.js": "/gepris-viewer/service-worker.js",
     "static/css/2.8819abe8.chunk.css.map": "/gepris-viewer/static/css/2.8819abe8.chunk.css.map",
     "static/css/main.7580ade8.chunk.css.map": "/gepris-viewer/static/css/main.7580ade8.chunk.css.map",
