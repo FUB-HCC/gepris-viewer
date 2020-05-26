@@ -177,7 +177,7 @@ export const getQueryStringParams = query => {
     : {};
 };
 /* filters projects according to time filter and topics/subjects filter */
-export const applyFilters = (data, timeData, filter) => {
+export const applyFilters = (data, filter) => {
   let filteredData = data;
   Object.values(filter).forEach(f => {
     let newFilteredData = {};
@@ -186,19 +186,12 @@ export const applyFilters = (data, timeData, filter) => {
         if (f.value.some(value => value === filteredData[d][f.filterKey]))
           newFilteredData[d] = filteredData[d];
       } else if (f.type === "timeframe") {
-        // let year = f.value[0].toString();
-        // let doc_count = filteredData[d].doc_count;
-        // if (timeData[year].research_area[filteredData[d].title.trim()]) {
-        //   doc_count -=
-        //     timeData[year].research_area[filteredData[d].title.trim()];
-        // } else if (timeData[year].review_board[filteredData[d].title]) {
-        //   doc_count -= timeData[year].review_board[filteredData[d].title];
-        // } else if (timeData[year].subject_area[filteredData[d].title]) {
-        //   doc_count -= timeData[year].subject_area[filteredData[d].title];
-        // }
-        //
-        // filteredData[d].doc_count = doc_count;
-        // if (filteredData[d].doc_count <= 0) filteredData[d].doc_count = 1;
+        let doc_count = 0;
+        for (let year = f.value[0]; year < f.value[1]; year++) {
+          doc_count += filteredData[d].timeframe[year - 1979].start;
+        }
+        filteredData[d].doc_count = doc_count;
+
         newFilteredData[d] = filteredData[d];
       } else {
         newFilteredData[d] = filteredData[d];

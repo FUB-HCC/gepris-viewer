@@ -21,7 +21,7 @@ const CircleExplanation = props => {
       Anzahl Forschungsprojekte <br />
       <br />
       <svg width="100" height="130">
-        <circle cx={25} cy={25} r={22} fill={"#888"} />
+        <circle cx={25} cy={25} r={20} fill={"#888"} />
         <text fill={"#888"} x="60px" y="25px" fontSize="80%">
           50.000
         </text>

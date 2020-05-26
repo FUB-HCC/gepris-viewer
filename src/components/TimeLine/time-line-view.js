@@ -28,7 +28,10 @@ export default class TimeLineView extends Component {
         areaChartData: [
           {
             year: 2019,
-            subject_area: { 1: 0, 2: 0, 3: 0, 4: 0 }
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0
           }
         ],
         areaChartKeys: [1, 2, 3, 4],
@@ -63,7 +66,6 @@ export default class TimeLineView extends Component {
 
     this.setState({
       dataSplitYears: data.dataSplitFbYear,
-      categoriesData: data.categories,
       firstUpdate: false
     });
   }
@@ -164,7 +166,7 @@ export default class TimeLineView extends Component {
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
-      .domain([toYear(1985), toYear(2019)]);
+      .domain([toYear(1986), toYear(2019)]);
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])

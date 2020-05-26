@@ -49,6 +49,7 @@ class NavigationSubpages extends Component {
                 " " +
                 (this.props.graph === "2" ? classes.active : "")
               }
+              onClick={() => changeGraph("2")}
             >
               RAUM
             </div>
@@ -71,7 +72,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NavigationSubpages);
+export default connect(mapStateToProps, mapDispatchToProps)(NavigationSubpages);

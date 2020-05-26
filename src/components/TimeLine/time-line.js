@@ -65,10 +65,13 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = state => {
   let categoriesForView = applyFilters(
     state.main.categories,
-    state.main.timeData,
     state.main.filters
   );
-  const processedData = processData(categoriesForView, state.main.timeData);
+  const processedData = processData(
+    categoriesForView,
+    state.main.timeData,
+    state.main.filters.time.value
+  );
   return {
     dataSplitFbYear: processedData,
     categories: categoriesForView,
@@ -77,7 +80,7 @@ const mapStateToProps = state => {
   };
 };
 
-const processData = (filteredCategories, timeData) => {
+const processData = (filteredCategories, timeData, timeframe) => {
   /*
    Private
    Transforms the timeData in to a format which can be easily used for the visualization.
@@ -87,7 +90,9 @@ const processData = (filteredCategories, timeData) => {
     !timeData ||
     timeData === [] ||
     !filteredCategories ||
-    filteredCategories === []
+    filteredCategories === [] ||
+    !timeframe ||
+    timeframe === []
   )
     return [];
   let keys = [1, 2, 3, 4];
@@ -96,24 +101,29 @@ const processData = (filteredCategories, timeData) => {
   for (let year = 1979; year < 2020; year++) {
     let submap = {};
     submap.year = year;
-    submap.categories = filteredCategories
-      .filter(p => p.timeframe.includes(year))
-      .map(p => p.title);
     keys.map(key => (submap[key] = 0));
     map.push(submap);
     years.push(year);
   }
 
-  filteredCategories.forEach(category => {
-    let fb = category.forschungsbereich;
-    category.timeframe.forEach(year => {
-      if (timeData[year].subject_area[category.title]) {
-        map[`${year - 1979}`][`${fb}`] +=
-          timeData[year].subject_area[category.title];
-      }
-    });
-  });
+  for (let fb = 1; fb < 5; fb++) {
+    let count = 0;
+    let ended = 0;
+    let started = 0;
+    for (let year = timeframe[0]; year <= timeframe[1]; year++) {
+      ended = filteredCategories
+        .filter(cat => cat.forschungsbereich === fb)
+        .map(cat => cat.timeframe[year - 1979].end)
+        .reduce((a, b) => a + b, 0);
 
+      started = filteredCategories
+        .filter(cat => cat.forschungsbereich === fb)
+        .map(cat => cat.timeframe[year - 1979].start)
+        .reduce((a, b) => a + b, 0);
+      count = Math.max(0, count + started - ended);
+      map[`${year - 1979}`][`${fb}`] = count;
+    }
+  }
   let result = {
     areaChartData: map,
     areaChartKeys: keys,
