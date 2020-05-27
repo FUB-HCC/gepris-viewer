@@ -57,20 +57,28 @@ export const processGeoData = geoData => {
     .map(id => institutions.find(inst => inst.id === id))
     .filter(inst => inst.latlon && inst.latlon.length === 2);
 
-  let connections = geoData.filter(con => con.continents.length > 1);
+  let projects = geoData.map(project => ({
+    id: project.id[0],
+    institutions: project.names.map((name, i) => [name, project.continents[i]])
+  }));
+
   let continentsForView = continents.map(c => ({
     ...c,
-    institutionCount: geoData.filter(connection =>
+    projectsCount: geoData.filter(connection =>
       connection.continents.includes(c.name)
-    ).length
+    ).length,
+    institutionCount: institutions.filter(inst => inst.continent === c.name)
+      .length
   }));
 
   let continentConnections = [];
-  connections.forEach(project => {
-    continentConnections = continentConnections.concat(
-      edgesFromClique([...new Set(project.continents)])
-    );
-  });
+  geoData
+    .filter(project => project.continents.length > 1)
+    .forEach(project => {
+      continentConnections = continentConnections.concat(
+        edgesFromClique([...new Set(project.continents)])
+      );
+    });
   let consForView = [];
   continentConnections.forEach(con => {
     if (con[0] && con[1]) {
@@ -89,7 +97,7 @@ export const processGeoData = geoData => {
   });
 
   return {
-    projects: connections,
+    projects: projects,
     institutions: institutions,
     connections: consForView,
     continents: continentsForView

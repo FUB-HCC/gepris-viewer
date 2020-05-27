@@ -80,9 +80,7 @@ const ClusterDot = props => {
         {point.doc_count > 10000 && (
           <text
             fill="#fff"
-            stroke="#000"
-            strokeWidth="0.3"
-            fontWeight="500"
+            fontWeight="800"
             x={radius / 24}
             y={radius / 24}
             fontSize="90%"

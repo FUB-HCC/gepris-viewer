@@ -3,10 +3,11 @@ import CategoryDetailsPanelView from "./category-details-panel-view";
 import { unClicked } from "../../store/actions/actions";
 
 const mapStateToProps = state => {
-  const { isDataProcessed, isClicked, categories } = state.main;
+  const { isDataProcessed, isClicked, categories, filters } = state.main;
   if (isDataProcessed) {
     return {
-      categoryData: categories.find(p => p.title === isClicked.category)
+      categoryData: categories.find(p => p.title === isClicked.category),
+      timeframe: filters.time.value
     };
   } else {
     return {};

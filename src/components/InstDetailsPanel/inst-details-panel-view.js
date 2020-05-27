@@ -22,14 +22,45 @@ const InstDetailsPanel = props => {
       </div>
 
       <span className={style.infoItemTitle}>
-        {props.description} ({props.institutions.length})
+        {props.description} (
+        {props.projects ? props.projects.length : props.institutions.length})
         <br />
       </span>
-      {props.institutions.length > 0 && (
+      {props.institutions && (
         <div className={style.abstractText}>
-          {props.institutions.map(inst => (
-            <span href="#" key={inst}>
+          {props.institutions.map((inst, i) => (
+            <span href="#" key={i + "inst"}>
               {inst}
+              <br />
+            </span>
+          ))}
+        </div>
+      )}
+      {props.projects && (
+        <div className={style.abstractText}>
+          {props.projects.map(p => (
+            <span href="#" key={p.id}>
+              <b>Forschungsprojekt: {p.id}:</b>
+              <br />
+              {props.continents[0] &&
+                "Partner in " +
+                  props.continents[0] +
+                  ": " +
+                  p.institutions
+                    .filter(inst => inst[1] === props.continents[0])
+                    .map(i => i[0])
+                    .join(", ")}
+              <br />
+              <br />
+              {props.continents[1] &&
+                "Partner in " +
+                  props.continents[1] +
+                  ": " +
+                  p.institutions
+                    .filter(inst => inst[1] === props.continents[1])
+                    .map(i => i[0])
+                    .join(", ")}
+              <br />
               <br />
             </span>
           ))}

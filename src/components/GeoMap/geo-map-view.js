@@ -102,7 +102,7 @@ export default class GeoMapView extends React.Component {
       .length;
     const contWidth = width / usedContinents;
     const factor = (width * 6) / usedContinents;
-    const arcHeight = height * 0.47;
+    const arcHeight = contWidth * 2;
     return (
       <div
         className={style.geoMapWrapper}
@@ -194,6 +194,24 @@ export default class GeoMapView extends React.Component {
                       onClick={() => {
                         this.props.showInstDetails(c.name + "|c");
                       }}
+                      onMouseOver={evt => {
+                        this.setState({
+                          hovered:
+                            c.projectsCount +
+                            " Forschungsprojekte mit Institutionen in " +
+                            c.name,
+                          mouseLocation: [
+                            evt.nativeEvent.clientX,
+                            evt.nativeEvent.clientY
+                          ]
+                        });
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({
+                          hovered: false,
+                          mouseLocation: [0, 0]
+                        });
+                      }}
                     >
                       {continentSVGs(c.name)}
                     </g>
@@ -213,6 +231,21 @@ export default class GeoMapView extends React.Component {
                           r={5}
                           key={ins.name + ins.id}
                           className={style.circle}
+                          onMouseOver={evt => {
+                            this.setState({
+                              hovered: ins.name,
+                              mouseLocation: [
+                                evt.nativeEvent.clientX,
+                                evt.nativeEvent.clientY
+                              ]
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({
+                              hovered: false,
+                              mouseLocation: [0, 0]
+                            });
+                          }}
                         />
                       ))}
                     </g>
@@ -223,7 +256,7 @@ export default class GeoMapView extends React.Component {
         </div>{" "}
         <span className={style.plotTitle}>
           {" "}
-          Anzahl der kooperierenden Institutionen pro Kontinent
+          Anzahl der kooperierenden Institutionen auf diesem Kontinent
         </span>
         <div
           className={style.mapsWrapper}
@@ -239,7 +272,7 @@ export default class GeoMapView extends React.Component {
                     cx="50%"
                     cy="50%"
                     className={style.countCircle}
-                    r={Math.min(60, 5 + c.institutionCount / 2)}
+                    r={Math.min(40, 7 + c.institutionCount / 3)}
                     onClick={() => {
                       this.props.showInstDetails(c.name + "|f");
                     }}
@@ -260,6 +293,16 @@ export default class GeoMapView extends React.Component {
                       });
                     }}
                   />
+                  <text
+                    fill="#0e0e0e"
+                    x="50%"
+                    y="50%"
+                    fontSize="75%"
+                    text-anchor="middle"
+                    alignment-baseline="middle"
+                  >
+                    {c.institutionCount}
+                  </text>
                 </svg>
               );
             })}

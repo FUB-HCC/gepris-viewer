@@ -60,9 +60,15 @@ const CategoryDetailsPanel = props => {
         <span className={style.infoItemTitle}>
           Zeitraum: <br />
         </span>
-        {props.categoryData.timeframe[0] +
+        {Math.max(
+          props.categoryData.timeframe.findIndex(time => time.start > 0) + 1979,
+          props.timeframe[0]
+        ) +
           " bis " +
-          props.categoryData.timeframe[props.categoryData.timeframe.length - 1]}
+          Math.min(
+            props.categoryData.timeframe.length + 1978,
+            props.timeframe[1]
+          )}
       </p>
     </div>
   );

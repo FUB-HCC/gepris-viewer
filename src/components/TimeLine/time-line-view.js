@@ -166,7 +166,7 @@ export default class TimeLineView extends Component {
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
-      .domain([toYear(1986), toYear(2019)]);
+      .domain([toYear(1979), toYear(2019)]);
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])
