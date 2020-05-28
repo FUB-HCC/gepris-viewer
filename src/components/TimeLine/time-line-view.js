@@ -45,7 +45,8 @@ export default class TimeLineView extends Component {
       title: "",
       year: "",
       counter: 0,
-      index: 0
+      index: 0,
+      timeframe: [1979, 2019]
     };
     this.handleAreaClick = this.handleAreaClick.bind(this);
     this.renderHoverField = this.renderHoverField.bind(this);
@@ -66,6 +67,7 @@ export default class TimeLineView extends Component {
 
     this.setState({
       dataSplitYears: data.dataSplitFbYear,
+      timeframe: data.timeframe,
       firstUpdate: false
     });
   }
@@ -166,7 +168,10 @@ export default class TimeLineView extends Component {
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
-      .domain([toYear(1979), toYear(2019)]);
+      .domain([
+        toYear(this.state.timeframe[0]),
+        toYear(this.state.timeframe[1])
+      ]);
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])

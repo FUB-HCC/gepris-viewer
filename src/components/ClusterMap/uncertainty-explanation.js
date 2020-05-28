@@ -33,7 +33,7 @@ const UncertaintyExplanation = props => {
           style={{ cursor: "POINTER" }}
           onClick={() =>
             window.alert(
-              "Wir setzen maschinelles Lernen ein, um Forschungsprojekte hinsichtlich inhaltlicher Ähnlichkeiten anzuordnen. Die Unsicherheitslandschaft zeigt an, wie treffend der Algorithmus die Anordnung einschätzt."
+              "Wir setzen maschinelles Lernen ein, um Forschungsthemen hinsichtlich inhaltlicher Ähnlichkeiten anzuordnen. Die Unsicherheitslandschaft zeigt an, wie treffend der Algorithmus die Anordnung einschätzt."
             )
           }
         >

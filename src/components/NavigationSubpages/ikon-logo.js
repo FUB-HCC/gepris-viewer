@@ -90,7 +90,7 @@ class IKONlogo extends Component {
           break;
         }
         case 3: {
-          this.changeGraphHandler("1");
+          this.changeGraphHandler("2");
           break;
         }
         default: {

@@ -77,20 +77,6 @@ const ClusterDot = props => {
           cursor="POINTER"
           style={{ opacity: isVisible ? "1" : "0", transition: "opacity 1s" }}
         />
-        {point.doc_count > 10000 && (
-          <text
-            fill="#fff"
-            fontWeight="800"
-            x={radius / 24}
-            y={radius / 24}
-            fontSize="90%"
-            textAnchor="middle"
-            dominantBaseline="middle"
-            style={{ opacity: isVisible ? "1" : "0", transition: "opacity 1s" }}
-          >
-            {point.title}
-          </text>
-        )}
       </g>
     </InteractionHandler>
   );

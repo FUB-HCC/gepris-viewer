@@ -4,6 +4,7 @@ import Cluster from "./cluster";
 import style from "./cluster-map-view.module.css";
 import UncertaintyExplanation from "./uncertainty-explanation";
 import CircleExplanation from "./circle-explanation";
+import GeprisExplanation from "./gepris-explanation";
 import HoverPopover from "../HoverPopover/HoverPopover";
 import ClusterContoursMap from "./cluster-contours-map";
 
@@ -107,11 +108,8 @@ export default class ClusterMapView extends React.Component {
           posY={20}
           uncertaintyOn={uncertaintyOn}
         />
-        <CircleExplanation
-          posX={20}
-          posY={height - 160}
-          uncertaintyOn={uncertaintyOn}
-        />
+        <CircleExplanation posX={width - 170} posY={height - 160} />
+        <GeprisExplanation posX={20} posY={height - 120} />
         <svg
           className="viz-3"
           viewBox={"0 0 " + width + " " + height}
@@ -149,6 +147,22 @@ export default class ClusterMapView extends React.Component {
                 />
               );
             })}
+            {filteredCategories
+              .filter(c => c.doc_count > 10000)
+              .map(category => (
+                <text
+                  fill="#fff"
+                  fontWeight="800"
+                  x={this.getPointLocation(category.mappoint, width, height)[0]}
+                  y={this.getPointLocation(category.mappoint, width, height)[1]}
+                  key={category.doc_count}
+                  fontSize="90%"
+                  textAnchor="middle"
+                  dominantBaseline="middle"
+                >
+                  {category.title}
+                </text>
+              ))}
           </g>
         </svg>
         {this.renderHover(isCategoryHovered)}

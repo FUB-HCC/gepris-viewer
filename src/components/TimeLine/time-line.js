@@ -9,7 +9,7 @@ class TimeLine extends React.Component {
     this.Graph.updateTimeGraph(
       {
         dataSplitFbYear: this.props.dataSplitFbYear,
-        subcategories: this.props.subcategories
+        timeframe: this.props.timeframe
       },
       this.props.width,
       this.props.height,
@@ -21,7 +21,7 @@ class TimeLine extends React.Component {
     this.Graph.updateTimeGraph(
       {
         dataSplitFbYear: this.props.dataSplitFbYear,
-        subcategories: this.props.subcategories
+        timeframe: this.props.timeframe
       },
       this.props.height,
       this.props.width,
@@ -74,9 +74,9 @@ const mapStateToProps = state => {
   );
   return {
     dataSplitFbYear: processedData,
-    categories: categoriesForView,
     colors: graphColors,
-    isTouchMode: isTouchMode(state)
+    isTouchMode: isTouchMode(state),
+    timeframe: state.main.filters.time.value
   };
 };
 

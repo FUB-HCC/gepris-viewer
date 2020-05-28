@@ -6,7 +6,7 @@ const CircleExplanation = props => {
     <div
       data-intro="Die Größe der Kreise sagt aus, wie viele Forschungsprojekte insgesamt in einem Themenbereich gefördert wurden."
       data-step="2"
-      id="uncertaintyLandscape"
+      id="circleExplanation"
       style={{
         position: "absolute",
         left: props.posX + "px",

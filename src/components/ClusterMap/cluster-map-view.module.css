@@ -70,6 +70,10 @@
   background-color: #6b6b6b;
   box-shadow: inset 0px 0px 0px 3px #0e0e0e;
 }
+.checkboxWrapper input:active ~ .checkmark {
+  background-color: #6b6b6b;
+  box-shadow: inset 0px 0px 0px 3px #0e0e0e;
+}
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
