@@ -7,7 +7,7 @@ const FilterPanel = props => (
       display: "flex",
       flexDirection: "column",
       justifyContent: "flex-start",
-      height: window.location.pathname.includes("touch") ? "82%" : "100%"
+      height: "100%"
     }}
   >
     <FilterTimeline />

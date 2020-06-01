@@ -81,11 +81,11 @@ export default class ClusterMapView extends React.Component {
       isAnyClicked,
       uncertaintyOn,
       uncertaintyHighlighted,
-      isTouch,
       isCategoryHovered,
       filteredCategories,
       topography,
-      contoursSize
+      contoursSize,
+      onCategoryClicked
     } = this.props;
     this.scale = Math.min(height, width);
     const scale = this.scale;
@@ -132,12 +132,11 @@ export default class ClusterMapView extends React.Component {
           <g
             data-step="1"
             id="clusterViewIntro"
-            data-intro="Das Herzstück der <b>WISSEN</b> Ansicht ist die Cluster-Darstellung von Forschungsthemen auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Themen sind nach ihren jeweiligen <b>Hauptforschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung zu unterstützen. Hierdurch können Themen basierend auf Gemeinsamkeiten interaktiv exploriert werden."
+            data-intro="Das Herzstück der <b>WISSEN</b> Ansicht ist die Cluster-Darstellung von Forschungsthemen auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Themen sind nach ihren jeweiligen <b>Hauptforschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung zu unterstützen. Hierdurch können Themen basierend auf Gemeinsamkeiten interaktiv exploriert werden. Die Größe eines Kreises sagt aus, wie viele Forschungsprojekte in diesem Themengebiet gefördert wurden."
           >
             {clusterData.map(cluster => {
               return (
                 <Cluster
-                  isTouchMode={isTouch}
                   key={cluster.id + "cluster"}
                   cluster={cluster}
                   getLocation={p => this.getPointLocation(p, width, height)}
@@ -159,6 +158,8 @@ export default class ClusterMapView extends React.Component {
                   fontSize="90%"
                   textAnchor="middle"
                   dominantBaseline="middle"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => onCategoryClicked(category.title)}
                 >
                   {category.title}
                 </text>

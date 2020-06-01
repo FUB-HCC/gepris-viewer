@@ -6,7 +6,6 @@ import classes from "./navigation-subpages.module.css";
 import { connect } from "react-redux";
 import { menuBarHeight } from "../../App";
 import { changeGraph } from "../../store/actions/actions";
-import IKONlogo from "./ikon-logo";
 import ActionButtons from "./action-buttons";
 
 class NavigationSubpages extends Component {
@@ -15,9 +14,6 @@ class NavigationSubpages extends Component {
     return (
       <div className={classes.navbar} style={{ flexBasis: menuBarHeight }}>
         <ul className={classes.leftpanel}>
-          <li>
-            <IKONlogo />
-          </li>
           <li>
             <div
               className={

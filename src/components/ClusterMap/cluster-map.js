@@ -1,12 +1,7 @@
 import { connect } from "react-redux";
 import ClusterMapView from "./cluster-map-view";
-import {
-  unClicked,
-  labelClicked,
-  unHovered,
-  labelHovered
-} from "../../store/actions/actions";
-import { getFieldColor, isTouchMode, applyFilters } from "../../util/utility";
+import { unClicked, categoryClicked } from "../../store/actions/actions";
+import { getFieldColor, applyFilters } from "../../util/utility";
 
 /* category list is divided into clusters */
 const computeClusters = categories => {
@@ -26,8 +21,7 @@ const computeClusters = categories => {
 /* helper functions to determine whcih elements in the visualization should b highlighted in the IKON green */
 const extractHighlightedFromState = state => {
   let highlighted = {
-    categories: [],
-    labels: []
+    categories: []
   };
   highlighted = addExtractedHighlighted(state.isHovered, highlighted, state);
   highlighted = addExtractedHighlighted(state.isClicked, highlighted, state);
@@ -92,7 +86,6 @@ const mapStateToProps = state => {
     highlightedCategories: highlightedCategories,
     uncertaintyOn: state.main.uncertaintyOn,
     uncertaintyHighlighted: state.main.uncertaintyHighlighted,
-    isTouch: isTouchMode(state),
     isCategoryHovered: isHovered.category,
     categoriesMaxSizing: categoriesMaxSizing,
     filteredCategories: categoriesForView,
@@ -105,14 +98,8 @@ const mapDispatchToProps = dispatch => {
     onUnClicked: () => {
       dispatch(unClicked());
     },
-    onLabelClicked: label => {
-      dispatch(labelClicked(label));
-    },
-    onUnHovered: () => {
-      dispatch(unHovered());
-    },
-    onLabelHovered: label => {
-      dispatch(labelHovered(label));
+    onCategoryClicked: category => {
+      dispatch(categoryClicked(category));
     }
   };
 };

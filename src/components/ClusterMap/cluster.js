@@ -8,7 +8,6 @@ const Cluster = props => {
     getLocation,
     radius,
     highlightedCategories,
-    isTouchMode,
     filteredCategories
   } = props;
   const categories = cluster.categories.map(category => ({
@@ -30,7 +29,6 @@ const Cluster = props => {
           x={category.point[0]}
           y={category.point[1]}
           isHighlighted={highlightedCategories.includes(category.title)}
-          isTouchMode={isTouchMode}
         />
       ))}
     </g>

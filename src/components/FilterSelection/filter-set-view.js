@@ -30,13 +30,9 @@ class FilterSet extends Component {
                 name={subset.name}
                 nameId={subset.nameId}
                 id={subset.filterId}
-                checked={
-                  !this.props.filters[subset.filterId]
-                    ? false
-                    : this.props.filters[subset.filterId].value.includes(
-                        subset.nameId
-                      )
-                }
+                checked={this.props.filters[subset.filterId].value.includes(
+                  subset.nameId
+                )}
                 onChange={this.props.changeFilter}
                 showCheckbox={subset.isTogglable}
                 color={getFieldColor(subset.nameId)}
@@ -67,17 +63,12 @@ class FilterSet extends Component {
               subset.subFilters.map((filter, i) => (
                 <div className={style.subFilter} key={subset.nameId + i}>
                   <CheckBox
-                    name={filter.name || filter.fulltext || filter}
-                    nameId={filter.id ? filter.id : filter}
+                    name={filter}
+                    nameId={filter}
                     id={subset.subFilterId}
-                    checked={
-                      this.props.filters[subset.subFilterId].value.includes(
-                        filter.id
-                      ) ||
-                      this.props.filters[subset.subFilterId].value.includes(
-                        filter
-                      )
-                    }
+                    checked={this.props.filters[
+                      subset.subFilterId
+                    ].value.includes(filter)}
                     onChange={this.props.changeFilter}
                     showCheckbox={true}
                     color={getFieldColor(subset.nameId)}

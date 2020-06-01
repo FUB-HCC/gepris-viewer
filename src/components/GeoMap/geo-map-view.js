@@ -98,15 +98,11 @@ export default class GeoMapView extends React.Component {
       return <div />;
     }
 
-    const usedContinents = continents.filter(c => c.institutionCount > 0)
-      .length;
-    const contWidth = width / usedContinents;
-    const factor = (width * 6) / usedContinents;
-    const arcHeight = contWidth * 2;
+    const scale = Math.min(width * 0.16, height * 0.45);
     return (
       <div
         className={style.geoMapWrapper}
-        style={{ width: width, height: height }}
+        style={{ width: scale * 6, height: scale * 4 }}
         data-intro="In der Ansicht <b>RAUM</b> wird eine weitere internationale Perspektive auf Forschung in Deutschland ermöglicht. So können neue Potentiale aufgedeckt werden."
         data-step="1"
       >
@@ -118,17 +114,22 @@ export default class GeoMapView extends React.Component {
           data-step="2"
           data-intro=" <b>Forschungsprojekte </b> werden als <b>Bögen</b> zwischen Kontinenten visualisiert, wenn Institute von beiden Kontinenten in dem Projekt kooperieren. Durch Klicken auf einen Bogen, erhält man eine Liste dieser."
         >
-          <svg width={width} height={arcHeight}>
+          <svg width={scale * 6} height={scale * 2}>
             {Object.values(continentConnections)
               .filter(con => con.weight > 0)
               .map((con, i) => (
                 <path
-                  d={`M${con.end * factor},${arcHeight} C${con.end *
-                    factor},${arcHeight -
-                    Math.abs(con.end - con.start) * 0.55 * factor} ${con.start *
-                    factor},${arcHeight -
-                    Math.abs(con.end - con.start) * 0.55 * factor} ${con.start *
-                    factor},${arcHeight}`}
+                  d={`M${con.end * scale * 6},${scale * 2} C${con.end *
+                    scale *
+                    6},${scale * 2 -
+                    Math.abs(con.end - con.start) *
+                      0.55 *
+                      scale *
+                      6} ${con.start * scale * 6},${scale * 2 -
+                    Math.abs(con.end - con.start) *
+                      0.55 *
+                      scale *
+                      6} ${con.start * scale * 6},${scale * 2}`}
                   stroke="white"
                   strokeWidth={Math.max(3, con.weight * 2)}
                   style={{ transition: "stroke-Width 1s" }}
@@ -176,7 +177,7 @@ export default class GeoMapView extends React.Component {
               ).filter(ins => ins.continent === c.name);
               return (
                 <div className={style.continentWrapper} key={c.name}>
-                  <svg viewBox={"0 0 500 120"} width={contWidth}>
+                  <svg viewBox={"0 0 500 120"} width={scale}>
                     <text
                       fill="#aaa"
                       x="50%"
@@ -267,12 +268,15 @@ export default class GeoMapView extends React.Component {
             .filter(c => c.institutionCount > 0)
             .map((c, i) => {
               return (
-                <svg width={contWidth} height="150" key={i + "region"}>
+                <svg width={scale * 6} height={scale * 0.5} key={i + "region"}>
                   <circle
                     cx="50%"
                     cy="50%"
                     className={style.countCircle}
-                    r={Math.min(40, 7 + c.institutionCount / 3)}
+                    r={Math.min(
+                      scale * 0.24,
+                      scale * 0.05 + c.institutionCount / 3
+                    )}
                     onClick={() => {
                       this.props.showInstDetails(c.name + "|f");
                     }}
@@ -298,8 +302,8 @@ export default class GeoMapView extends React.Component {
                     x="50%"
                     y="50%"
                     fontSize="75%"
-                    text-anchor="middle"
-                    alignment-baseline="middle"
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
                   >
                     {c.institutionCount}
                   </text>

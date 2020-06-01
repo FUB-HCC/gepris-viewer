@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { isTouchMode, applyFilters } from "../../util/utility";
+import { applyFilters } from "../../util/utility";
 import TimeLineView from "./time-line-view";
 import { yearClicked } from "../../store/actions/actions";
 
@@ -40,7 +40,6 @@ class TimeLine extends React.Component {
         width={this.props.width}
         height={this.props.height}
         margin={20}
-        isTouchMode={this.props.isTouchMode}
       />
     );
   }
@@ -75,7 +74,6 @@ const mapStateToProps = state => {
   return {
     dataSplitFbYear: processedData,
     colors: graphColors,
-    isTouchMode: isTouchMode(state),
     timeframe: state.main.filters.time.value
   };
 };

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import FilterSet from "./filter-set-view";
 import { checkboxFilterChange } from "../../store/actions/actions";
 import style from "./filter-selection.module.css";
-import { isTouchMode, hauptthemaToField } from "../../util/utility";
+import { hauptthemaToField } from "../../util/utility";
 
 /* filter sets for browser version. highlevel fiters are fixed, subfilters dependend on the data */
 const getFilterSets = state => {
@@ -56,45 +56,6 @@ const getFilterSets = state => {
   ];
 };
 
-/* In the touch version just the highlevel filters are used*/
-const getFilterSetsTouch = filters => {
-  return [
-    {
-      name: "Forschungsgebiet",
-      subsets: [
-        {
-          name: "Naturwissenschaften",
-          nameId: 1,
-          filterId: "forschungsgebiet",
-          isTogglable: true,
-          subFilters: []
-        },
-        {
-          name: "Lebenswissenschaften",
-          nameId: 2,
-          filterId: "forschungsgebiet",
-          isTogglable: true,
-          subFilters: []
-        },
-        {
-          name: "Geistes- und Sozialwissenschaften",
-          nameId: 3,
-          filterId: "forschungsgebiet",
-          isTogglable: true,
-          subFilters: []
-        },
-        {
-          name: "Ingenieurwissenschaften",
-          nameId: 4,
-          filterId: "forschungsgebiet",
-          isTogglable: true,
-          subFilters: []
-        }
-      ]
-    }
-  ];
-};
-
 const FilterSelection = props => (
   <div className={style.filterSelectionWrapper}>
     {props.filterSets.map(filterSet => (
@@ -117,16 +78,10 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => {
-  const isTouch = isTouchMode(state);
   return {
-    filterSets: isTouch
-      ? getFilterSetsTouch(state.main.filters)
-      : getFilterSets(state),
+    filterSets: getFilterSets(state),
     filters: state.main.filters
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FilterSelection);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterSelection);

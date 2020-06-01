@@ -18,7 +18,6 @@ import styles from "./time-line-view.module.css";
 import { getFieldColor, fieldsIntToString } from "../../util/utility";
 import SVGWithMargin from "./SVGWithMargin";
 import HoverPopover from "../HoverPopover/HoverPopover";
-import InteractionHandler from "../../util/interaction-handler";
 
 export default class TimeLineView extends Component {
   constructor(props) {
@@ -151,7 +150,6 @@ export default class TimeLineView extends Component {
       .order(d3StackOrderNone)
       .offset(d3StackOffsetNone);
     const stackedData = stack(this.state.dataSplitYears.areaChartData);
-    const { isTouchMode } = this.props;
     const color = d => {
       return getFieldColor(d.key);
     };
@@ -240,8 +238,7 @@ export default class TimeLineView extends Component {
                     {d.map(datum => {
                       return (
                         y(datum[1]) && (
-                          <InteractionHandler
-                            isInTouchMode={isTouchMode}
+                          <line
                             onClick={event =>
                               this.handleAreaClick(datum.data.year, d.key)
                             }
@@ -254,17 +251,13 @@ export default class TimeLineView extends Component {
                               )
                             }
                             onMouseLeave={() => this.handleMouseLeave()}
-                            doubleTapTreshold={500}
                             key={datum.data.year + " " + d.key}
-                          >
-                            <line
-                              className={styles.stackedAreaHover}
-                              x1={x(toYear(datum.data.year))}
-                              y1={y(datum[0])}
-                              x2={x(toYear(datum.data.year))}
-                              y2={y(datum[1])}
-                            />
-                          </InteractionHandler>
+                            className={styles.stackedAreaHover}
+                            x1={x(toYear(datum.data.year))}
+                            y1={y(datum[0])}
+                            x2={x(toYear(datum.data.year))}
+                            y2={y(datum[1])}
+                          />
                         )
                       );
                     })}

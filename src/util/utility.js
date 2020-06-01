@@ -201,6 +201,3 @@ export const applyFilters = (data, filter) => {
   });
   return Object.values(filteredData);
 };
-
-export const isTouchMode = state =>
-  state.router.location.pathname.includes("touch");
