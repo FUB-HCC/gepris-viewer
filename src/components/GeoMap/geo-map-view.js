@@ -91,7 +91,6 @@ export default class GeoMapView extends React.Component {
       institutions,
       continents,
       continentConnections,
-      mfn,
       height,
       width
     } = this.props;
@@ -99,39 +98,40 @@ export default class GeoMapView extends React.Component {
       return <div />;
     }
 
-    const usedContinents = continents.filter(c => c.institutionCount > 0)
-      .length;
-    const contWidth = width / usedContinents;
-    const factor = (width * 6) / usedContinents;
-    const arcHeight = height * 0.47;
+    const scale = Math.min(width * 0.16, height * 0.45);
     return (
       <div
         className={style.geoMapWrapper}
-        style={{ width: width, height: height }}
+        style={{ width: scale * 6, height: scale * 4 }}
         data-intro="In der Ansicht <b>RAUM</b> wird eine weitere internationale Perspektive auf Forschung in Deutschland ermöglicht. So können neue Potentiale aufgedeckt werden."
         data-step="1"
       >
         <span className={style.plotTitle}>
-          <br /> Forschungsprojekte nach Kooperationen
+          <br /> Forschungsprojekte nach internationalen Kooperationen
         </span>
         <div
           className={style.arcWrapper}
           data-step="2"
-          data-intro=" <b>Forschungsprojekte </b> werden als <b>Bögen</b> zwischen Kontinenten visualisiert. Hierdurch tritt die internationale Kooperation, die in vielen Projekten stattfindet, in den Vordergrund. Durch Klicken auf einen Bogen, erhält man eine Liste dieser."
+          data-intro=" <b>Forschungsprojekte </b> werden als <b>Bögen</b> zwischen Kontinenten visualisiert, wenn Institute von beiden Kontinenten in dem Projekt kooperieren. Durch Klicken auf einen Bogen, erhält man eine Liste dieser."
         >
-          <svg width={width} height={arcHeight}>
+          <svg width={scale * 6} height={scale * 2}>
             {Object.values(continentConnections)
               .filter(con => con.weight > 0)
               .map((con, i) => (
                 <path
-                  d={`M${con.end * factor},${arcHeight} C${con.end *
-                    factor},${arcHeight -
-                    Math.abs(con.end - con.start) * 0.55 * factor} ${con.start *
-                    factor},${arcHeight -
-                    Math.abs(con.end - con.start) * 0.55 * factor} ${con.start *
-                    factor},${arcHeight}`}
+                  d={`M${con.end * scale * 6},${scale * 2} C${con.end *
+                    scale *
+                    6},${scale * 2 -
+                    Math.abs(con.end - con.start) *
+                      0.55 *
+                      scale *
+                      6} ${con.start * scale * 6},${scale * 2 -
+                    Math.abs(con.end - con.start) *
+                      0.55 *
+                      scale *
+                      6} ${con.start * scale * 6},${scale * 2}`}
                   stroke="white"
-                  strokeWidth={Math.max(3, con.weight * 0.5)}
+                  strokeWidth={Math.max(3, con.weight * 2)}
                   style={{ transition: "stroke-Width 1s" }}
                   fill="none"
                   opacity={0.4}
@@ -167,7 +167,7 @@ export default class GeoMapView extends React.Component {
         <div
           className={style.mapsWrapper}
           data-step="3"
-          data-intro="Die roten Punkte deuten an, wo sich die kooperierenden Institutionen auf den Kontinenten befinden. Durch das Anklicken eines Kontinents kann eine Liste dieser Institutionen aufgerufen werden."
+          data-intro="Die roten Punkte deuten an, wo sich Institutionen auf den Kontinenten befinden. Durch das Anklicken eines Kontinents kann eine Liste dieser Institutionen aufgerufen werden."
         >
           {continents
             .filter(c => c.institutionCount > 0)
@@ -177,7 +177,7 @@ export default class GeoMapView extends React.Component {
               ).filter(ins => ins.continent === c.name);
               return (
                 <div className={style.continentWrapper} key={c.name}>
-                  <svg viewBox={"0 0 500 120"} width={contWidth}>
+                  <svg viewBox={"0 0 500 120"} width={scale}>
                     <text
                       fill="#aaa"
                       x="50%"
@@ -189,31 +189,29 @@ export default class GeoMapView extends React.Component {
                       {c.name}
                     </text>
                   </svg>
-                  <svg
-                    viewBox={"0 0 500 500"}
-                    onMouseOver={evt => {
-                      this.setState({
-                        hovered:
-                          c.institutionCount +
-                          " Kooperationspartner in " +
-                          c.name,
-                        mouseLocation: [
-                          evt.nativeEvent.clientX,
-                          evt.nativeEvent.clientY
-                        ]
-                      });
-                    }}
-                    onMouseLeave={() => {
-                      this.setState({
-                        hovered: false,
-                        mouseLocation: [0, 0]
-                      });
-                    }}
-                  >
+                  <svg viewBox={"0 0 500 500"}>
                     <g
                       className={style.continentSVG}
                       onClick={() => {
                         this.props.showInstDetails(c.name + "|c");
+                      }}
+                      onMouseOver={evt => {
+                        this.setState({
+                          hovered:
+                            c.projectsCount +
+                            " Forschungsprojekte mit Institutionen in " +
+                            c.name,
+                          mouseLocation: [
+                            evt.nativeEvent.clientX,
+                            evt.nativeEvent.clientY
+                          ]
+                        });
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({
+                          hovered: false,
+                          mouseLocation: [0, 0]
+                        });
                       }}
                     >
                       {continentSVGs(c.name)}
@@ -224,16 +222,31 @@ export default class GeoMapView extends React.Component {
                     >
                       {instititutionsOnContinent.map(ins => (
                         <circle
-                          fill={ins.id === mfn.id ? "#afca0b" : "red"}
+                          fill={"red"}
                           stroke="red"
-                          cx={mapLongToWidth(c.mapWidth, c, ins.lon)}
+                          cx={mapLongToWidth(c.mapWidth, c, ins.latlon[1])}
                           cy={
                             c.mapHeight -
-                            mapLatToHeight(c.mapHeight, c, ins.lat)
+                            mapLatToHeight(c.mapHeight, c, ins.latlon[0])
                           }
                           r={5}
                           key={ins.name + ins.id}
                           className={style.circle}
+                          onMouseOver={evt => {
+                            this.setState({
+                              hovered: ins.name,
+                              mouseLocation: [
+                                evt.nativeEvent.clientX,
+                                evt.nativeEvent.clientY
+                              ]
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({
+                              hovered: false,
+                              mouseLocation: [0, 0]
+                            });
+                          }}
                         />
                       ))}
                     </g>
@@ -244,35 +257,33 @@ export default class GeoMapView extends React.Component {
         </div>{" "}
         <span className={style.plotTitle}>
           {" "}
-          Forschungsprojekte nach Forschungsregionen (Geographische
-          Verschlagwortung)
+          Anzahl der kooperierenden Institutionen auf diesem Kontinent
         </span>
         <div
           className={style.mapsWrapper}
           data-step="4"
-          data-intro="Forschungsprojekte haben neben internationalen Kooperationspartnern auch Regionen, auf welche der Forschungsfokus gelegt wird. Die Anzahl dieser kann man hier aufgeteilt auf die Kontinente sehen. Klicken Sie auf einen Kreis, um zu erfahren um welche Forschungsprojekte es sich handelt."
+          data-intro="Hier wird die Anzahl der Institutionen innerhalb eines Kontinents insgesamt gezeigt. Wie erwartet waren die meisten Institute in Deutschland bzw. Europa verankert."
         >
           {continents
             .filter(c => c.institutionCount > 0)
             .map((c, i) => {
               return (
-                <svg width={contWidth} height="150" key={i + "region"}>
+                <svg width={scale * 6} height={scale * 0.5} key={i + "region"}>
                   <circle
                     cx="50%"
                     cy="50%"
                     className={style.countCircle}
-                    r={Math.min(40, c.forschungsregionCount * 1.2)}
-                    style={{ transition: "r 1s" }}
-                    fill="#aaa"
+                    r={Math.min(
+                      scale * 0.24,
+                      scale * 0.05 + c.institutionCount / 3
+                    )}
                     onClick={() => {
                       this.props.showInstDetails(c.name + "|f");
                     }}
                     onMouseOver={evt => {
                       this.setState({
                         hovered:
-                          c.forschungsregionCount +
-                          "  Forschungsregionen in " +
-                          c.name,
+                          c.institutionCount + "  Institutionen in " + c.name,
                         mouseLocation: [
                           evt.nativeEvent.clientX,
                           evt.nativeEvent.clientY
@@ -286,6 +297,16 @@ export default class GeoMapView extends React.Component {
                       });
                     }}
                   />
+                  <text
+                    fill="#0e0e0e"
+                    x="50%"
+                    y="50%"
+                    fontSize="75%"
+                    textAnchor="middle"
+                    alignmentBaseline="middle"
+                  >
+                    {c.institutionCount}
+                  </text>
                 </svg>
               );
             })}

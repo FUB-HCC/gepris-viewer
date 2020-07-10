@@ -27,8 +27,6 @@ const CategoryDetailsPanel = props => {
       >
         <Icon
           className={style.TitleIcon}
-          version="1.1"
-          xmlns="http://www.w3.org/2000/svg"
           x="0px"
           y="0px"
           viewBox="0 0 100 100"
@@ -60,9 +58,15 @@ const CategoryDetailsPanel = props => {
         <span className={style.infoItemTitle}>
           Zeitraum: <br />
         </span>
-        {props.categoryData.timeframe[0] +
+        {Math.max(
+          props.categoryData.timeframe.findIndex(time => time.start > 0) + 1979,
+          props.timeframe[0]
+        ) +
           " bis " +
-          props.categoryData.timeframe[props.categoryData.timeframe.length - 1]}
+          Math.min(
+            props.categoryData.timeframe.length + 1978,
+            props.timeframe[1]
+          )}
       </p>
     </div>
   );

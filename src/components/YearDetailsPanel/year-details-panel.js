@@ -11,8 +11,8 @@ const mapStateToProps = state => {
       title: title,
       count: timeData[year].research_area[fieldsIntToString(title)],
       categories: Object.entries(timeData[year].subject_area)
-        .filter(entry => topicToField(entry[0]) === title && entry[1] > 0)
-        .sort((a, b) => (a[1] < b[1] ? 1 : -1))
+        .filter(entry => topicToField(entry[0]) === title && entry[1].start > 0)
+        .sort((a, b) => (a[1].start < b[1].start ? 1 : -1))
     };
   }
 };

@@ -167,13 +167,3 @@ h3 {
   background-color: #1c1d1f !important;
   border-radius: 0;
 }
-
-.IKONlogoTouch {
-  padding: 10px;
-}
-.IKONlogoNoTouch {
-  flex-grow: 1;
-  background: #1c1d1f;
-  padding: 0px;
-  margin-right: 5px;
-}

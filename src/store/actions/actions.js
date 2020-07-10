@@ -120,13 +120,6 @@ export const processDataIfReady = () => {
   };
 };
 
-/* is triggered when the introduction intro.js tour is started (by clicking the ikon-logo)*/
-export const tourStarted = () => {
-  return {
-    type: actionTypes.TOUR_STARTED
-  };
-};
-
 /* is triggered when "Tutorial" button is clicked */
 export const tutorialStarted = () => {
   return {

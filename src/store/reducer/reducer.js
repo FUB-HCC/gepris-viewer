@@ -1,13 +1,15 @@
 import * as actionTypes from "../actions/actionTypes";
 import React from "react";
 import { hauptthemaToField } from "../../util/utility";
-import { processCategoriesData } from "./data-transforms";
+import { processCategoriesData, processGeoData } from "./data-transforms";
 import FilterPanel from "../../components/FilterPanel/filter-panel";
 import CategoryDetailsPanel from "../../components/CategoryDetailsPanel/category-details-panel";
 import YearDetailsPanel from "../../components/YearDetailsPanel/year-details-panel";
+import InstDetailsPanel from "../../components/InstDetailsPanel/inst-details-panel";
 
 import topicData from "../../assets/dump.json";
 import timeData from "../../assets/year_dist.json";
+import geoData from "../../assets/geo_project_data_continents.json";
 
 export const initialState = {
   filters: {
@@ -36,6 +38,7 @@ export const initialState = {
   graph: "0",
   categories: processCategoriesData(topicData.project_data, timeData),
   timeData: timeData,
+  geoData: processGeoData(geoData),
   isHovered: {
     category: null,
     year: null
@@ -318,7 +321,7 @@ const instClicked = (state, action) => ({
     inst: action.value,
     samples: null
   },
-  sideBarComponent: <FilterPanel />
+  sideBarComponent: <InstDetailsPanel />
 });
 
 const unClicked = state => ({

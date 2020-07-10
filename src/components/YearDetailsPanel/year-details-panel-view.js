@@ -36,11 +36,11 @@ const YearDetailsPanel = props => {
           {"Forschungsprojekte in den " +
             fieldsIntToString(props.title) +
             " im Jahr " +
-            props.year +
-            " insgesamt: "}
+            props.year}
           <br />
         </span>
-        {props.count}
+        Gestartet: {props.count.start}
+        <br /> Geendet: {props.count.end}
       </p>
       <span className={style.infoItemTitle}>
         {
@@ -55,15 +55,16 @@ const YearDetailsPanel = props => {
           <tbody>
             <tr>
               <th className={style.sampleHeader}>THEMA</th>
-              <th className={style.sampleHeader}>ANZAHL</th>
+              <th className={style.sampleHeader}>GESTARTET</th>
+              <th className={style.sampleHeader}>GEENDET</th>
             </tr>
             {props.categories.map(category => (
               <tr
-                key={category[0] + " " + category[1]}
+                key={category[0] + " " + category[1].start}
                 onClick={() => props.showCategoryDetails(category[0])}
               >
                 <td
-                  width="80%"
+                  width="60%"
                   className={style.sampleName}
                   style={{
                     color: color
@@ -77,7 +78,15 @@ const YearDetailsPanel = props => {
                     color: color
                   }}
                 >
-                  {category[1]}
+                  {category[1].start}
+                </td>
+                <td
+                  className={style.sampleDate}
+                  style={{
+                    color: color
+                  }}
+                >
+                  {category[1].end}
                 </td>
               </tr>
             ))}

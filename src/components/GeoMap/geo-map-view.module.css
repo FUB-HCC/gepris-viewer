@@ -1,10 +1,10 @@
 .geoMapWrapper {
   padding-left: 20px;
+  height: 100%;
 }
 
 .arcWrapper {
   width: 100%;
-  height: 45%;
 }
 
 .mapsWrapper {
@@ -20,13 +20,10 @@
 }
 
 .circle {
-  cursor: pointer;
   stroke-width: 0px;
   transition: stroke-width 1s;
 }
-.circle:hover {
-  stroke-width: 15px;
-}
+
 .countCircle {
   cursor: pointer;
   fill: #aaa;

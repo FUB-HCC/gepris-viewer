@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import GraphView from "./pages/GraphView/graph-view";
-import GraphViewTouch from "./pages/GraphViewTouch/graph-view-touch";
 import { default as NavigationSubpages } from "./components/NavigationSubpages/navigation-subpages";
 import Sidebar from "./components/SideBar/sidebar";
 import { ConnectedRouter } from "connected-react-router";
@@ -12,7 +11,7 @@ export const sideBarWidth = 450;
 export const menuBarHeight = 65;
 export const appMargin = 5;
 
-const AppBodyStandard = () => (
+const AppBody = () => (
   <>
     <NavigationSubpages height={menuBarHeight} />
     <div className={classes.appBody}>
@@ -26,19 +25,6 @@ const AppBodyStandard = () => (
   </>
 );
 
-const AppBodyTouch = () => (
-  <>
-    <div className={classes.appBody + " " + classes.noselect}>
-      <div className={classes.sidebar}>
-        <Sidebar />
-      </div>
-      <div className={classes.contentWindow}>
-        <GraphViewTouch />
-      </div>
-    </div>
-  </>
-);
-
 class App extends Component {
   render() {
     return (
@@ -47,8 +33,7 @@ class App extends Component {
           <div className={classes.offsetWrapper} style={{ padding: appMargin }}>
             <Switch>
               <Route exact path="/" render={() => <Redirect to="/explore" />} />
-              <Route path="/explore" component={AppBodyStandard} />
-              <Route path="/touch" component={AppBodyTouch} />
+              <Route path="/explore" component={AppBody} />
             </Switch>
           </div>
         </>

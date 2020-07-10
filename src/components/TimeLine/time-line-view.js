@@ -18,7 +18,6 @@ import styles from "./time-line-view.module.css";
 import { getFieldColor, fieldsIntToString } from "../../util/utility";
 import SVGWithMargin from "./SVGWithMargin";
 import HoverPopover from "../HoverPopover/HoverPopover";
-import InteractionHandler from "../../util/interaction-handler";
 
 export default class TimeLineView extends Component {
   constructor(props) {
@@ -28,7 +27,10 @@ export default class TimeLineView extends Component {
         areaChartData: [
           {
             year: 2019,
-            subject_area: { 1: 0, 2: 0, 3: 0, 4: 0 }
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0
           }
         ],
         areaChartKeys: [1, 2, 3, 4],
@@ -42,7 +44,8 @@ export default class TimeLineView extends Component {
       title: "",
       year: "",
       counter: 0,
-      index: 0
+      index: 0,
+      timeframe: [1979, 2019]
     };
     this.handleAreaClick = this.handleAreaClick.bind(this);
     this.renderHoverField = this.renderHoverField.bind(this);
@@ -63,7 +66,7 @@ export default class TimeLineView extends Component {
 
     this.setState({
       dataSplitYears: data.dataSplitFbYear,
-      categoriesData: data.categories,
+      timeframe: data.timeframe,
       firstUpdate: false
     });
   }
@@ -147,7 +150,6 @@ export default class TimeLineView extends Component {
       .order(d3StackOrderNone)
       .offset(d3StackOffsetNone);
     const stackedData = stack(this.state.dataSplitYears.areaChartData);
-    const { isTouchMode } = this.props;
     const color = d => {
       return getFieldColor(d.key);
     };
@@ -164,7 +166,10 @@ export default class TimeLineView extends Component {
 
     const x = d3ScaleTime()
       .range([0, this.state.width])
-      .domain([toYear(1985), toYear(2019)]);
+      .domain([
+        toYear(this.state.timeframe[0]),
+        toYear(this.state.timeframe[1])
+      ]);
 
     const y = d3ScaleLinear()
       .range([20, stackedAreaHeight])
@@ -233,8 +238,7 @@ export default class TimeLineView extends Component {
                     {d.map(datum => {
                       return (
                         y(datum[1]) && (
-                          <InteractionHandler
-                            isInTouchMode={isTouchMode}
+                          <line
                             onClick={event =>
                               this.handleAreaClick(datum.data.year, d.key)
                             }
@@ -247,17 +251,13 @@ export default class TimeLineView extends Component {
                               )
                             }
                             onMouseLeave={() => this.handleMouseLeave()}
-                            doubleTapTreshold={500}
                             key={datum.data.year + " " + d.key}
-                          >
-                            <line
-                              className={styles.stackedAreaHover}
-                              x1={x(toYear(datum.data.year))}
-                              y1={y(datum[0])}
-                              x2={x(toYear(datum.data.year))}
-                              y2={y(datum[1])}
-                            />
-                          </InteractionHandler>
+                            className={styles.stackedAreaHover}
+                            x1={x(toYear(datum.data.year))}
+                            y1={y(datum[0])}
+                            x2={x(toYear(datum.data.year))}
+                            y2={y(datum[1])}
+                          />
                         )
                       );
                     })}
