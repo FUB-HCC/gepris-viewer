@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/gepris-viewer/precache-manifest.cafaccf3b51b783e70112628b40e9820.js"
+  "/gepris-viewer/precache-manifest.490f1c23aecfa6b5c5acc72cb649dae6.js"
 );
 
 self.addEventListener('message', (event) => {
