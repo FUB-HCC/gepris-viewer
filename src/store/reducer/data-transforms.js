@@ -2,7 +2,8 @@ import {
   fieldsIntToString,
   topicToField,
   topicTohauptthema,
-  continents
+  continents,
+  translateLanguage
 } from "../../util/utility";
 
 /* the property "Forschungsthema, Expertise, Kompetenzen" of categories is split into "hauptthema" and "forschungsbereich" by which they are later sorted. the date format is changed and the research regions of a category are translated into continents */
@@ -26,7 +27,10 @@ export const processCategoriesData = (categories, timeData) => {
       hauptthema: rb,
       forschungsbereichStr: fieldsIntToString(fb),
       forschungsbereich: fb,
-      timeframe: years
+      timeframe: years,
+      title_lang: translateLanguage(topic),
+      fb_lang: translateLanguage(fieldsIntToString(fb)),
+      rb_lang: translateLanguage(rb)
     };
   });
 };

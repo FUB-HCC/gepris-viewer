@@ -16,9 +16,6 @@ class GraphView extends React.Component {
     this.state = {
       activePopover: this.props.selectedProject ? 1 : -1
     };
-    this.changeModalHandler = this.changeModalHandler.bind(this);
-    this.changeGraphHandler = this.changeGraphHandler.bind(this);
-    this.projectClickHandler = this.projectClickHandler.bind(this);
   }
 
   componentDidMount() {
@@ -52,28 +49,6 @@ class GraphView extends React.Component {
         this.margins.left -
         this.margins.right -
         sideBarWidth
-    });
-  }
-
-  changeModalHandler(filter) {
-    const newState = filter === this.state.activePopover ? -1 : filter;
-    this.setState({
-      activePopover: newState
-    });
-    if (newState === -1) {
-      this.props.deactivatePopover();
-    }
-  }
-
-  projectClickHandler(project, vis) {
-    this.props.activatePopover(project, vis);
-    this.changeModalHandler(1);
-  }
-
-  changeGraphHandler(graph) {
-    this.props.changeGraph(graph);
-    this.setState({
-      activePopover: -1
     });
   }
 

@@ -4,7 +4,7 @@ import React from "react";
 const CircleExplanation = props => {
   return (
     <div
-      data-intro="Die Größe der Kreise sagt aus, wie viele Forschungsprojekte insgesamt in einem Themenbereich gefördert wurden."
+      data-intro="The size of the circles reflects how many research projects have been funded in this area in total."
       data-step="2"
       id="circleExplanation"
       style={{
@@ -18,7 +18,7 @@ const CircleExplanation = props => {
         fontSize: "80%"
       }}
     >
-      Anzahl Forschungsprojekte <br />
+      Number of Research Projects <br />
       <br />
       <svg width="100" height="130">
         <circle cx={25} cy={25} r={20} fill={"#888"} />

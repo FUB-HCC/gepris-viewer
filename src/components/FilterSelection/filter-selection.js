@@ -3,16 +3,16 @@ import { connect } from "react-redux";
 import FilterSet from "./filter-set-view";
 import { checkboxFilterChange } from "../../store/actions/actions";
 import style from "./filter-selection.module.css";
-import { hauptthemaToField } from "../../util/utility";
+import { hauptthemaToField, translateLanguage } from "../../util/utility";
 
 /* filter sets for browser version. highlevel fiters are fixed, subfilters dependend on the data */
 const getFilterSets = state => {
   return [
     {
-      name: "Forschungsgebiet",
+      name: "Subject Area",
       subsets: [
         {
-          name: "Naturwissenschaften",
+          name: translateLanguage(1),
           nameId: 1,
           filterId: "forschungsgebiet",
           isTogglable: true,
@@ -22,7 +22,7 @@ const getFilterSets = state => {
           subFilterId: "hauptthema"
         },
         {
-          name: "Lebenswissenschaften",
+          name: translateLanguage(2),
           nameId: 2,
           filterId: "forschungsgebiet",
           isTogglable: true,
@@ -32,7 +32,7 @@ const getFilterSets = state => {
           subFilterId: "hauptthema"
         },
         {
-          name: "Geistes- und Sozialwissenschaften",
+          name: translateLanguage(3),
           nameId: 3,
           filterId: "forschungsgebiet",
           isTogglable: true,
@@ -42,7 +42,7 @@ const getFilterSets = state => {
           subFilterId: "hauptthema"
         },
         {
-          name: "Ingenieurwissenschaften",
+          name: translateLanguage(4),
           nameId: 4,
           filterId: "forschungsgebiet",
           isTogglable: true,
@@ -64,6 +64,7 @@ const FilterSelection = props => (
         set={filterSet}
         changeFilter={props.filterChangeHandler}
         key={filterSet.name}
+        language={props.language}
       />
     ))}
   </div>

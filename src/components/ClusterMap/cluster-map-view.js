@@ -62,8 +62,8 @@ export default class ClusterMapView extends React.Component {
             }}
           >
             <label>
-              {title} <br />
-              {category.doc_count} Forschungsprojekte
+              {category.title_lang} <br />
+              {category.doc_count} research projects
             </label>
           </p>
         </HoverPopover>
@@ -104,11 +104,11 @@ export default class ClusterMapView extends React.Component {
         }}
       >
         <UncertaintyExplanation
-          posX={width - 170}
+          posX={width - 190}
           posY={20}
           uncertaintyOn={uncertaintyOn}
         />
-        <CircleExplanation posX={width - 170} posY={height - 160} />
+        <CircleExplanation posX={width - 190} posY={height - 160} />
         <GeprisExplanation posX={20} posY={height - 120} />
         <svg
           className="viz-3"
@@ -132,7 +132,7 @@ export default class ClusterMapView extends React.Component {
           <g
             data-step="1"
             id="clusterViewIntro"
-            data-intro="Das Herzstück der <b>WISSEN</b> Ansicht ist die Cluster-Darstellung von Forschungsthemen auf Basis algorithmischer Vergleiche von Projekt-Abstracts. Themen sind nach ihren jeweiligen <b>Hauptforschungsgebieten</b> eingefärbt um eine interdisziplinäre Perspektive auf die Forschung zu unterstützen. Hierdurch können Themen basierend auf Gemeinsamkeiten interaktiv exploriert werden. Die Größe eines Kreises sagt aus, wie viele Forschungsprojekte in diesem Themengebiet gefördert wurden."
+            data-intro="The heart of the <b>WISSEN</b> view is the cluster visualization of research areas based on algorithmic comparison of project abstracts. Research topics are colored according to their main <b>subject area</b> to support an interdisciplinary perspective. Hereby similarities of research topics can be interactively explored. The size of a circle reflects the total amount of research projects that have been funded in this research area."
           >
             {clusterData.map(cluster => {
               return (
@@ -161,7 +161,7 @@ export default class ClusterMapView extends React.Component {
                   style={{ cursor: "pointer" }}
                   onClick={() => onCategoryClicked(category.title)}
                 >
-                  {category.title}
+                  {category.title_lang}
                 </text>
               ))}
           </g>

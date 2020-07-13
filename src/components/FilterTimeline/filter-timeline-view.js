@@ -14,7 +14,7 @@ class FilterTimelineView extends React.Component {
     return (
       <div className={style.filterTimelineWrapper}>
         <div className={style.filterTimelineTitle}>
-          <span className={style.titleText}>Zeitraum</span>
+          <span className={style.titleText}>Timeframe</span>
         </div>
         <div className={style.filterTimelineSlider}>
           <RangeSlider

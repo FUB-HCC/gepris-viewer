@@ -11,22 +11,22 @@ import HoverPopover from "../HoverPopover/HoverPopover";
 
 const continentSVGs = continent => {
   switch (continent) {
-    case "Nordamerika": {
+    case "North America": {
       return <NorthAmerica />;
     }
-    case "Europa": {
+    case "Europe": {
       return <Europe />;
     }
-    case "Asien": {
+    case "Asia": {
       return <Asia />;
     }
-    case "Australien": {
+    case "Australia": {
       return <Australia />;
     }
-    case "Afrika": {
+    case "Africa": {
       return <Africa />;
     }
-    case "Südamerika": {
+    case "South America": {
       return <SouthAmerica />;
     }
     default:
@@ -103,16 +103,16 @@ export default class GeoMapView extends React.Component {
       <div
         className={style.geoMapWrapper}
         style={{ width: scale * 6, height: scale * 4 }}
-        data-intro="In der Ansicht <b>RAUM</b> wird eine weitere internationale Perspektive auf Forschung in Deutschland ermöglicht. So können neue Potentiale aufgedeckt werden."
+        data-intro="In the view <b>RAUM</b> a different, more international perspective on research in germany is enabled. New potential can be revealed consequently."
         data-step="1"
       >
         <span className={style.plotTitle}>
-          <br /> Forschungsprojekte nach internationalen Kooperationen
+          <br /> Research Projects by International Cooperation
         </span>
         <div
           className={style.arcWrapper}
           data-step="2"
-          data-intro=" <b>Forschungsprojekte </b> werden als <b>Bögen</b> zwischen Kontinenten visualisiert, wenn Institute von beiden Kontinenten in dem Projekt kooperieren. Durch Klicken auf einen Bogen, erhält man eine Liste dieser."
+          data-intro="  <b>Research projects </b> are visualized as <b>bows</b> between continents, if institutions from both continents have cooperated on them. By clicking on a bow, you obtain a list of those projects."
         >
           <svg width={scale * 6} height={scale * 2}>
             {Object.values(continentConnections)
@@ -144,9 +144,9 @@ export default class GeoMapView extends React.Component {
                     this.setState({
                       hovered:
                         con.weight +
-                        " Kooperationen mit Institutionen in " +
+                        " Cooperations with institutions in " +
                         con.name.split("|")[0] +
-                        " und " +
+                        " and " +
                         con.name.split("|")[1],
                       mouseLocation: [
                         evt.nativeEvent.clientX,
@@ -167,7 +167,7 @@ export default class GeoMapView extends React.Component {
         <div
           className={style.mapsWrapper}
           data-step="3"
-          data-intro="Die roten Punkte deuten an, wo sich Institutionen auf den Kontinenten befinden. Durch das Anklicken eines Kontinents kann eine Liste dieser Institutionen aufgerufen werden."
+          data-intro="The red dots mark the locations of institutions on the continents. Through clicking of a continent a list of these institutions can be seen."
         >
           {continents
             .filter(c => c.institutionCount > 0)
@@ -199,7 +199,7 @@ export default class GeoMapView extends React.Component {
                         this.setState({
                           hovered:
                             c.projectsCount +
-                            " Forschungsprojekte mit Institutionen in " +
+                            " Research projects with institutions in " +
                             c.name,
                           mouseLocation: [
                             evt.nativeEvent.clientX,
@@ -257,12 +257,12 @@ export default class GeoMapView extends React.Component {
         </div>{" "}
         <span className={style.plotTitle}>
           {" "}
-          Anzahl der kooperierenden Institutionen auf diesem Kontinent
+          Number of Cooperating Institutions on this Continent
         </span>
         <div
           className={style.mapsWrapper}
           data-step="4"
-          data-intro="Hier wird die Anzahl der Institutionen innerhalb eines Kontinents insgesamt gezeigt. Wie erwartet waren die meisten Institute in Deutschland bzw. Europa verankert."
+          data-intro="Here, the total amount of institutions on one continent is shown. As expected, most projects were grounded in Germany or Europe."
         >
           {continents
             .filter(c => c.institutionCount > 0)

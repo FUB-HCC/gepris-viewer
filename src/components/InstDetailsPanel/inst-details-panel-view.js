@@ -40,7 +40,7 @@ const InstDetailsPanel = props => {
         <div className={style.abstractText}>
           {props.projects.map(p => (
             <span href="#" key={p.id}>
-              <b>Forschungsprojekt: {p.id}:</b>
+              <b>Research Project: {p.id}:</b>
               <br />
               {props.continents[0] &&
                 "Partner in " +

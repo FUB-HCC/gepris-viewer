@@ -12,19 +12,19 @@ const GeprisExplanation = props => {
         color: "#6B6B6B",
         fontFamily: "IBM_Plex_Mono",
         fontSize: "80%",
-        width: 160
+        width: 180
       }}
     >
-      Diese Visualisierung basiert auf Informationen zu Forschungsprojekten, die
-      von der Deutschen Forschungsgemeinschaft (DFG) gefördert wurden.
-      <br /> Quelle:
+      This visualization is based on information about research projects, that
+      have been funded by the German Research Foundation (DFG).
+      <br /> Source:
       <a
         href="https://gepris.dfg.de"
         target="_blank"
         rel="noopener noreferrer"
         style={{ color: "#afca0b", opacity: "50%" }}
       >
-        GEPRIS
+        GEPRIS (German Project Information System)
       </a>
     </div>
   );

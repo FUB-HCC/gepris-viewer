@@ -30,10 +30,10 @@ class ActionButtons extends Component {
       overlayOpacity: 0.1,
       tooltipClass: classes.introTooltip,
       highlightClass: classes.introHighlightClass,
-      nextLabel: "Weiter",
-      prevLabel: "Zurück",
-      skipLabel: "Abbrechen",
-      doneLabel: "Fertig"
+      nextLabel: "continue",
+      prevLabel: "back",
+      skipLabel: "cancel",
+      doneLabel: "complete"
     });
     tour
       .onbeforechange(() => {
@@ -79,7 +79,7 @@ class ActionButtons extends Component {
               this.props.pageReset();
             }}
           >
-            <Reset className={classes.buttonIcon} /> <p>Zurücksetzen</p>
+            <Reset className={classes.buttonIcon} /> <p>Reset</p>
           </div>
         </div>
       </>
