@@ -79,3 +79,10 @@
 .checkmark:after {
   display: none;
 }
+
+.languageButton {
+  cursor: pointer;
+}
+.languageButton:hover {
+  color: #afca0b;
+}

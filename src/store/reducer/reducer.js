@@ -9,7 +9,7 @@ import InstDetailsPanel from "../../components/InstDetailsPanel/inst-details-pan
 
 import topicData from "../../assets/dump.json";
 import timeData from "../../assets/year_dist.json";
-import geoData from "../../assets/geo_project_data_continents.json";
+import geoData from "../../assets/geo_data_continents.json";
 
 export const initialState = {
   filters: {
@@ -188,7 +188,7 @@ const processAllData = state => {
   const maxDateRange = [1979, 2019];
 
   Object.values(newState.categories).forEach(category => {
-    const value = category["hauptthema"];
+    const value = category.hauptthema;
     if (!uniqueHauptthemas.some(e => e === value))
       uniqueHauptthemas.push(value);
   });

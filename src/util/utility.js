@@ -1,5 +1,5 @@
 /* all kinds of helper functions and fixed data arrays (e.g. for ordering or colouring elements) */
-import { forschungsthemen } from "../assets/forschungsthemen";
+const forschungsthemen = require("../assets/subject_language_data.json");
 const fieldsMapping = [
   { name: "Naturwissenschaften", field: 1, color: "#ad494a" },
   { name: "Lebenswissenschaften", field: 2, color: "#e69e57" },
@@ -9,7 +9,7 @@ const fieldsMapping = [
 
 export const continents = [
   {
-    name: "Nordamerika",
+    name: "North America",
     xOffset: 61.4,
     yOffset: 53.1,
     mapWidth: 378,
@@ -24,7 +24,7 @@ export const continents = [
     centroidY: 45.4461
   },
   {
-    name: "Südamerika",
+    name: "South America",
     xOffset: 150,
     yOffset: 96,
     mapWidth: 180,
@@ -39,7 +39,7 @@ export const continents = [
     centroidY: -23.4222
   },
   {
-    name: "Europa",
+    name: "Europe",
     xOffset: 97.8,
     yOffset: 48.4,
     mapWidth: 292,
@@ -54,7 +54,7 @@ export const continents = [
     centroidY: 53.0794
   },
   {
-    name: "Asien",
+    name: "Asia",
     xOffset: 63.1,
     yOffset: 55.4,
     mapWidth: 383,
@@ -69,7 +69,7 @@ export const continents = [
     centroidY: 29.5905
   },
   {
-    name: "Afrika",
+    name: "Africa",
     xOffset: 75.8,
     yOffset: 61.2,
     mapWidth: 348,
@@ -84,7 +84,7 @@ export const continents = [
     centroidY: 1.259
   },
   {
-    name: "Australien",
+    name: "Australia",
     xOffset: 120,
     yOffset: 135,
     mapWidth: 330,
@@ -126,20 +126,20 @@ export const hauptthemaStringToInt = str => {
 };
 
 export const topicStringToInt = str => {
-  return forschungsthemen.find(e => e.name === str)
-    ? forschungsthemen.map(e => e.name).indexOf(str)
+  return forschungsthemen.find(e => e.subject_area === str)
+    ? forschungsthemen.map(e => e.subject_area).indexOf(str)
     : str;
 };
 
 export const topicIntToString = number => {
-  return forschungsthemen.map(e => e.name)[number]
-    ? forschungsthemen.map(e => e.name)[number]
+  return forschungsthemen.map(e => e.subject_area)[number]
+    ? forschungsthemen.map(e => e.subject_area)[number]
     : number;
 };
 
 export const topicToField = topic => {
-  return forschungsthemen.find(e => e.name === topic)
-    ? forschungsthemen.find(e => e.name === topic).field
+  return forschungsthemen.find(e => e.subject_area === topic)
+    ? forschungsthemen.find(e => e.subject_area === topic).field
     : 99;
 };
 
@@ -150,8 +150,8 @@ export const hauptthemaToField = hauptthema => {
 };
 
 export const topicTohauptthema = topic => {
-  return forschungsthemen.find(e => e.name === topic)
-    ? forschungsthemen.find(e => e.name === topic).review_board
+  return forschungsthemen.find(e => e.subject_area === topic)
+    ? forschungsthemen.find(e => e.subject_area === topic).review_board
     : 99;
 };
 
@@ -159,6 +159,23 @@ export const getFieldColor = field => {
   return fieldsMapping.find(e => e.field === field)
     ? fieldsMapping.find(e => e.field === field).color
     : "#989aa1"; // default color field
+};
+
+export const translateLanguage = string => {
+  if (window.location.pathname.includes("de")) {
+    return fieldsIntToString(string);
+  }
+  if (forschungsthemen.find(e => e.review_board === string)) {
+    return forschungsthemen.find(e => e.review_board === string)
+      .review_board_eng;
+  }
+  if (forschungsthemen.find(e => e.field === string)) {
+    return forschungsthemen.find(e => e.field === string)
+      .scientific_discipline_eng;
+  }
+  return forschungsthemen.find(e => e.subject_area === string)
+    ? forschungsthemen.find(e => e.subject_area === string).subject_area_eng
+    : string;
 };
 
 export const shortenString = (string, len) => {

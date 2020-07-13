@@ -15,7 +15,7 @@ import {
 import { axisBottom as d3AxisBottom, axisLeft as d3AxisLeft } from "d3-axis";
 import { select as d3Select } from "d3-selection";
 import styles from "./time-line-view.module.css";
-import { getFieldColor, fieldsIntToString } from "../../util/utility";
+import { getFieldColor, translateLanguage } from "../../util/utility";
 import SVGWithMargin from "./SVGWithMargin";
 import HoverPopover from "../HoverPopover/HoverPopover";
 
@@ -51,10 +51,9 @@ export default class TimeLineView extends Component {
     this.renderHoverField = this.renderHoverField.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
     this.handleAreaMouseEnter = this.handleAreaMouseEnter.bind(this);
-    this.handleCircleMouseEnter = this.handleCircleMouseEnter.bind(this);
   }
 
-  updateTimeGraph(data, height, width, margin) {
+  updateTimeGraph(data, height, width, margin, language) {
     if (!this.state.firstUpdate) {
       // workaround for first time scaling
       this.setState({
@@ -103,12 +102,10 @@ export default class TimeLineView extends Component {
               {this.state.hoveredArea.forschungsbereich
                 ? `${this.state.hoveredArea.year}: ${
                     this.state.hoveredArea.count
-                  } aktive Projekte in ${fieldsIntToString(
+                  } active projects in ${translateLanguage(
                     this.state.hoveredArea.forschungsbereich
                   )}`
-                : this.state.hoveredArea.year
-                ? `${this.state.hoveredArea.year}: ${this.state.hoveredArea.count} Wissenstransferaktivitäten mit der Kategorie ${this.state.hoveredArea.category}`
-                : `${this.state.hoveredArea.text}`}
+                : ""}
             </label>
           </p>
         </HoverPopover>
@@ -123,13 +120,6 @@ export default class TimeLineView extends Component {
         forschungsbereich: fb,
         count: count
       },
-      mouseLocation: [evt.nativeEvent.clientX, evt.nativeEvent.clientY]
-    });
-  }
-
-  handleCircleMouseEnter(circle, evt) {
-    this.setState({
-      hoveredArea: circle,
       mouseLocation: [evt.nativeEvent.clientX, evt.nativeEvent.clientY]
     });
   }
@@ -192,7 +182,7 @@ export default class TimeLineView extends Component {
 
     return (
       <div
-        data-intro="In der Ansicht <b>ZEIT</b> wird eine weitere integrative Perspektive auf die Verläufe geförderter Projekte basierend auf aktuellen Informationen aus dem <b style='color: #afca0b;'>GEPRIS-Datensatz</b> und gruppiert nach <b>Forschungsgebieten</b> über die Jahre dargestellt. Der gemusterte Bereich zeigt hierbei an, dass noch nicht alle tatsächlich laufenden Projekte in dem GEPRIS Datensatz vorliegen und unterstützt somit die Interpretation der Entwicklung der Forschungsgebiete. Hierdurch können zum Beispiel Trends gefunden werden, welche in der Planung berücksichtigt werden könnten."
+        data-intro="In the view <b>ZEIT</b> a different, integrative perspective on the chronological development of funded research projects with current information from the <b style='color: #afca0b;'>GEPRIS- data set</b> grouped by main subject areas is shown. Hereby trends can be recognized and help in the planning of new funding."
         data-step="1"
         style={{ height: "auto", marginLeft: this.state.margin }}
       >
@@ -208,7 +198,7 @@ export default class TimeLineView extends Component {
             width={this.state.width}
           >
             <text fill="#717071" x={this.state.margin} y="5px" fontSize="130%">
-              Anzahl Projekte je Forschungsgebiet pro Jahr
+              Number of Research Projects Per Subject Area Per Year
             </text>
 
             {/* a transform style prop to our xAxis to translate it to the bottom of the SVG's content. */}

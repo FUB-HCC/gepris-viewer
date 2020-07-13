@@ -33,36 +33,36 @@ const CategoryDetailsPanel = props => {
           fill={color}
           stroke={color}
         />
-        <span className={style.titleTopic}>Forschungsthema</span> <br />
-        <span className={style.titleText}>{props.categoryData.title}</span>
+        <span className={style.titleTopic}>Research Topic</span> <br />
+        <span className={style.titleText}>{props.categoryData.title_lang}</span>
       </div>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          Hauptthema: <br />
+          Main Topic: <br />
         </span>
-        {props.categoryData.hauptthema}
+        {props.categoryData.rb_lang}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          Forschungsgebiet: <br />
+          Main Subject Area: <br />
         </span>
-        {props.categoryData.forschungsbereichStr}
+        {props.categoryData.fb_lang}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          Anzahl der Forschungsprojekte in diesem Themenfeld: <br />
+          Number of research projects with this research topic: <br />
         </span>
         {props.categoryData.doc_count}
       </p>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          Zeitraum: <br />
+          Timeframe: <br />
         </span>
         {Math.max(
           props.categoryData.timeframe.findIndex(time => time.start > 0) + 1979,
           props.timeframe[0]
         ) +
-          " bis " +
+          " to " +
           Math.min(
             props.categoryData.timeframe.length + 1978,
             props.timeframe[1]

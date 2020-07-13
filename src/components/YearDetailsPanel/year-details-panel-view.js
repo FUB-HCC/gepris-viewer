@@ -1,7 +1,7 @@
 import React from "react";
 import style from "../SideBar/details-panel.module.css";
 import { ReactComponent as Exit } from "../../assets/Exit.svg";
-import { getFieldColor, fieldsIntToString } from "../../util/utility";
+import { getFieldColor, translateLanguage } from "../../util/utility";
 
 const YearDetailsPanel = props => {
   if (!props.title) {
@@ -28,14 +28,14 @@ const YearDetailsPanel = props => {
         </div>
         <span className={style.titleTopic}>Jahr {props.year}</span> <br />
         <span className={style.titleText}>
-          {fieldsIntToString(props.title)}
+          {translateLanguage(props.title)}
         </span>
       </div>
       <p className={style.infoItems}>
         <span className={style.infoItemTitle}>
-          {"Forschungsprojekte in den " +
-            fieldsIntToString(props.title) +
-            " im Jahr " +
+          {"Research projects in " +
+            translateLanguage(props.title) +
+            " in the year " +
             props.year}
           <br />
         </span>
@@ -43,9 +43,7 @@ const YearDetailsPanel = props => {
         <br /> Geendet: {props.count.end}
       </p>
       <span className={style.infoItemTitle}>
-        {
-          "Forschungsprojekte in den Unterthemen dieses Forschungsbereiches im Jahr "
-        }
+        {"Research projects in the subtopics of this subject area in the year "}
         {props.year}:
         <br />
       </span>
@@ -54,9 +52,9 @@ const YearDetailsPanel = props => {
         <table className={style.infoItems}>
           <tbody>
             <tr>
-              <th className={style.sampleHeader}>THEMA</th>
-              <th className={style.sampleHeader}>GESTARTET</th>
-              <th className={style.sampleHeader}>GEENDET</th>
+              <th className={style.sampleHeader}>TOPIC</th>
+              <th className={style.sampleHeader}>START</th>
+              <th className={style.sampleHeader}>END</th>
             </tr>
             {props.categories.map(category => (
               <tr
@@ -70,7 +68,7 @@ const YearDetailsPanel = props => {
                     color: color
                   }}
                 >
-                  {category[0] + ": "}
+                  {translateLanguage(category[0]) + ": "}
                 </td>
                 <td
                   className={style.sampleDate}

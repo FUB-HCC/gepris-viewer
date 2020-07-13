@@ -10,7 +10,7 @@ const mapStateToProps = state => {
       return {
         title: region,
         description:
-          "Forschungsprojekte mit kooperierenden Institutionen auf diesem Kontinent:",
+          "Research projects with cooperating institutions on this continent: ",
         projects: geoData.projects.filter(p =>
           p.institutions.flat().includes(region)
         ),
@@ -19,10 +19,10 @@ const mapStateToProps = state => {
     } else if (isClicked.inst.includes("|f")) {
       let continent = isClicked.inst.split("|")[0];
       return {
-        title: "Institutionen in " + continent,
+        title: "Institutions in " + continent,
         description:
           geoData.institutions.filter(inst => inst.continent === continent)
-            .length + " Institutionen auf diesem Kontinent:",
+            .length + " Institutionen on this continent:",
         institutions: geoData.institutions
           .filter(inst => inst.continent === continent)
           .map(inst => inst.name)
@@ -30,9 +30,9 @@ const mapStateToProps = state => {
     } else {
       const [continent1, continent2] = isClicked.inst.split("|");
       return {
-        title: "Kooperation mit " + continent1 + " und " + continent2,
+        title: "Cooperation with " + continent1 + " and " + continent2,
         description:
-          "Forschungsprojekte mit Kooperationen auf diesen Kontinenten:",
+          "Research projects with cooperations between these continents:",
         projects: geoData.projects.filter(
           project =>
             project.institutions.flat().includes(continent1) &&

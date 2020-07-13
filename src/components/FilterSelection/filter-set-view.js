@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import style from "./filter-selection.module.css";
-import { getFieldColor } from "../../util/utility";
+import { getFieldColor, translateLanguage } from "../../util/utility";
 import { ReactComponent as ArrowUp } from "../../assets/collapse-up.svg";
 import { ReactComponent as ArrowDown } from "../../assets/collapse-down.svg";
 
@@ -128,7 +128,7 @@ const CheckBox = props => (
         }}
       />
     )}
-    <span>{props.name}</span>
+    <span>{translateLanguage(props.name)}</span>
     {props.icon}
   </div>
 );
